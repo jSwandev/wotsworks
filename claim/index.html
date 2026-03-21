@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Claim Your Spot — Broken Art Tattoo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:      #0e0c0a;
+      --bone:     #f0ebe2;
+      --rust:     #c44b2b;
+      --rust-dim: #8a3320;
+      --gold:     #d4a843;
+      --muted:    #b0a89e;
+      --line:     rgba(240,235,226,0.12);
+      --input-bg: rgba(240,235,226,0.06);
+    }
+
+    html, body {
+      min-height: 100%;
+      background: #0e0c0a;
+      color: #f0ebe2;
+      font-family: 'DM Serif Display', Georgia, serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* GRAIN */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 999;
+      opacity: 0.6;
+    }
+
+    /* AMBIENT */
+    .glow-orb { position: fixed; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: 0; }
+    .glow-orb-1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(196,75,43,0.15) 0%, transparent 70%); top: -100px; left: -100px; }
+    .glow-orb-2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(212,168,67,0.07) 0%, transparent 70%); bottom: 10%; right: -80px; }
+
+    /* WRAPPER */
+    .page {
+      position: relative;
+      z-index: 10;
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* TOP STRIP */
+    .top-strip {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 28px;
+      border-bottom: 1px solid var(--line);
+      animation: fadeDown 0.5s ease both;
+    }
+    .wordmark {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.05rem;
+      letter-spacing: 0.22em;
+      color: var(--bone);
+      opacity: 0.5;
+      text-transform: uppercase;
+    }
+    .step-indicator {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--rust);
+      border: 1px solid var(--rust);
+      padding: 4px 10px;
+      border-radius: 2px;
+    }
+
+    /* HERO */
+    .hero {
+      padding: 44px 28px 32px;
+      animation: fadeUp 0.6s 0.1s ease both;
+    }
+    .hero-eyebrow {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.24em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .hero-eyebrow::before { display: none !important; content: none !important; }
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 28px;
+      height: 1px;
+      background: var(--gold);
+    }
+    .hero-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(2.4rem, 10vw, 3.8rem);
+      line-height: 1.0;
+      letter-spacing: 0.08em;
+      color: #f0ebe2;
+      text-transform: uppercase;
+      margin-bottom: 18px;
+    }
+    .hero-title span { color: var(--rust); }
+
+    /* AMBASSADOR CONTEXT */
+    .context-card {
+      margin: 0 20px 32px;
+      padding: 18px 20px;
+      background: rgba(240,235,226,0.04);
+      border: 1px solid var(--line);
+      border-left: 3px solid var(--rust);
+      animation: fadeUp 0.6s 0.2s ease both;
+    }
+    .context-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 6px;
+    }
+    .context-text {
+      font-size: 0.95rem;
+      font-style: italic;
+      color: #d8d0c8;
+      line-height: 1.6;
+    }
+    .context-text strong {
+      color: #f0ebe2;
+      font-style: normal;
+      font-weight: 400;
+    }
+
+    /* FORM */
+    .form-wrap {
+      padding: 0 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+    }
+    .field-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .field-input {
+      background: var(--input-bg);
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      color: #f0ebe2;
+      font-family: 'DM Serif Display', Georgia, serif;
+      font-size: 1rem;
+      padding: 14px 16px;
+      outline: none;
+      transition: border-color 0.2s, background 0.2s;
+      width: 100%;
+      -webkit-appearance: none;
+    }
+    .field-input::placeholder { color: var(--muted); opacity: 0.6; font-style: italic; }
+    .field-input:focus {
+      border-color: rgba(196,75,43,0.6);
+      background: rgba(240,235,226,0.08);
+    }
+    .field-input.error { border-color: var(--rust); }
+
+    textarea.field-input {
+      resize: none;
+      height: 100px;
+      line-height: 1.6;
+    }
+
+    /* CONSULTATION TYPE */
+    .consult-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+    .consult-option {
+      background: var(--input-bg);
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      padding: 14px 12px;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+    .consult-option:hover {
+      border-color: rgba(196,75,43,0.4);
+      background: rgba(196,75,43,0.05);
+    }
+    .consult-option.selected {
+      border-color: var(--rust);
+      background: rgba(196,75,43,0.08);
+    }
+    .consult-option-icon { font-size: 1.2rem; }
+    .consult-option-label {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1rem;
+      letter-spacing: 0.06em;
+      color: #f0ebe2;
+    }
+    .consult-option-desc {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.56rem;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    /* DEPOSIT NOTICE */
+    .deposit-notice {
+      margin: 6px 0 0;
+      padding: 16px 18px;
+      background: rgba(212,168,67,0.06);
+      border: 1px solid rgba(212,168,67,0.2);
+      border-radius: 2px;
+    }
+    .deposit-notice-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 6px;
+    }
+    .deposit-notice-text {
+      font-size: 0.88rem;
+      font-style: italic;
+      color: #d8d0c8;
+      line-height: 1.6;
+    }
+
+    /* SUBMIT */
+    .submit-wrap {
+      padding: 20px 20px 48px;
+      animation: fadeUp 0.6s 0.4s ease both;
+    }
+    .submit-btn {
+      display: block;
+      width: 100%;
+      background: var(--rust);
+      color: #f0ebe2;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.4rem;
+      letter-spacing: 0.14em;
+      text-align: center;
+      text-transform: uppercase;
+      padding: 20px;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      position: relative;
+      overflow: hidden;
+    }
+    .submit-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .submit-btn:hover { background: #d95530; transform: translateY(-1px); }
+    .submit-btn:active { transform: translateY(0); }
+    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      margin-top: 14px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      cursor: pointer;
+      background: none;
+      border: none;
+      width: 100%;
+      transition: color 0.2s;
+    }
+    .back-link:hover { color: var(--bone); }
+
+    /* SUCCESS STATE */
+    .success-screen {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: #0e0c0a;
+      z-index: 200;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 28px;
+      text-align: center;
+    }
+    .success-screen.show { display: flex; }
+    .success-icon {
+      font-size: 3rem;
+      margin-bottom: 24px;
+      animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    .success-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 2.8rem;
+      letter-spacing: 0.04em;
+      color: #f0ebe2;
+      line-height: 1;
+      margin-bottom: 12px;
+    }
+    .success-title span { color: var(--rust); }
+    .success-sub {
+      font-style: italic;
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.6;
+      max-width: 320px;
+      margin-bottom: 32px;
+    }
+    .success-ambassador {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 32px;
+    }
+    .success-cta {
+      display: block;
+      width: 100%;
+      max-width: 340px;
+      background: var(--rust);
+      color: #f0ebe2;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.14em;
+      text-align: center;
+      text-transform: uppercase;
+      padding: 18px;
+      border: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.2s;
+      margin-bottom: 12px;
+    }
+    .success-cta:hover { background: #d95530; }
+    .success-deposit-note {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-transform: uppercase;
+      max-width: 300px;
+      line-height: 1.6;
+      margin-top: 8px;
+    }
+
+    /* FOOTER */
+    .footer {
+      margin-top: auto;
+      padding: 20px 28px 24px;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-powered {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.58rem;
+      letter-spacing: 0.14em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+    .footer-powered span { color: var(--rust); }
+
+    /* LOADING */
+    .loading-pulse { background: linear-gradient(90deg, rgba(240,235,226,0.04) 25%, rgba(240,235,226,0.08) 50%, rgba(240,235,226,0.04) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 2px; height: 1em; display: inline-block; min-width: 100px; }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes popIn { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
+
+    /* NUCLEAR - WP theme cannot touch these */
+    html, body { background: #0e0c0a !important; }
+    body { background: #0e0c0a !important; color: #f0ebe2 !important; }
+
+    .hero-title,
+    .hero-title * { 
+      -webkit-text-fill-color: inherit !important; 
+    }
+    .hero-title { color: #f0ebe2 !important; -webkit-text-fill-color: #f0ebe2 !important; }
+    .hero-title span { color: #c44b2b !important; -webkit-text-fill-color: #c44b2b !important; }
+
+    /* Fix hero font size */
+    .hero-title {
+      font-size: clamp(2.4rem, 10vw, 3.8rem) !important;
+      letter-spacing: 0.08em !important;
+    }
+
+    /* Force dark on all containers */
+    .page, .top-strip, .hero, .context-card, 
+    .form-wrap, .submit-wrap, footer {
+      background: #0e0c0a !important;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="glow-orb glow-orb-1"></div>
+  <div class="glow-orb glow-orb-2"></div>
+
+  <div class="page">
+
+    <!-- TOP STRIP -->
+    <header class="top-strip">
+      <span class="wordmark">Broken Art Tattoo</span>
+      <span class="step-indicator">Step 1 of 2</span>
+    </header>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="hero-eyebrow">Almost there</div>
+      <h1 class="hero-title">Claim Your<br><span>Spot</span></h1>
+    </div>
+
+    <!-- AMBASSADOR CONTEXT -->
+    <div class="context-card">
+      <div class="context-label">Before you book</div>
+      <p class="context-text" id="context-text">
+        <strong id="ambassador-display">Someone</strong> put their name on this recommendation. This step makes sure they get credit for sending you — and helps us make sure the right artist is ready for you.
+      </p>
+    </div>
+
+    <!-- FORM -->
+    <div class="form-wrap">
+
+      <div class="field">
+        <label class="field-label" for="input-name">Your Name</label>
+        <input class="field-input" id="input-name" type="text" placeholder="First and last name" autocomplete="name" />
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="input-phone">Phone Number</label>
+        <input class="field-input" id="input-phone" type="tel" placeholder="Your mobile number" autocomplete="tel" />
+      </div>
+
+      <div class="field">
+        <label class="field-label" for="input-idea">What Are You Thinking About Getting?</label>
+        <textarea class="field-input" id="input-idea" placeholder="Tell us your idea — style, size, placement, vibe. Anything helps."></textarea>
+      </div>
+
+      <div class="field">
+        <div class="field-label">Consultation Type</div>
+        <div class="consult-options">
+          <div class="consult-option selected" id="opt-inperson" onclick="selectConsult('inperson')">
+            <span class="consult-option-icon">🏠</span>
+            <div class="consult-option-label">In Person</div>
+            <div class="consult-option-desc">Come to the studio</div>
+          </div>
+          <div class="consult-option" id="opt-zoom" onclick="selectConsult('zoom')">
+            <span class="consult-option-icon">💻</span>
+            <div class="consult-option-label">Zoom Call</div>
+            <div class="consult-option-desc">Remote · Any time</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="deposit-notice">
+        <div class="deposit-notice-label">About the Deposit</div>
+        <p class="deposit-notice-text">After you claim your spot, we'll send you a link to place a $50 deposit. It holds your consultation and goes 100% toward your tattoo. It also makes sure <span id="deposit-ambassador-name">your ambassador</span> gets taken care of for sending you here.</p>
+      </div>
+
+    </div>
+
+    <!-- SUBMIT -->
+    <div class="submit-wrap">
+      <button class="submit-btn" id="submit-btn" onclick="handleSubmit()">
+        Claim My Spot
+      </button>
+      <button class="back-link" onclick="history.back()">← Go Back</button>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <span class="footer-powered">Powered by <span>WordOnTheStreet</span></span>
+    </footer>
+
+  </div>
+
+  <!-- SUCCESS SCREEN -->
+  <div class="success-screen" id="success-screen">
+    <div class="success-icon">🔥</div>
+    <div class="success-title">You're<br><span>In.</span></div>
+    <p class="success-sub">Your spot is claimed. We'll be in touch to confirm your consultation and send your deposit link.</p>
+    <div class="success-ambassador" id="success-ambassador-line">
+      ✓ Referral credited to your ambassador
+    </div>
+    <a id="success-booking-link" href="https://book.squareup.com/appointments/3l21otvoi71xyf/location/FPC1PWPXDNG4W" class="success-cta">
+      Book Your Consultation →
+    </a>
+    <p class="success-deposit-note">A $50 deposit link will be sent to your phone to hold your spot. It applies 100% to your tattoo.</p>
+  </div>
+
+  <script>
+    // ── CONFIG ───────────────────────────────────────────────────
+    const SUPABASE_URL  = 'https://hpexcficdfomofvkqsez.supabase.co';
+    const SUPABASE_KEY  = 'sb_publishable_WqV7oy9GrUU-1GKPe-l0NQ_KNafLYBH';
+    const BOOKING_URL   = 'https://book.squareup.com/appointments/3l21otvoi71xyf/location/FPC1PWPXDNG4W';
+
+    // ── PARSE REF CODE ───────────────────────────────────────────
+    const params  = new URLSearchParams(window.location.search);
+    const refCode = params.get('ref') || 'demo';
+    const consultType = params.get('type') || 'inperson';
+
+    // Set consultation type from URL param
+    if (consultType === 'zoom') selectConsult('zoom');
+
+    // ── SUPABASE HELPER ──────────────────────────────────────────
+    async function sb(path, options = {}) {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json',
+          ...options.headers,
+        },
+        ...options,
+      });
+      if (options.method === 'POST') return null;
+      return res.json();
+    }
+
+    // ── LOAD AMBASSADOR ──────────────────────────────────────────
+    let ambassadorId   = null;
+    let ambassadorName = 'your ambassador';
+
+    async function loadAmbassador() {
+      if (refCode === 'demo') return;
+      try {
+        const data = await sb(`ambassadors?ref_code=eq.${encodeURIComponent(refCode)}&select=id,name&limit=1`);
+        if (data && data.length > 0) {
+          ambassadorId   = data[0].id;
+          ambassadorName = data[0].name;
+          document.getElementById('ambassador-display').textContent = ambassadorName;
+          document.getElementById('deposit-ambassador-name').textContent = ambassadorName;
+          document.getElementById('success-ambassador-line').textContent =
+            `✓ Referral credited to ${ambassadorName}`;
+        }
+      } catch(e) { console.error('Ambassador load failed:', e); }
+    }
+
+    // ── CONSULT TYPE TOGGLE ──────────────────────────────────────
+    let selectedConsult = 'inperson';
+    function selectConsult(type) {
+      selectedConsult = type;
+      document.getElementById('opt-inperson').classList.toggle('selected', type === 'inperson');
+      document.getElementById('opt-zoom').classList.toggle('selected', type === 'zoom');
+    }
+
+    // ── FORM VALIDATION ──────────────────────────────────────────
+    function validate() {
+      let valid = true;
+      const name  = document.getElementById('input-name');
+      const phone = document.getElementById('input-phone');
+      const idea  = document.getElementById('input-idea');
+
+      [name, phone, idea].forEach(el => el.classList.remove('error'));
+
+      if (!name.value.trim()) { name.classList.add('error'); valid = false; }
+      if (!phone.value.trim()) { phone.classList.add('error'); valid = false; }
+      if (!idea.value.trim()) { idea.classList.add('error'); valid = false; }
+
+      return valid;
+    }
+
+    // ── SUBMIT ───────────────────────────────────────────────────
+    async function handleSubmit() {
+      if (!validate()) return;
+
+      const btn = document.getElementById('submit-btn');
+      btn.disabled = true;
+      btn.textContent = 'Claiming Your Spot...';
+
+      const name  = document.getElementById('input-name').value.trim();
+      const phone = document.getElementById('input-phone').value.trim();
+      const idea  = document.getElementById('input-idea').value.trim();
+
+      try {
+        // 1 — Get business ID
+        const biz = await sb('businesses?slug=eq.bat&select=id&limit=1');
+        const businessId = biz && biz.length > 0 ? biz[0].id : null;
+
+        // 2 — Update referral status to 'claimed' if ambassador exists
+        //     or insert a new referral row
+        if (ambassadorId) {
+          // Find most recent scanned referral for this ambassador and update it
+          const existing = await sb(
+            `referrals?ambassador_id=eq.${ambassadorId}&status=eq.scanned&order=scanned_at.desc&limit=1`
+          );
+          if (existing && existing.length > 0) {
+            await sb(`referrals?id=eq.${existing[0].id}`, {
+              method: 'PATCH',
+              headers: { 'Prefer': 'return=minimal' },
+              body: JSON.stringify({
+                status: 'claimed',
+                notes:  `Name: ${name} | Phone: ${phone} | Idea: ${idea} | Type: ${selectedConsult}`,
+              }),
+            });
+          } else {
+            // No prior scan row — insert fresh
+            await sb('referrals', {
+              method: 'POST',
+              headers: { 'Prefer': 'return=minimal' },
+              body: JSON.stringify({
+                ambassador_id: ambassadorId,
+                business_id:   businessId,
+                status:        'claimed',
+                scanned_at:    new Date().toISOString(),
+                notes:         `Name: ${name} | Phone: ${phone} | Idea: ${idea} | Type: ${selectedConsult}`,
+              }),
+            });
+          }
+        }
+
+        // 3 — Show success screen
+        document.getElementById('success-booking-link').href =
+          BOOKING_URL + (selectedConsult === 'zoom' ? '?type=zoom' : '');
+        document.getElementById('success-screen').classList.add('show');
+
+        console.log('[WOTS] Spot claimed ✓', { name, phone, refCode, selectedConsult });
+
+      } catch(e) {
+        console.error('[WOTS] Submit failed:', e);
+        btn.disabled = false;
+        btn.textContent = 'Claim My Spot';
+        alert('Something went wrong. Please try again.');
+      }
+    }
+
+    // ── INIT ─────────────────────────────────────────────────────
+    loadAmbassador();
+  </script>
+
+</body>
+</html>

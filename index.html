@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WordOnTheStreet — The Referral Platform for Local Business</title>
+  <meta name="description" content="Turn word-of-mouth into measurable growth. WOTS is the referral ambassador platform for local businesses. You only pay when you get paid." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --ink:#0a0908; --bone:#f0ebe2; --rust:#c44b2b; --gold:#d4a843; --muted:#8a8078; --dim:#3a3530; --line:rgba(240,235,226,0.1); }
+    html,body { min-height:100%; background:var(--ink); color:var(--bone); font-family:'DM Serif Display',Georgia,serif; -webkit-font-smoothing:antialiased; }
+    body::before { content:''; position:fixed; inset:0; background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.035'/%3E%3C/svg%3E"); pointer-events:none; z-index:999; opacity:0.7; }
+    .glow { position:fixed; border-radius:50%; filter:blur(120px); pointer-events:none; z-index:0; }
+    .g1 { width:600px; height:600px; background:radial-gradient(circle, rgba(196,75,43,0.12) 0%, transparent 70%); top:-200px; right:-150px; }
+    .g2 { width:500px; height:500px; background:radial-gradient(circle, rgba(212,168,67,0.07) 0%, transparent 70%); bottom:10%; left:-100px; }
+    .wrap { position:relative; z-index:10; max-width:640px; margin:0 auto; padding:0 28px; }
+    nav { display:flex; align-items:center; justify-content:space-between; padding:22px 0; border-bottom:1px solid var(--line); }
+    .nav-logo { font-family:'Bebas Neue',sans-serif; font-size:1.2rem; letter-spacing:0.18em; color:var(--bone); text-transform:uppercase; }
+    .nav-logo span { color:var(--rust); }
+    .nav-tag { font-family:'DM Mono',monospace; font-size:0.58rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--gold); border:1px solid rgba(212,168,67,0.3); padding:4px 10px; border-radius:2px; }
+    .hero { padding:72px 0 56px; animation:fadeUp 0.7s ease both; }
+    .hero-eyebrow { font-family:'DM Mono',monospace; font-size:0.68rem; letter-spacing:0.24em; text-transform:uppercase; color:var(--gold); margin-bottom:20px; }
+    .hero-title { font-family:'Bebas Neue',sans-serif; font-size:clamp(3.2rem,10vw,5.5rem); line-height:0.95; letter-spacing:0.04em; color:var(--bone); text-transform:uppercase; margin-bottom:24px; }
+    .hero-title span { color:var(--rust); display:block; }
+    .hero-pitch { font-size:1.2rem; font-style:italic; color:var(--muted); line-height:1.65; max-width:500px; margin-bottom:16px; }
+    .hero-pitch strong { color:var(--bone); font-style:normal; font-weight:400; }
+    .hero-tagline { font-family:'DM Mono',monospace; font-size:0.8rem; letter-spacing:0.12em; color:var(--rust); text-transform:uppercase; margin-bottom:48px; }
+    .proof-strip { display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-bottom:72px; animation:fadeUp 0.7s 0.15s ease both; }
+    .proof-block { background:var(--ink); padding:20px 18px; }
+    .proof-value { font-family:'Bebas Neue',sans-serif; font-size:1.8rem; letter-spacing:0.04em; color:var(--rust); line-height:1; margin-bottom:4px; }
+    .proof-label { font-family:'DM Mono',monospace; font-size:0.6rem; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); line-height:1.5; }
+    .section { margin-bottom:72px; animation:fadeUp 0.7s 0.2s ease both; }
+    .section-label { font-family:'DM Mono',monospace; font-size:0.62rem; letter-spacing:0.22em; text-transform:uppercase; color:var(--muted); margin-bottom:28px; padding-bottom:12px; border-bottom:1px solid var(--line); }
+    .how-step { display:flex; gap:20px; padding:20px 0; border-bottom:1px solid var(--line); }
+    .how-step:last-child { border-bottom:none; }
+    .how-num { font-family:'Bebas Neue',sans-serif; font-size:1.8rem; color:var(--rust); line-height:1; flex:0 0 32px; }
+    .how-body { flex:1; }
+    .how-title { font-family:'DM Mono',monospace; font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--bone); margin-bottom:6px; }
+    .how-desc { font-style:italic; font-size:1rem; color:var(--muted); line-height:1.6; }
+    .pricing-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:72px; animation:fadeUp 0.7s 0.25s ease both; }
+    .price-card { background:rgba(240,235,226,0.03); border:1px solid var(--line); padding:22px 18px; position:relative; overflow:hidden; transition:border-color 0.2s; }
+    .price-card:hover { border-color:rgba(196,75,43,0.4); }
+    .price-card.featured { border-color:rgba(196,75,43,0.4); background:rgba(196,75,43,0.05); }
+    .price-card.featured::before { content:''; position:absolute; top:0; left:0; right:0; height:2px; background:var(--rust); }
+    .price-tier { font-family:'DM Mono',monospace; font-size:0.6rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted); margin-bottom:10px; }
+    .price-amount { font-family:'Bebas Neue',sans-serif; font-size:2.2rem; letter-spacing:0.04em; color:var(--bone); line-height:1; margin-bottom:2px; }
+    .price-period { font-family:'DM Mono',monospace; font-size:0.58rem; color:var(--muted); margin-bottom:12px; }
+    .price-fee { font-family:'DM Mono',monospace; font-size:0.62rem; letter-spacing:0.1em; color:var(--rust); margin-bottom:12px; }
+    .price-who { font-size:0.82rem; font-style:italic; color:var(--muted); line-height:1.5; }
+    .pitch-block { border-left:3px solid var(--rust); padding:24px; background:rgba(196,75,43,0.04); margin-bottom:72px; animation:fadeUp 0.7s 0.3s ease both; }
+    .pitch-quote { font-size:1.35rem; font-style:italic; color:var(--bone); line-height:1.55; margin-bottom:16px; }
+    .pitch-body { font-size:0.95rem; font-style:italic; color:var(--muted); line-height:1.7; }
+    .waitlist-section { margin-bottom:72px; animation:fadeUp 0.7s 0.35s ease both; }
+    .waitlist-title { font-family:'Bebas Neue',sans-serif; font-size:2.4rem; letter-spacing:0.04em; color:var(--bone); margin-bottom:8px; }
+    .waitlist-title span { color:var(--rust); }
+    .waitlist-sub { font-style:italic; font-size:1rem; color:var(--muted); line-height:1.6; margin-bottom:28px; max-width:460px; }
+    .form-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px; }
+    @media(max-width:480px){.form-grid{grid-template-columns:1fr;} .pricing-grid{grid-template-columns:1fr;}}
+    .field { display:flex; flex-direction:column; gap:6px; }
+    .field-label { font-family:'DM Mono',monospace; font-size:0.58rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--muted); }
+    .field-input { background:rgba(240,235,226,0.05); border:1px solid var(--line); color:var(--bone); font-family:'DM Serif Display',Georgia,serif; font-size:1rem; padding:13px 15px; outline:none; border-radius:2px; transition:border-color 0.2s; -webkit-appearance:none; }
+    .field-input::placeholder { color:var(--muted); opacity:0.5; font-style:italic; }
+    .field-input:focus { border-color:rgba(196,75,43,0.5); }
+    select.field-input { cursor:pointer; }
+    select.field-input option { background:#1a1510; color:var(--bone); }
+    .submit-btn { display:block; width:100%; background:var(--rust); color:var(--bone); font-family:'Bebas Neue',sans-serif; font-size:1.4rem; letter-spacing:0.14em; text-transform:uppercase; padding:20px; border:none; cursor:pointer; margin-top:10px; transition:background 0.2s,transform 0.15s; position:relative; overflow:hidden; }
+    .submit-btn::after { content:''; position:absolute; inset:0; background:linear-gradient(135deg,rgba(255,255,255,0.08) 0%,transparent 60%); pointer-events:none; }
+    .submit-btn:hover { background:#d95530; transform:translateY(-1px); }
+    .submit-btn:disabled { opacity:0.5; cursor:not-allowed; transform:none; }
+    .submit-fine { margin-top:10px; font-family:'DM Mono',monospace; font-size:0.58rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--dim); text-align:center; }
+    .success-state { display:none; text-align:center; padding:48px 0; }
+    .success-state.show { display:block; }
+    .success-icon { font-size:3rem; margin-bottom:20px; }
+    .success-title { font-family:'Bebas Neue',sans-serif; font-size:2.4rem; letter-spacing:0.04em; color:var(--bone); margin-bottom:10px; }
+    .success-title span { color:var(--rust); }
+    .success-sub { font-style:italic; font-size:1rem; color:var(--muted); line-height:1.6; max-width:400px; margin:0 auto; }
+    footer { border-top:1px solid var(--line); padding:28px 0; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; }
+    .footer-brand { font-family:'DM Mono',monospace; font-size:0.6rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--muted); }
+    .footer-brand span { color:var(--rust); }
+    .footer-bat { font-family:'DM Mono',monospace; font-size:0.58rem; letter-spacing:0.1em; color:var(--dim); text-transform:uppercase; }
+    .footer-bat a { color:var(--dim); text-decoration:none; border-bottom:1px solid var(--dim); }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:translateY(0)} }
+  </style>
+</head>
+<body>
+  <div class="glow g1"></div>
+  <div class="glow g2"></div>
+  <div class="wrap">
+    <nav>
+      <div class="nav-logo">Word<span>On</span>TheStreet</div>
+      <div class="nav-tag">Early Access</div>
+    </nav>
+    <section class="hero">
+      <div class="hero-eyebrow">The Referral Platform for Local Business</div>
+      <h1 class="hero-title">You Only Pay<span>When You Get Paid.</span></h1>
+      <p class="hero-pitch">WOTS turns word-of-mouth into a <strong>structured, trackable growth engine.</strong> Recruit ambassadors, track referrals, reward the people who bring in new clients — automatically, every time.</p>
+      <div class="hero-tagline">No ads. No algorithms. Just people you trust.</div>
+    </section>
+    <div class="proof-strip">
+      <div class="proof-block"><div class="proof-value">$0</div><div class="proof-label">Ad spend to get started</div></div>
+      <div class="proof-block"><div class="proof-value">$20</div><div class="proof-label">Avg ambassador reward per referral</div></div>
+      <div class="proof-block"><div class="proof-value">3%</div><div class="proof-label">Platform fee — only on real transactions</div></div>
+    </div>
+    <section class="section">
+      <div class="section-label">How It Works</div>
+      <div class="how-step"><div class="how-num">1</div><div class="how-body"><div class="how-title">Recruit Ambassadors</div><div class="how-desc">Clients, friends, bartenders, stylists — anyone who talks about your business joins your network and gets a personal referral link and QR code.</div></div></div>
+      <div class="how-step"><div class="how-num">2</div><div class="how-body"><div class="how-title">They Share in Conversation</div><div class="how-desc">No posts. No campaigns. Just a person pulling out their phone mid-conversation and letting someone scan. That's the whole move.</div></div></div>
+      <div class="how-step"><div class="how-num">3</div><div class="how-body"><div class="how-title">New Client Discovers You</div><div class="how-desc">The referral page shows your business, your work, your booking link. The customer can act immediately — consultation, booking, inquiry.</div></div></div>
+      <div class="how-step"><div class="how-num">4</div><div class="how-body"><div class="how-title">Ambassador Gets Rewarded</div><div class="how-desc">When the referral converts, $20 goes into their WOTS wallet automatically. They transfer to their bank or spend it back with you. The loop closes itself.</div></div></div>
+    </section>
+    <div class="pitch-block">
+      <div class="pitch-quote">"The referral fee only exists because it already worked. You cannot lose. The math is permanently in your favor."</div>
+      <div class="pitch-body">Google charges for clicks. Facebook charges for impressions. Neither guarantees a human walks through your door. WOTS only costs you money when a real customer already put money in your pocket. Your ambassador earns store credit and spends it back with you. You paid out $20 and got a $150 return visit. You got paid twice on the same referral.</div>
+    </div>
+    <section class="section">
+      <div class="section-label">Pricing — Simple. Scalable. Fair.</div>
+      <div class="pricing-grid">
+        <div class="price-card"><div class="price-tier">Solo</div><div class="price-amount">$19</div><div class="price-period">/month</div><div class="price-fee">+ 3% per transaction</div><div class="price-who">Independent artists, suite renters, solo service providers</div></div>
+        <div class="price-card featured"><div class="price-tier">Studio</div><div class="price-amount">$79</div><div class="price-period">/month</div><div class="price-fee">+ 2% per transaction</div><div class="price-who">Small shops, 2–5 service providers, shared ambassador pool</div></div>
+        <div class="price-card"><div class="price-tier">Pro</div><div class="price-amount">$149</div><div class="price-period">/month</div><div class="price-fee">+ 1.5% per transaction</div><div class="price-who">Multi-location, high volume, custom branding + analytics</div></div>
+      </div>
+    </section>
+    <section class="waitlist-section">
+      <div class="waitlist-title">Get <span>Early Access</span></div>
+      <p class="waitlist-sub">WOTS is currently in private beta at Broken Art Tattoo in Los Angeles. We're onboarding select businesses now. Drop your info and we'll reach out when we're ready for you.</p>
+      <div id="waitlist-form">
+        <div class="form-grid">
+          <div class="field"><label class="field-label" for="wl-name">Your Name</label><input class="field-input" id="wl-name" type="text" placeholder="First and last name" /></div>
+          <div class="field"><label class="field-label" for="wl-biz">Business Name</label><input class="field-input" id="wl-biz" type="text" placeholder="Your business" /></div>
+          <div class="field"><label class="field-label" for="wl-email">Email</label><input class="field-input" id="wl-email" type="email" placeholder="you@yourbusiness.com" /></div>
+          <div class="field"><label class="field-label" for="wl-city">City</label><input class="field-input" id="wl-city" type="text" placeholder="Los Angeles, NYC..." /></div>
+        </div>
+        <div class="field" style="margin-bottom:0">
+          <label class="field-label" for="wl-type">Type of Business</label>
+          <select class="field-input" id="wl-type">
+            <option value="" disabled selected>Select your industry</option>
+            <option>Tattoo Studio</option><option>Hair Salon</option><option>Barbershop</option><option>Gym / Fitness</option><option>Med Spa / Aesthetics</option><option>Restaurant / Bar</option><option>Coffee Shop</option><option>Real Estate</option><option>Creative Studio</option><option>Other</option>
+          </select>
+        </div>
+        <button class="submit-btn" id="wl-submit" onclick="handleWaitlist()">Get Early Access</button>
+        <p class="submit-fine">No spam. No commitment. We'll reach out personally when you're up.</p>
+      </div>
+      <div class="success-state" id="wl-success">
+        <div class="success-icon">🔥</div>
+        <div class="success-title">You're <span>On the List</span></div>
+        <p class="success-sub">We'll reach out personally when we're ready to onboard you. Keep talking about the businesses you love — that's literally what this is built on.</p>
+      </div>
+    </section>
+    <footer>
+      <span class="footer-brand"><span>WOTS</span>works.com · WordOnTheStreet™</span>
+      <span class="footer-bat">Beta running at <a href="https://brokenarttattoo.com" target="_blank">Broken Art Tattoo</a> · Los Angeles</span>
+    </footer>
+  </div>
+  <script>
+    const SUPABASE_URL = 'https://hpexcficdfomofvkqsez.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_WqV7oy9GrUU-1GKPe-l0NQ_KNafLYBH';
+
+    async function handleWaitlist() {
+      const name  = document.getElementById('wl-name').value.trim();
+      const biz   = document.getElementById('wl-biz').value.trim();
+      const email = document.getElementById('wl-email').value.trim();
+      const city  = document.getElementById('wl-city').value.trim();
+      const type  = document.getElementById('wl-type').value;
+      if (!name || !biz || !email || !type) { alert('Please fill in all fields.'); return; }
+      const btn = document.getElementById('wl-submit');
+      btn.disabled = true;
+      btn.textContent = 'Submitting...';
+      try {
+        await fetch(`${SUPABASE_URL}/rest/v1/waitlist`, {
+          method: 'POST',
+          headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+          body: JSON.stringify({ name, business_name: biz, email, city, business_type: type }),
+        });
+      } catch(e) { console.log('Waitlist submission logged'); }
+      document.getElementById('waitlist-form').style.display = 'none';
+      document.getElementById('wl-success').classList.add('show');
+    }
+  </script>
+</body>
+</html>

@@ -695,7 +695,7 @@
       <div class="success-ref-code" id="success-ref-code">yourhandle</div>
     </div>
     <p class="success-sub">Your link is live. Share it with someone right now — every conversation is a potential $20.</p>
-    <a id="success-dashboard-link" href="/ambassador/" class="success-cta">
+    <a id="success-dashboard-link" href="/a/" class="success-cta">
       Open My Dashboard →
     </a>
   </div></div>
@@ -807,7 +807,7 @@
         // Show success
         document.getElementById('success-name').textContent     = name;
         document.getElementById('success-ref-code').textContent = refCode;
-        document.getElementById('success-dashboard-link').href  = `/ambassador/?ref=${refCode}`;
+        document.getElementById('success-dashboard-link').href  = `/a/?ref=${refCode}`;
         document.getElementById('success-screen').classList.add('show');
 
         console.log('[WOTS] Ambassador created ✓', { name, refCode });

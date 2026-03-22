@@ -28,627 +28,173 @@
       --blue-bg:   rgba(59,130,246,0.08);
       --red:       #ef4444;
       --red-bg:    rgba(239,68,68,0.08);
-      --accent:    #e8eaed;
     }
 
-    html, body {
-      height: 100%;
-      background: var(--bg);
-      color: var(--white);
-      font-family: 'IBM Plex Sans', sans-serif;
-      font-size: 14px;
-      -webkit-font-smoothing: antialiased;
-    }
+    html, body { height: 100%; background: var(--bg); color: var(--white); font-family: 'IBM Plex Sans', sans-serif; font-size: 14px; -webkit-font-smoothing: antialiased; }
 
-    /* ── LAYOUT ── */
-    .layout {
-      display: grid;
-      grid-template-columns: 220px 1fr;
-      grid-template-rows: auto 1fr;
-      min-height: 100vh;
-    }
+    .layout { display: grid; grid-template-columns: 220px 1fr; grid-template-rows: auto 1fr; min-height: 100vh; }
 
-    /* ── SIDEBAR ── */
-    .sidebar {
-      grid-row: 1 / -1;
-      background: var(--panel);
-      border-right: 1px solid var(--border);
-      display: flex;
-      flex-direction: column;
-      padding: 0;
-      animation: fadeIn 0.4s ease both;
-    }
-    .sidebar-top {
-      padding: 22px 20px 18px;
-      border-bottom: 1px solid var(--border);
-    }
-    .sidebar-brand {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--green);
-      margin-bottom: 4px;
-    }
-    .sidebar-studio {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: var(--white);
-    }
-    .sidebar-role {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.12em;
-      color: var(--dim2);
-      text-transform: uppercase;
-      margin-top: 2px;
-    }
-
-    .nav-section {
-      padding: 16px 12px 8px;
-    }
-    .nav-section-label {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.55rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--dim);
-      padding: 0 8px;
-      margin-bottom: 6px;
-    }
-    .nav-item {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 8px 10px;
-      border-radius: 4px;
-      cursor: pointer;
-      color: var(--dim2);
-      font-size: 0.82rem;
-      font-weight: 400;
-      transition: background 0.15s, color 0.15s;
-      text-decoration: none;
-      border: none;
-      background: none;
-      width: 100%;
-      text-align: left;
-    }
+    /* SIDEBAR */
+    .sidebar { grid-row: 1 / -1; background: var(--panel); border-right: 1px solid var(--border); display: flex; flex-direction: column; animation: fadeIn 0.4s ease both; }
+    .sidebar-top { padding: 22px 20px 18px; border-bottom: 1px solid var(--border); }
+    .sidebar-brand { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--green); margin-bottom: 4px; }
+    .sidebar-studio { font-size: 0.95rem; font-weight: 600; color: var(--white); }
+    .sidebar-role { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; color: var(--dim2); text-transform: uppercase; margin-top: 2px; }
+    .nav-section { padding: 16px 12px 8px; }
+    .nav-section-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--dim); padding: 0 8px; margin-bottom: 6px; }
+    .nav-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 4px; cursor: pointer; color: var(--dim2); font-size: 0.82rem; font-weight: 400; transition: background 0.15s, color 0.15s; border: none; background: none; width: 100%; text-align: left; }
     .nav-item:hover { background: rgba(255,255,255,0.04); color: var(--white); }
-    .nav-item.active {
-      background: rgba(34,197,94,0.08);
-      color: var(--green);
-      font-weight: 500;
-    }
+    .nav-item.active { background: rgba(34,197,94,0.08); color: var(--green); font-weight: 500; }
     .nav-item-icon { width: 16px; text-align: center; font-size: 0.85rem; }
-    .nav-badge {
-      margin-left: auto;
-      background: var(--green);
-      color: var(--bg);
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.55rem;
-      font-weight: 600;
-      padding: 1px 6px;
-      border-radius: 10px;
-    }
+    .nav-badge { margin-left: auto; background: var(--green); color: var(--bg); font-family: 'IBM Plex Mono', monospace; font-size: 0.55rem; font-weight: 600; padding: 1px 6px; border-radius: 10px; }
     .nav-badge.yellow { background: var(--yellow); }
+    .sidebar-footer { margin-top: auto; padding: 16px 20px; border-top: 1px solid var(--border); }
+    .sidebar-footer-info { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.1em; color: var(--dim); text-transform: uppercase; display: flex; align-items: center; gap: 6px; }
+    .live-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: blink 2s ease infinite; }
+    @keyframes blink { 0%,100% { opacity: 1; } 50% { opacity: 0.3; } }
 
-    .sidebar-footer {
-      margin-top: auto;
-      padding: 16px 20px;
-      border-top: 1px solid var(--border);
-    }
-    .sidebar-footer-info {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.58rem;
-      letter-spacing: 0.1em;
-      color: var(--dim);
-      text-transform: uppercase;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .live-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--green);
-      animation: blink 2s ease infinite;
-    }
-    @keyframes blink {
-      0%,100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-
-    /* ── TOPBAR ── */
-    .topbar {
-      grid-column: 2;
-      background: var(--panel);
-      border-bottom: 1px solid var(--border);
-      padding: 14px 28px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      animation: fadeIn 0.4s 0.05s ease both;
-    }
+    /* TOPBAR */
+    .topbar { grid-column: 2; background: var(--panel); border-bottom: 1px solid var(--border); padding: 14px 28px; display: flex; align-items: center; justify-content: space-between; animation: fadeIn 0.4s 0.05s ease both; }
     .topbar-left { display: flex; flex-direction: column; gap: 2px; }
-    .topbar-title {
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--white);
-    }
-    .topbar-sub {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.12em;
-      color: var(--dim2);
-      text-transform: uppercase;
-    }
+    .topbar-title { font-size: 1rem; font-weight: 600; color: var(--white); }
+    .topbar-sub { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; color: var(--dim2); text-transform: uppercase; }
     .topbar-right { display: flex; align-items: center; gap: 10px; }
-    .topbar-btn {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 7px 14px;
-      border-radius: 3px;
-      cursor: pointer;
-      border: 1px solid var(--border2);
-      background: transparent;
-      color: var(--white);
-      transition: background 0.15s;
-    }
+    .topbar-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 7px 14px; border-radius: 3px; cursor: pointer; border: 1px solid var(--border2); background: transparent; color: var(--white); transition: background 0.15s; }
     .topbar-btn:hover { background: rgba(255,255,255,0.06); }
-    .topbar-btn.primary {
-      background: var(--green);
-      color: var(--bg);
-      border-color: var(--green);
-      font-weight: 600;
-    }
+    .topbar-btn.primary { background: var(--green); color: var(--bg); border-color: var(--green); font-weight: 600; }
     .topbar-btn.primary:hover { background: #16a34a; }
 
-    /* ── MAIN ── */
-    .main {
-      grid-column: 2;
-      padding: 24px 28px;
-      overflow-y: auto;
-      animation: fadeIn 0.4s 0.1s ease both;
-    }
+    /* MAIN */
+    .main { grid-column: 2; padding: 24px 28px; overflow-y: auto; animation: fadeIn 0.4s 0.1s ease both; }
 
-    /* ── STAT CARDS ── */
-    .stats-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-bottom: 24px;
-    }
-    .stat-card {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      padding: 18px 18px 16px;
-      position: relative;
-      overflow: hidden;
-    }
-    .stat-card::after {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-    }
+    /* STAT CARDS */
+    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 24px; }
+    .stat-card { background: var(--panel); border: 1px solid var(--border); padding: 18px 18px 16px; position: relative; overflow: hidden; }
+    .stat-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
     .stat-card.g::after { background: var(--green); }
     .stat-card.y::after { background: var(--yellow); }
     .stat-card.b::after { background: var(--blue); }
     .stat-card.w::after { background: rgba(232,234,237,0.3); }
-    .stat-label {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.58rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--dim2);
-      margin-bottom: 8px;
-    }
-    .stat-value {
-      font-size: 1.8rem;
-      font-weight: 600;
-      line-height: 1;
-      letter-spacing: -0.02em;
-      margin-bottom: 4px;
-    }
+    .stat-label { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--dim2); margin-bottom: 8px; }
+    .stat-value { font-size: 1.8rem; font-weight: 600; line-height: 1; letter-spacing: -0.02em; margin-bottom: 4px; }
     .stat-card.g .stat-value { color: var(--green); }
     .stat-card.y .stat-value { color: var(--yellow); }
     .stat-card.b .stat-value { color: var(--blue); }
     .stat-card.w .stat-value { color: var(--white); }
-    .stat-delta {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.6rem;
-      color: var(--dim2);
-    }
+    .stat-delta { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; color: var(--dim2); }
     .stat-delta.up { color: var(--green); }
 
-    /* ── TWO COL ── */
-    .two-col {
-      display: grid;
-      grid-template-columns: 1fr 340px;
-      gap: 16px;
-      margin-bottom: 20px;
-    }
+    /* TWO COL */
+    .two-col { display: grid; grid-template-columns: 1fr 340px; gap: 16px; margin-bottom: 20px; }
 
-    /* ── PANEL ── */
-    .panel {
-      background: var(--panel);
-      border: 1px solid var(--border);
-    }
-    .panel-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 18px;
-      border-bottom: 1px solid var(--border);
-    }
-    .panel-title {
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--white);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .panel-count {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.6rem;
-      background: var(--panel2);
-      border: 1px solid var(--border);
-      color: var(--dim2);
-      padding: 2px 7px;
-      border-radius: 10px;
-    }
-    .panel-action {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--dim2);
-      cursor: pointer;
-      background: none;
-      border: none;
-      transition: color 0.15s;
-    }
+    /* PANEL */
+    .panel { background: var(--panel); border: 1px solid var(--border); }
+    .panel-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; border-bottom: 1px solid var(--border); }
+    .panel-title { font-size: 0.82rem; font-weight: 600; color: var(--white); display: flex; align-items: center; gap: 8px; }
+    .panel-count { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; background: var(--panel2); border: 1px solid var(--border); color: var(--dim2); padding: 2px 7px; border-radius: 10px; }
+    .panel-action { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim2); cursor: pointer; background: none; border: none; transition: color 0.15s; }
     .panel-action:hover { color: var(--white); }
 
-    /* ── FILTER ROW ── */
-    .filter-row {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      padding: 10px 18px;
-      border-bottom: 1px solid var(--border);
-    }
-    .filter-btn {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 4px 10px;
-      border-radius: 3px;
-      cursor: pointer;
-      border: 1px solid transparent;
-      background: transparent;
-      color: var(--dim2);
-      transition: all 0.15s;
-    }
+    /* FILTER ROW */
+    .filter-row { display: flex; align-items: center; gap: 6px; padding: 10px 18px; border-bottom: 1px solid var(--border); }
+    .filter-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 4px 10px; border-radius: 3px; cursor: pointer; border: 1px solid transparent; background: transparent; color: var(--dim2); transition: all 0.15s; }
     .filter-btn:hover { color: var(--white); border-color: var(--border2); }
-    .filter-btn.active {
-      background: rgba(255,255,255,0.06);
-      color: var(--white);
-      border-color: var(--border2);
-    }
-    .filter-search {
-      margin-left: auto;
-      background: var(--panel2);
-      border: 1px solid var(--border);
-      color: var(--white);
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.65rem;
-      padding: 5px 12px;
-      border-radius: 3px;
-      outline: none;
-      width: 160px;
-      transition: border-color 0.15s;
-    }
+    .filter-btn.active { background: rgba(255,255,255,0.06); color: var(--white); border-color: var(--border2); }
+    .filter-search { margin-left: auto; background: var(--panel2); border: 1px solid var(--border); color: var(--white); font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; padding: 5px 12px; border-radius: 3px; outline: none; width: 160px; transition: border-color 0.15s; }
     .filter-search::placeholder { color: var(--dim); }
     .filter-search:focus { border-color: var(--border2); }
 
-    /* ── REFERRAL TABLE ── */
+    /* REFERRAL TABLE */
     .ref-table { width: 100%; border-collapse: collapse; }
-    .ref-table thead tr {
-      border-bottom: 1px solid var(--border);
-    }
-    .ref-table th {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.58rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--dim2);
-      padding: 10px 18px;
-      text-align: left;
-      font-weight: 500;
-    }
-    .ref-table tbody tr {
-      border-bottom: 1px solid var(--border);
-      transition: background 0.12s;
-      cursor: default;
-    }
+    .ref-table thead tr { border-bottom: 1px solid var(--border); }
+    .ref-table th { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--dim2); padding: 10px 18px; text-align: left; font-weight: 500; }
+    .ref-table tbody tr { border-bottom: 1px solid var(--border); transition: background 0.12s; }
     .ref-table tbody tr:hover { background: rgba(255,255,255,0.02); }
-    .ref-table td {
-      padding: 13px 18px;
-      font-size: 0.82rem;
-      vertical-align: middle;
-    }
+    .ref-table td { padding: 13px 18px; font-size: 0.82rem; vertical-align: middle; }
     .td-name { font-weight: 500; color: var(--white); }
-    .td-ambassador {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--dim2);
-    }
-    .td-time {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.65rem;
-      color: var(--dim2);
-    }
+    .td-ref { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--dim2); }
+    .td-notes { font-size: 0.72rem; color: var(--dim2); max-width: 160px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .td-time { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--dim2); }
 
     /* STATUS BADGE */
-    .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 3px 8px;
-      border-radius: 3px;
-      font-weight: 500;
-    }
+    .badge { display: inline-flex; align-items: center; gap: 5px; font-family: 'IBM Plex Mono', monospace; font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 8px; border-radius: 3px; font-weight: 500; }
     .badge-dot { width: 5px; height: 5px; border-radius: 50%; }
-    .badge.scan    { background: var(--blue-bg);   color: var(--blue);   }
-    .badge.scan    .badge-dot { background: var(--blue); }
-    .badge.booked  { background: var(--yellow-bg); color: var(--yellow); }
-    .badge.booked  .badge-dot { background: var(--yellow); }
-    .badge.paid    { background: var(--green-bg);  color: var(--green);  }
-    .badge.paid    .badge-dot { background: var(--green); }
-    .badge.pending { background: rgba(255,255,255,0.05); color: var(--dim2); }
-    .badge.pending .badge-dot { background: var(--dim2); }
+    .badge.scan    { background: var(--blue-bg);   color: var(--blue);   } .badge.scan    .badge-dot { background: var(--blue); }
+    .badge.claimed { background: var(--yellow-bg); color: var(--yellow); } .badge.claimed .badge-dot { background: var(--yellow); }
+    .badge.booked  { background: var(--yellow-bg); color: var(--yellow); } .badge.booked  .badge-dot { background: var(--yellow); }
+    .badge.converted { background: var(--green-bg); color: var(--green); } .badge.converted .badge-dot { background: var(--green); }
+    .badge.pending { background: rgba(255,255,255,0.05); color: var(--dim2); } .badge.pending .badge-dot { background: var(--dim2); }
+    .badge.scanned { background: var(--blue-bg);   color: var(--blue);   } .badge.scanned  .badge-dot { background: var(--blue); }
 
     /* ACTION BUTTONS */
     .action-group { display: flex; gap: 6px; }
-    .action-btn {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.58rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 5px 10px;
-      border-radius: 3px;
-      cursor: pointer;
-      border: 1px solid var(--border);
-      background: transparent;
-      color: var(--dim2);
-      transition: all 0.15s;
-      white-space: nowrap;
-    }
+    .action-btn { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; letter-spacing: 0.08em; text-transform: uppercase; padding: 5px 10px; border-radius: 3px; cursor: pointer; border: 1px solid var(--border); background: transparent; color: var(--dim2); transition: all 0.15s; white-space: nowrap; }
     .action-btn:hover { color: var(--white); border-color: var(--border2); }
-    .action-btn.confirm {
-      border-color: rgba(34,197,94,0.3);
-      color: var(--green);
-    }
-    .action-btn.confirm:hover {
-      background: var(--green-bg);
-      border-color: var(--green);
-    }
-    .action-btn.done {
-      background: var(--green-bg);
-      border-color: rgba(34,197,94,0.2);
-      color: var(--green);
-      opacity: 0.6;
-      cursor: default;
-    }
+    .action-btn.confirm { border-color: rgba(34,197,94,0.3); color: var(--green); }
+    .action-btn.confirm:hover { background: var(--green-bg); border-color: var(--green); }
+    .action-btn.done { background: var(--green-bg); border-color: rgba(34,197,94,0.2); color: var(--green); opacity: 0.6; cursor: default; }
 
-    /* ── AMBASSADOR PANEL ── */
+    /* AMBASSADOR PANEL */
     .amb-list { padding: 0; }
-    .amb-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 13px 18px;
-      border-bottom: 1px solid var(--border);
-      transition: background 0.12s;
-    }
+    .amb-item { display: flex; align-items: center; gap: 12px; padding: 13px 18px; border-bottom: 1px solid var(--border); transition: background 0.12s; }
     .amb-item:last-child { border-bottom: none; }
     .amb-item:hover { background: rgba(255,255,255,0.02); }
-    .amb-rank {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.65rem;
-      color: var(--dim);
-      width: 18px;
-      flex: 0 0 auto;
-      text-align: center;
-    }
-    .amb-avatar {
-      width: 30px; height: 30px;
-      border-radius: 50%;
-      background: var(--panel2);
-      border: 1px solid var(--border2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.65rem;
-      font-weight: 600;
-      color: var(--dim2);
-      flex: 0 0 auto;
-    }
+    .amb-rank { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--dim); width: 18px; flex: 0 0 auto; text-align: center; }
+    .amb-avatar { width: 30px; height: 30px; border-radius: 50%; background: var(--panel2); border: 1px solid var(--border2); display: flex; align-items: center; justify-content: center; font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; font-weight: 600; color: var(--dim2); flex: 0 0 auto; }
     .amb-info { flex: 1; min-width: 0; }
-    .amb-name {
-      font-size: 0.8rem;
-      font-weight: 500;
-      color: var(--white);
-      margin-bottom: 1px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .amb-stats {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.58rem;
-      color: var(--dim2);
-    }
-    .amb-earned {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--green);
-      flex: 0 0 auto;
-    }
+    .amb-name { font-size: 0.8rem; font-weight: 500; color: var(--white); margin-bottom: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .amb-stats { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; color: var(--dim2); }
+    .amb-earned { font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; color: var(--green); flex: 0 0 auto; }
 
-    /* ── REWARD MODAL ── */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(10,12,15,0.8);
-      backdrop-filter: blur(4px);
-      z-index: 500;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.2s;
-    }
+    /* MODAL */
+    .modal-overlay { position: fixed; inset: 0; background: rgba(10,12,15,0.8); backdrop-filter: blur(4px); z-index: 500; display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
     .modal-overlay.open { opacity: 1; pointer-events: all; }
-    .modal-box {
-      background: var(--panel);
-      border: 1px solid var(--border2);
-      width: 100%;
-      max-width: 420px;
-      padding: 28px;
-      transform: scale(0.96) translateY(8px);
-      transition: transform 0.25s cubic-bezier(0.34,1.2,0.64,1);
-    }
+    .modal-box { background: var(--panel); border: 1px solid var(--border2); width: 100%; max-width: 420px; padding: 28px; transform: scale(0.96) translateY(8px); transition: transform 0.25s cubic-bezier(0.34,1.2,0.64,1); }
     .modal-overlay.open .modal-box { transform: scale(1) translateY(0); }
-    .modal-top {
-      display: flex;
-      align-items: flex-start;
-      justify-content: space-between;
-      margin-bottom: 6px;
-    }
-    .modal-title {
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--white);
-    }
-    .modal-close {
-      background: none; border: none;
-      color: var(--dim2); cursor: pointer;
-      font-size: 1.1rem; line-height: 1;
-      transition: color 0.15s;
-    }
+    .modal-top { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 6px; }
+    .modal-title { font-size: 1rem; font-weight: 600; color: var(--white); }
+    .modal-close { background: none; border: none; color: var(--dim2); cursor: pointer; font-size: 1.1rem; line-height: 1; transition: color 0.15s; }
     .modal-close:hover { color: var(--white); }
-    .modal-sub {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.65rem;
-      color: var(--dim2);
-      margin-bottom: 22px;
-    }
-    .modal-ref-card {
-      background: var(--panel2);
-      border: 1px solid var(--border);
-      padding: 14px 16px;
-      margin-bottom: 20px;
-    }
-    .modal-ref-row {
-      display: flex;
-      justify-content: space-between;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.65rem;
-      color: var(--dim2);
-      margin-bottom: 6px;
-    }
+    .modal-sub { font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--dim2); margin-bottom: 22px; line-height: 1.6; }
+    .modal-ref-card { background: var(--panel2); border: 1px solid var(--border); padding: 14px 16px; margin-bottom: 20px; }
+    .modal-ref-row { display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; color: var(--dim2); margin-bottom: 6px; }
     .modal-ref-row:last-child { margin-bottom: 0; }
     .modal-ref-row span:last-child { color: var(--white); }
     .modal-actions { display: flex; gap: 10px; }
-    .modal-btn {
-      flex: 1;
-      padding: 11px;
-      border-radius: 3px;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      font-weight: 600;
-      cursor: pointer;
-      border: 1px solid var(--border);
-      background: transparent;
-      color: var(--white);
-      transition: all 0.15s;
-    }
+    .modal-btn { flex: 1; padding: 11px; border-radius: 3px; font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; font-weight: 600; cursor: pointer; border: 1px solid var(--border); background: transparent; color: var(--white); transition: all 0.15s; }
     .modal-btn:hover { background: rgba(255,255,255,0.05); }
-    .modal-btn.confirm {
-      background: var(--green);
-      color: var(--bg);
-      border-color: var(--green);
-    }
+    .modal-btn.confirm { background: var(--green); color: var(--bg); border-color: var(--green); }
     .modal-btn.confirm:hover { background: #16a34a; }
+    .modal-btn:disabled { opacity: 0.6; cursor: not-allowed; }
 
-    /* ── ACTIVITY TICKER ── */
+    /* ACTIVITY TICKER */
     .ticker-panel { margin-bottom: 20px; }
-    .ticker-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 12px;
-      padding: 12px 18px;
-      border-bottom: 1px solid var(--border);
-    }
+    .ticker-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 18px; border-bottom: 1px solid var(--border); }
     .ticker-item:last-child { border-bottom: none; }
-    .ticker-icon {
-      width: 28px; height: 28px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.75rem;
-      flex: 0 0 auto;
-      margin-top: 1px;
-    }
-    .ticker-icon.scan   { background: var(--blue-bg); }
-    .ticker-icon.book   { background: var(--yellow-bg); }
-    .ticker-icon.paid   { background: var(--green-bg); }
+    .ticker-icon { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; flex: 0 0 auto; margin-top: 1px; }
+    .ticker-icon.converted { background: var(--green-bg); }
+    .ticker-icon.claimed   { background: var(--yellow-bg); }
+    .ticker-icon.scanned   { background: var(--blue-bg); }
     .ticker-body { flex: 1; }
-    .ticker-msg {
-      font-size: 0.78rem;
-      color: var(--white);
-      margin-bottom: 2px;
-      line-height: 1.4;
-    }
+    .ticker-msg { font-size: 0.78rem; color: var(--white); margin-bottom: 2px; line-height: 1.4; }
     .ticker-msg strong { font-weight: 600; }
-    .ticker-time {
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.58rem;
-      color: var(--dim2);
-    }
+    .ticker-time { font-family: 'IBM Plex Mono', monospace; font-size: 0.58rem; color: var(--dim2); }
 
-    /* ── EMPTY STATE ── */
-    .empty {
-      padding: 40px 18px;
-      text-align: center;
-      font-family: 'IBM Plex Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--dim);
-    }
+    /* SKELETON */
+    .skeleton { background: linear-gradient(90deg, var(--panel) 25%, rgba(255,255,255,0.04) 50%, var(--panel) 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    .skeleton-row { height: 50px; border-bottom: 1px solid var(--border); }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(8px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
+    /* EMPTY */
+    .empty { padding: 40px 18px; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--dim); }
 
-    /* ── RESPONSIVE ── */
+    /* TOAST */
+    .toast { position: fixed; bottom: 24px; right: 24px; background: var(--green); color: var(--bg); font-family: 'IBM Plex Mono', monospace; font-size: 0.68rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 10px 18px; border-radius: 3px; z-index: 1000; transform: translateY(60px); opacity: 0; transition: transform 0.3s cubic-bezier(0.34,1.4,0.64,1), opacity 0.3s; }
+    .toast.show { transform: translateY(0); opacity: 1; }
+    .toast.error { background: var(--red); }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
     @media (max-width: 900px) {
       .layout { grid-template-columns: 1fr; }
       .sidebar { display: none; }
@@ -662,145 +208,119 @@
 
 <div class="layout">
 
-  <!-- ── SIDEBAR ── -->
   <aside class="sidebar">
     <div class="sidebar-top">
       <div class="sidebar-brand">WordOnTheStreet</div>
       <div class="sidebar-studio">Broken Art Tattoo</div>
       <div class="sidebar-role">Admin Panel</div>
     </div>
-
     <div class="nav-section">
       <div class="nav-section-label">Overview</div>
-      <button class="nav-item active">
-        <span class="nav-item-icon">⬡</span> Dashboard
-        <span class="nav-badge yellow">3</span>
-      </button>
-      <button class="nav-item">
-        <span class="nav-item-icon">↗</span> Referrals
-        <span class="nav-badge">12</span>
-      </button>
-      <button class="nav-item">
-        <span class="nav-item-icon">◎</span> Ambassadors
-      </button>
+      <button class="nav-item active"><span class="nav-item-icon">⬡</span> Dashboard <span class="nav-badge yellow" id="nav-pending-count">…</span></button>
+      <button class="nav-item"><span class="nav-item-icon">↗</span> Referrals <span class="nav-badge" id="nav-total-count">…</span></button>
+      <button class="nav-item"><span class="nav-item-icon">◎</span> Ambassadors</button>
     </div>
-
     <div class="nav-section">
       <div class="nav-section-label">Tools</div>
-      <button class="nav-item">
-        <span class="nav-item-icon">◈</span> Rewards
-      </button>
-      <button class="nav-item">
-        <span class="nav-item-icon">≋</span> Reports
-      </button>
-      <button class="nav-item">
-        <span class="nav-item-icon">⚙</span> Settings
-      </button>
+      <button class="nav-item"><span class="nav-item-icon">◈</span> Rewards</button>
+      <button class="nav-item"><span class="nav-item-icon">≋</span> Reports</button>
+      <button class="nav-item"><span class="nav-item-icon">⚙</span> Settings</button>
     </div>
-
     <div class="sidebar-footer">
-      <div class="sidebar-footer-info">
-        <span class="live-dot"></span>
-        System Live
-      </div>
+      <div class="sidebar-footer-info"><span class="live-dot"></span> System Live</div>
     </div>
   </aside>
 
-  <!-- ── TOPBAR ── -->
   <header class="topbar">
     <div class="topbar-left">
       <div class="topbar-title">Referral Dashboard</div>
-      <div class="topbar-sub">Monday, March 16 · 3 pending actions</div>
+      <div class="topbar-sub" id="topbar-sub">Loading data…</div>
     </div>
     <div class="topbar-right">
-      <button class="topbar-btn" onclick="alert('Export coming soon')">Export CSV</button>
-      <button class="topbar-btn primary" onclick="openAddAmbModal()">+ Add Ambassador</button>
+      <button class="topbar-btn" onclick="exportCSV()">Export CSV</button>
+      <button class="topbar-btn primary" onclick="alert('Add Ambassador — coming soon')">+ Add Ambassador</button>
     </div>
   </header>
 
-  <!-- ── MAIN ── -->
   <main class="main">
 
-    <!-- STATS -->
     <div class="stats-row">
       <div class="stat-card g">
         <div class="stat-label">Converted</div>
-        <div class="stat-value">4</div>
-        <div class="stat-delta up">↑ 2 this week</div>
+        <div class="stat-value" id="stat-converted">—</div>
+        <div class="stat-delta up" id="stat-converted-sub">clients</div>
       </div>
       <div class="stat-card y">
         <div class="stat-label">Pending</div>
-        <div class="stat-value">3</div>
+        <div class="stat-value" id="stat-pending">—</div>
         <div class="stat-delta">awaiting confirmation</div>
       </div>
       <div class="stat-card b">
-        <div class="stat-label">Total Scans</div>
-        <div class="stat-value">19</div>
-        <div class="stat-delta up">↑ 6 this week</div>
+        <div class="stat-label">Total Referrals</div>
+        <div class="stat-value" id="stat-total">—</div>
+        <div class="stat-delta" id="stat-total-sub">all time</div>
       </div>
       <div class="stat-card w">
         <div class="stat-label">Rewards Issued</div>
-        <div class="stat-value">$80</div>
-        <div class="stat-delta">store credit · 4 ambassadors</div>
+        <div class="stat-value" id="stat-rewards">—</div>
+        <div class="stat-delta" id="stat-rewards-sub">store credit</div>
       </div>
     </div>
 
-    <!-- REFERRALS + AMBASSADORS -->
     <div class="two-col">
-
-      <!-- REFERRAL TABLE -->
       <div class="panel">
         <div class="panel-header">
-          <div class="panel-title">
-            Referrals
-            <span class="panel-count">12</span>
-          </div>
-          <button class="panel-action">View All</button>
+          <div class="panel-title">Referrals <span class="panel-count" id="ref-panel-count">…</span></div>
+          <button class="panel-action" onclick="loadAll()">View All</button>
         </div>
         <div class="filter-row">
           <button class="filter-btn active" onclick="setFilter('all',this)">All</button>
-          <button class="filter-btn" onclick="setFilter('pending',this)">Pending</button>
-          <button class="filter-btn" onclick="setFilter('booked',this)">Booked</button>
-          <button class="filter-btn" onclick="setFilter('paid',this)">Converted</button>
+          <button class="filter-btn" onclick="setFilter('scanned',this)">Scanned</button>
+          <button class="filter-btn" onclick="setFilter('claimed',this)">Claimed</button>
+          <button class="filter-btn" onclick="setFilter('converted',this)">Converted</button>
           <input class="filter-search" type="text" placeholder="Search…" oninput="searchTable(this.value)" />
         </div>
         <table class="ref-table" id="ref-table">
           <thead>
             <tr>
-              <th>Client</th>
+              <th>Client / Notes</th>
               <th>Ambassador</th>
               <th>Status</th>
               <th>Time</th>
               <th>Action</th>
             </tr>
           </thead>
-          <tbody id="ref-tbody"></tbody>
+          <tbody id="ref-tbody">
+            <tr><td colspan="5"><div class="skeleton skeleton-row"></div><div class="skeleton skeleton-row"></div><div class="skeleton skeleton-row"></div></td></tr>
+          </tbody>
         </table>
       </div>
 
-      <!-- AMBASSADOR LEADERBOARD -->
       <div class="panel">
         <div class="panel-header">
           <div class="panel-title">Ambassadors</div>
           <button class="panel-action">Manage</button>
         </div>
-        <div class="amb-list" id="amb-list"></div>
+        <div class="amb-list" id="amb-list">
+          <div class="skeleton skeleton-row"></div>
+          <div class="skeleton skeleton-row"></div>
+          <div class="skeleton skeleton-row"></div>
+        </div>
       </div>
     </div>
 
-    <!-- ACTIVITY FEED -->
     <div class="panel ticker-panel">
       <div class="panel-header">
         <div class="panel-title">Live Activity</div>
-        <button class="panel-action">Clear</button>
+        <button class="panel-action" onclick="document.getElementById('ticker').innerHTML='<div class=empty>Feed cleared</div>'">Clear</button>
       </div>
-      <div id="ticker"></div>
+      <div id="ticker"><div class="empty">Loading activity…</div></div>
     </div>
 
   </main>
 </div>
 
-<!-- CONFIRM CONVERSION MODAL -->
+<!-- CONFIRM MODAL -->
 <div class="modal-overlay" id="confirm-modal" onclick="handleModalClick(event)">
   <div class="modal-box">
     <div class="modal-top">
@@ -811,84 +331,98 @@
     <div class="modal-ref-card" id="modal-ref-card"></div>
     <div class="modal-actions">
       <button class="modal-btn" onclick="closeModal()">Cancel</button>
-      <button class="modal-btn confirm" onclick="confirmConversion()">✓ Confirm & Reward</button>
+      <button class="modal-btn confirm" id="modal-confirm-btn" onclick="confirmConversion()">✓ Confirm & Reward</button>
     </div>
   </div>
 </div>
 
+<div class="toast" id="toast"></div>
+
 <script>
-  // ── DATA ─────────────────────────────────────────────────────
-  const referrals = [
-    { id:1,  client:'Alex B.',    ambassador:'Jeremy S.', ref:'jeremy', status:'paid',    time:'Yesterday',  reward:'$20' },
-    { id:2,  client:'Morgan K.',  ambassador:'Jeremy S.', ref:'jeremy', status:'booked',  time:'2 days ago',  reward:null },
-    { id:3,  client:'Tyler W.',   ambassador:'Sarah M.',  ref:'sarah',  status:'booked',  time:'3 days ago',  reward:null },
-    { id:4,  client:'Priya N.',   ambassador:'Derrek E.', ref:'derrek', status:'pending', time:'4 days ago',  reward:null },
-    { id:5,  client:'Chris L.',   ambassador:'Sarah M.',  ref:'sarah',  status:'paid',    time:'5 days ago',  reward:'$20' },
-    { id:6,  client:'Jamie R.',   ambassador:'Matt S.',   ref:'matt',   status:'pending', time:'5 days ago',  reward:null },
-    { id:7,  client:'Dana F.',    ambassador:'Josh O.',   ref:'josh',   status:'paid',    time:'1 week ago',  reward:'$20' },
-    { id:8,  client:'Marcus T.',  ambassador:'Jeremy S.', ref:'jeremy', status:'pending', time:'1 week ago',  reward:null },
-    { id:9,  client:'Sasha V.',   ambassador:'Josue A.',  ref:'josue',  status:'paid',    time:'1 week ago',  reward:'$20' },
-    { id:10, client:'Riley H.',   ambassador:'Sarah M.',  ref:'sarah',  status:'booked',  time:'2 weeks ago', reward:null },
-    { id:11, client:'Jordan M.',  ambassador:'Derrek E.', ref:'derrek', status:'scan',    time:'2 weeks ago', reward:null },
-    { id:12, client:'Casey P.',   ambassador:'Matt S.',   ref:'matt',   status:'scan',    time:'2 weeks ago', reward:null },
-  ];
+  // ─── CONFIG ──────────────────────────────────────────────────────────────
+  const SUPABASE_URL = 'https://hpexcficdfomofvkqsez.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_WqV7oy9GrUU-1GKPe-l0NQ_KNafLYBH';
 
-  const ambassadors = [
-    { name:'Sarah M.',   initials:'SM', refs:5, earned:'$40' },
-    { name:'Jeremy S.',  initials:'JS', refs:4, earned:'$20' },
-    { name:'Derrek E.',  initials:'DE', refs:2, earned:'$0'  },
-    { name:'Josue A.',   initials:'JA', refs:1, earned:'$20' },
-    { name:'Matt S.',    initials:'MS', refs:2, earned:'$0'  },
-    { name:'Josh O.',    initials:'JO', refs:1, earned:'$20' },
-  ];
+  // ─── STATE ───────────────────────────────────────────────────────────────
+  let allReferrals    = [];
+  let allAmbassadors  = [];
+  let activeFilter    = 'all';
+  let searchQuery     = '';
+  let pendingRow      = null;
 
-  const activity = [
-    { type:'paid',  msg:'<strong>Alex B.</strong> confirmed as paying client — Jeremy S. earned $20 credit', time:'2 hours ago' },
-    { type:'book',  msg:'<strong>Morgan K.</strong> booked a consultation via Jeremy S.\'s referral', time:'Yesterday, 4:12pm' },
-    { type:'book',  msg:'<strong>Tyler W.</strong> booked a consultation via Sarah M.\'s referral', time:'Yesterday, 11:30am' },
-    { type:'scan',  msg:'New scan from <strong>Priya N.</strong> using Derrek E.\'s referral link', time:'2 days ago' },
-    { type:'scan',  msg:'New scan from <strong>Marcus T.</strong> using Jeremy S.\'s referral link', time:'3 days ago' },
-  ];
+  // ─── SUPABASE HELPER ─────────────────────────────────────────────────────
+  async function sb(path, options = {}) {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+      headers: {
+        'apikey':        SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type':  'application/json',
+        'Prefer':        options.prefer || '',
+        ...options.headers,
+      },
+      ...options,
+    });
+    if (!res.ok) {
+      const err = await res.text();
+      throw new Error(`Supabase ${res.status}: ${err}`);
+    }
+    if (options.method === 'POST' || options.method === 'PATCH') return null;
+    return res.json();
+  }
 
-  // ── STATE ─────────────────────────────────────────────────────
-  let activeFilter = 'all';
-  let searchQuery  = '';
-  let pendingId    = null;
-  let tableData    = [...referrals];
+  // ─── RELATIVE TIME ───────────────────────────────────────────────────────
+  function relTime(dateStr) {
+    if (!dateStr) return '—';
+    const diff = Date.now() - new Date(dateStr).getTime();
+    const mins = Math.floor(diff / 60000);
+    if (mins < 1)   return 'Just now';
+    if (mins < 60)  return `${mins}m ago`;
+    const hrs = Math.floor(mins / 60);
+    if (hrs < 24)   return `${hrs}h ago`;
+    const days = Math.floor(hrs / 24);
+    if (days === 1) return 'Yesterday';
+    return `${days}d ago`;
+  }
 
-  // ── RENDER TABLE ──────────────────────────────────────────────
+  // ─── RENDER TABLE ────────────────────────────────────────────────────────
   function renderTable() {
     const tbody = document.getElementById('ref-tbody');
-    let rows = tableData.filter(r => {
-      const matchFilter = activeFilter === 'all' || r.status === activeFilter ||
-        (activeFilter === 'pending' && (r.status === 'pending' || r.status === 'scan'));
-      const matchSearch = !searchQuery ||
-        r.client.toLowerCase().includes(searchQuery) ||
-        r.ambassador.toLowerCase().includes(searchQuery);
+
+    let rows = allReferrals.filter(r => {
+      const matchFilter = activeFilter === 'all' || r.status === activeFilter;
+      const q = searchQuery.toLowerCase();
+      const matchSearch = !q ||
+        (r.notes || '').toLowerCase().includes(q) ||
+        (r.ambassador_name || '').toLowerCase().includes(q) ||
+        (r.ref_code || '').toLowerCase().includes(q);
       return matchFilter && matchSearch;
     });
+
+    document.getElementById('ref-panel-count').textContent = rows.length;
 
     if (!rows.length) {
       tbody.innerHTML = `<tr><td colspan="5"><div class="empty">No referrals found</div></td></tr>`;
       return;
     }
 
-    tbody.innerHTML = rows.map(r => `
-      <tr id="row-${r.id}">
-        <td class="td-name">${r.client}</td>
-        <td class="td-ambassador">${r.ambassador}</td>
-        <td><span class="badge ${r.status}"><span class="badge-dot"></span>${r.status}</span></td>
-        <td class="td-time">${r.time}</td>
-        <td>
-          <div class="action-group">
-            ${r.status === 'booked' ? `<button class="action-btn confirm" onclick="openConfirm(${r.id})">Mark Paid</button>` : ''}
-            ${r.status === 'scan' || r.status === 'pending' ? `<button class="action-btn confirm" onclick="openConfirm(${r.id})">Confirm</button>` : ''}
-            ${r.status === 'paid' ? `<button class="action-btn done" disabled>✓ Done</button>` : ''}
-            <button class="action-btn" onclick="alert('Notes for ' + '${r.client}')">Notes</button>
-          </div>
-        </td>
-      </tr>
-    `).join('');
+    tbody.innerHTML = rows.map(r => {
+      const notesDisplay = r.notes ? r.notes.replace(/Name: ([^|]+).*/, '$1').trim() : '—';
+      const actionBtn = r.status === 'converted'
+        ? `<button class="action-btn done" disabled>✓ Done</button>`
+        : `<button class="action-btn confirm" onclick="openConfirm(${JSON.stringify(r).replace(/"/g,'&quot;')})">Mark Converted</button>`;
+
+      return `
+        <tr id="row-${r.id}">
+          <td>
+            <div class="td-name">${notesDisplay}</div>
+            <div class="td-notes">${r.notes || ''}</div>
+          </td>
+          <td class="td-ref">${r.ambassador_name || r.ref_code || '—'}</td>
+          <td><span class="badge ${r.status}"><span class="badge-dot"></span>${r.status}</span></td>
+          <td class="td-time">${relTime(r.created_at || r.scanned_at)}</td>
+          <td><div class="action-group">${actionBtn}</div></td>
+        </tr>`;
+    }).join('');
   }
 
   function setFilter(f, el) {
@@ -899,95 +433,233 @@
   }
 
   function searchTable(q) {
-    searchQuery = q.toLowerCase();
+    searchQuery = q;
     renderTable();
   }
 
-  // ── RENDER AMBASSADORS ─────────────────────────────────────────
+  // ─── RENDER AMBASSADORS ──────────────────────────────────────────────────
   function renderAmbassadors() {
-    document.getElementById('amb-list').innerHTML = ambassadors
-      .sort((a,b) => b.refs - a.refs)
-      .map((a, i) => `
+    const sorted = [...allAmbassadors].sort((a, b) => (b.total_referrals || 0) - (a.total_referrals || 0));
+    document.getElementById('amb-list').innerHTML = sorted.map((a, i) => {
+      const initials = a.name ? a.name.split(' ').map(p => p[0]).join('').slice(0,2).toUpperCase() : '—';
+      const earned   = a.total_earned != null ? `$${Number(a.total_earned).toFixed(0)}` : '$0';
+      const refs     = a.total_referrals || 0;
+      return `
         <div class="amb-item">
           <span class="amb-rank">${i+1}</span>
-          <div class="amb-avatar">${a.initials}</div>
+          <div class="amb-avatar">${initials}</div>
           <div class="amb-info">
-            <div class="amb-name">${a.name}</div>
-            <div class="amb-stats">${a.refs} referral${a.refs !== 1 ? 's' : ''}</div>
+            <div class="amb-name">${a.name || a.ref_code}</div>
+            <div class="amb-stats">${refs} referral${refs !== 1 ? 's' : ''} · ${a.ref_code}</div>
           </div>
-          <span class="amb-earned">${a.earned}</span>
-        </div>
-      `).join('');
+          <span class="amb-earned">${earned}</span>
+        </div>`;
+    }).join('') || '<div class="empty">No ambassadors yet</div>';
   }
 
-  // ── RENDER ACTIVITY ───────────────────────────────────────────
+  // ─── RENDER ACTIVITY ─────────────────────────────────────────────────────
   function renderActivity() {
-    const icons = { paid: '💰', book: '📅', scan: '👁' };
-    document.getElementById('ticker').innerHTML = activity.map(a => `
-      <div class="ticker-item">
-        <div class="ticker-icon ${a.type}">${icons[a.type]}</div>
-        <div class="ticker-body">
-          <div class="ticker-msg">${a.msg}</div>
-          <div class="ticker-time">${a.time}</div>
-        </div>
-      </div>
-    `).join('');
+    const icons = { converted: '💰', claimed: '📋', scanned: '👁', booked: '📅' };
+    const recent = [...allReferrals]
+      .sort((a, b) => new Date(b.created_at || b.scanned_at) - new Date(a.created_at || a.scanned_at))
+      .slice(0, 8);
+
+    if (!recent.length) {
+      document.getElementById('ticker').innerHTML = '<div class="empty">No activity yet</div>';
+      return;
+    }
+
+    const msgs = {
+      converted: r => `<strong>${r.notes?.match(/Name: ([^|]+)/)?.[1]?.trim() || 'A client'}</strong> confirmed as paying client — ${r.ambassador_name || r.ref_code} earned a reward`,
+      claimed:   r => `<strong>${r.notes?.match(/Name: ([^|]+)/)?.[1]?.trim() || 'Someone'}</strong> claimed a spot via ${r.ambassador_name || r.ref_code}'s link`,
+      scanned:   r => `New scan via <strong>${r.ambassador_name || r.ref_code}</strong>'s referral link`,
+      booked:    r => `New booking via <strong>${r.ambassador_name || r.ref_code}</strong>`,
+    };
+
+    document.getElementById('ticker').innerHTML = recent.map(r => {
+      const type = r.status || 'scanned';
+      const icon = icons[type] || '👁';
+      const msg  = (msgs[type] || msgs.scanned)(r);
+      return `
+        <div class="ticker-item">
+          <div class="ticker-icon ${type}">${icon}</div>
+          <div class="ticker-body">
+            <div class="ticker-msg">${msg}</div>
+            <div class="ticker-time">${relTime(r.created_at || r.scanned_at)}</div>
+          </div>
+        </div>`;
+    }).join('');
   }
 
-  // ── MODAL ─────────────────────────────────────────────────────
-  function openConfirm(id) {
-    pendingId = id;
-    const r = referrals.find(x => x.id === id);
+  // ─── RENDER STATS ────────────────────────────────────────────────────────
+  function renderStats() {
+    const converted = allReferrals.filter(r => r.status === 'converted').length;
+    const pending   = allReferrals.filter(r => r.status !== 'converted').length;
+    const total     = allReferrals.length;
+    const rewards   = allAmbassadors.reduce((sum, a) => sum + (Number(a.total_earned) || 0), 0);
+
+    document.getElementById('stat-converted').textContent = converted;
+    document.getElementById('stat-pending').textContent   = pending;
+    document.getElementById('stat-total').textContent     = total;
+    document.getElementById('stat-rewards').textContent   = `$${rewards}`;
+
+    // Nav badges
+    document.getElementById('nav-pending-count').textContent = pending;
+    document.getElementById('nav-total-count').textContent   = total;
+
+    // Topbar sub
+    const now = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+    document.getElementById('topbar-sub').textContent = `${now} · ${pending} pending action${pending !== 1 ? 's' : ''}`;
+  }
+
+  // ─── CONFIRM CONVERSION ──────────────────────────────────────────────────
+  function openConfirm(r) {
+    pendingRow = r;
+    const clientName = r.notes?.match(/Name: ([^|]+)/)?.[1]?.trim() || 'This client';
+    const ambName    = r.ambassador_name || r.ref_code || 'the ambassador';
     document.getElementById('modal-sub').textContent =
-      `This will mark ${r.client} as a paying client and issue a $20 reward to ${r.ambassador}.`;
+      `This will mark ${clientName} as a paying client and issue a reward to ${ambName}.`;
     document.getElementById('modal-ref-card').innerHTML = `
-      <div class="modal-ref-row"><span>Client</span><span>${r.client}</span></div>
-      <div class="modal-ref-row"><span>Ambassador</span><span>${r.ambassador}</span></div>
+      <div class="modal-ref-row"><span>Client</span><span>${clientName}</span></div>
+      <div class="modal-ref-row"><span>Ambassador</span><span>${ambName}</span></div>
       <div class="modal-ref-row"><span>Current Status</span><span>${r.status}</span></div>
-      <div class="modal-ref-row"><span>Reward</span><span>$20 store credit</span></div>
+      <div class="modal-ref-row"><span>Notes</span><span>${r.notes || '—'}</span></div>
     `;
     document.getElementById('confirm-modal').classList.add('open');
   }
 
-  function confirmConversion() {
-    const r = tableData.find(x => x.id === pendingId);
-    if (r) {
-      r.status = 'paid';
-      r.reward = '$20';
-      // Update ambassador earned total
-      const amb = ambassadors.find(a => a.name.replace('.','.') === r.ambassador);
-      // In prod: POST to Supabase, fire Brevo notification
-      console.log('[WOTS] Conversion confirmed for', r.client, '→ notifying', r.ambassador);
+  async function confirmConversion() {
+    if (!pendingRow) return;
+    const btn = document.getElementById('modal-confirm-btn');
+    btn.disabled = true;
+    btn.textContent = 'Saving…';
+
+    try {
+      // PATCH referral status in Supabase
+      await sb(`referrals?id=eq.${pendingRow.id}`, {
+        method:  'PATCH',
+        prefer:  'return=minimal',
+        body:    JSON.stringify({ status: 'converted' }),
+      });
+
+      // Update local state
+      const idx = allReferrals.findIndex(r => r.id === pendingRow.id);
+      if (idx !== -1) allReferrals[idx].status = 'converted';
+
+      // Also update ambassador earned total if we have their ID
+      if (pendingRow.ambassador_id) {
+        const amb = allAmbassadors.find(a => a.id === pendingRow.ambassador_id);
+        if (amb) {
+          const newEarned = (Number(amb.total_earned) || 0) + 20;
+          await sb(`ambassadors?id=eq.${amb.id}`, {
+            method: 'PATCH',
+            prefer: 'return=minimal',
+            body:   JSON.stringify({ total_earned: newEarned }),
+          });
+          amb.total_earned = newEarned;
+        }
+      }
+
+      closeModal();
+      renderTable();
+      renderAmbassadors();
+      renderStats();
+      renderActivity();
+      showToast('✓ Conversion confirmed');
+
+    } catch(err) {
+      console.error('Confirm failed:', err);
+      showToast('Error saving — check console', true);
+      btn.disabled = false;
+      btn.textContent = '✓ Confirm & Reward';
     }
-    closeModal();
-    renderTable();
-    renderAmbassadors();
-    // Add to activity feed
-    activity.unshift({
-      type: 'paid',
-      msg: `<strong>${r.client}</strong> confirmed as paying client — ${r.ambassador} earned $20 credit`,
-      time: 'Just now'
-    });
-    renderActivity();
   }
 
   function closeModal() {
     document.getElementById('confirm-modal').classList.remove('open');
-    pendingId = null;
+    document.getElementById('modal-confirm-btn').disabled = false;
+    document.getElementById('modal-confirm-btn').textContent = '✓ Confirm & Reward';
+    pendingRow = null;
   }
 
   function handleModalClick(e) {
     if (e.target === document.getElementById('confirm-modal')) closeModal();
   }
 
-  function openAddAmbModal() {
-    alert('Add Ambassador form — connect to Supabase to enable.');
+  // ─── TOAST ───────────────────────────────────────────────────────────────
+  function showToast(msg, isError = false) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.toggle('error', isError);
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
   }
 
-  // ── INIT ──────────────────────────────────────────────────────
-  renderTable();
-  renderAmbassadors();
-  renderActivity();
+  // ─── EXPORT CSV ──────────────────────────────────────────────────────────
+  function exportCSV() {
+    const rows = [['Client/Notes', 'Ambassador', 'Ref Code', 'Status', 'Date']];
+    allReferrals.forEach(r => {
+      const client = r.notes?.match(/Name: ([^|]+)/)?.[1]?.trim() || r.notes || '—';
+      rows.push([
+        `"${client}"`,
+        `"${r.ambassador_name || ''}"`,
+        r.ref_code || '',
+        r.status || '',
+        r.created_at ? new Date(r.created_at).toLocaleDateString() : '',
+      ]);
+    });
+    const csv  = rows.map(r => r.join(',')).join('\n');
+    const blob = new Blob([csv], { type: 'text/csv' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = `bat-referrals-${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // ─── LOAD ALL DATA ───────────────────────────────────────────────────────
+  async function loadAll() {
+    try {
+      // Fetch referrals joined with ambassador name via ref_code
+      const [referrals, ambassadors] = await Promise.all([
+        sb('referrals?order=created_at.desc&limit=100'),
+        sb('ambassadors?select=id,name,ref_code,total_referrals,total_earned&order=total_referrals.desc'),
+      ]);
+
+      allAmbassadors = ambassadors || [];
+
+      // Join ambassador name onto each referral
+      const ambMap = {};
+      allAmbassadors.forEach(a => {
+        ambMap[a.id]       = a.name;
+        ambMap[a.ref_code] = a.name;
+      });
+
+      allReferrals = (referrals || []).map(r => ({
+        ...r,
+        ambassador_name: r.ambassador_id ? ambMap[r.ambassador_id] : (r.ambassador_ref ? ambMap[r.ambassador_ref] : null),
+        ref_code: r.ambassador_ref || r.ref_code || '',
+      }));
+
+      renderTable();
+      renderAmbassadors();
+      renderActivity();
+      renderStats();
+
+    } catch(err) {
+      console.error('Load failed:', err);
+      document.getElementById('ref-tbody').innerHTML =
+        `<tr><td colspan="5"><div class="empty">Failed to load — check Supabase RLS policies</div></td></tr>`;
+      document.getElementById('ticker').innerHTML = '<div class="empty">Could not load activity</div>';
+      showToast('Supabase load error — check console', true);
+    }
+  }
+
+  // ─── BOOT ────────────────────────────────────────────────────────────────
+  loadAll();
+  // Auto-refresh every 60 seconds
+  setInterval(loadAll, 60000);
 </script>
 </body>
 </html>

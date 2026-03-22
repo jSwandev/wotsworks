@@ -10,7 +10,6 @@
 
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
       --ink:      #0e0c0a;
       --bone:     #f0ebe2;
@@ -21,34 +20,25 @@
       --line:     rgba(240,235,226,0.12);
       --input-bg: rgba(240,235,226,0.06);
     }
-
     html, body { min-height: 100%; background: #0e0c0a !important; color: #f0ebe2 !important; font-family: 'DM Serif Display', Georgia, serif; -webkit-font-smoothing: antialiased; }
-
     body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; z-index: 999; opacity: 0.6; }
-
     .glow-orb { position: fixed; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: 0; }
     .glow-orb-1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(196,75,43,0.15) 0%, transparent 70%); top: -100px; left: -100px; }
     .glow-orb-2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(212,168,67,0.07) 0%, transparent 70%); bottom: 10%; right: -80px; }
-
     .page { position: relative; z-index: 10; max-width: 480px; margin: 0 auto; min-height: 100vh; display: flex; flex-direction: column; background: #0e0c0a !important; }
-
     .top-strip { display: flex; align-items: center; justify-content: space-between; padding: 18px 28px; border-bottom: 1px solid var(--line); animation: fadeDown 0.5s ease both; background: #0e0c0a !important; }
     .wordmark { font-family: 'Bebas Neue', sans-serif; font-size: 1.05rem; letter-spacing: 0.22em; color: var(--bone); opacity: 0.5; text-transform: uppercase; }
     .step-indicator { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--rust); border: 1px solid var(--rust); padding: 4px 10px; border-radius: 2px; }
-
     .hero { padding: 44px 28px 32px; animation: fadeUp 0.6s 0.1s ease both; background: #0e0c0a !important; }
     .hero-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
     .hero-eyebrow::before { content: ''; display: block; width: 28px; height: 1px; background: var(--gold); }
     .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.4rem, 10vw, 3.8rem) !important; line-height: 1.0; letter-spacing: 0.08em !important; color: #f0ebe2 !important; -webkit-text-fill-color: #f0ebe2 !important; text-transform: uppercase; margin-bottom: 18px; }
     .hero-title span { color: #c44b2b !important; -webkit-text-fill-color: #c44b2b !important; }
-
     .context-card { margin: 0 20px 32px; padding: 18px 20px; background: rgba(240,235,226,0.04); border: 1px solid var(--line); border-left: 3px solid var(--rust); animation: fadeUp 0.6s 0.2s ease both; }
     .context-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
     .context-text { font-size: 0.95rem; font-style: italic; color: #d8d0c8; line-height: 1.6; }
     .context-text strong { color: #f0ebe2; font-style: normal; font-weight: 400; }
-
     .form-wrap { padding: 0 20px; display: flex; flex-direction: column; gap: 14px; animation: fadeUp 0.6s 0.3s ease both; }
-
     .field { display: flex; flex-direction: column; gap: 7px; }
     .field-label { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); }
     .field-input { background: var(--input-bg); border: 1px solid var(--line); border-radius: 2px; color: #f0ebe2; font-family: 'DM Serif Display', Georgia, serif; font-size: 1rem; padding: 14px 16px; outline: none; transition: border-color 0.2s, background 0.2s; width: 100%; -webkit-appearance: none; }
@@ -56,7 +46,6 @@
     .field-input:focus { border-color: rgba(196,75,43,0.6); background: rgba(240,235,226,0.08); }
     .field-input.error { border-color: var(--rust); }
     textarea.field-input { resize: none; height: 100px; line-height: 1.6; }
-
     .consult-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
     .consult-option { background: var(--input-bg); border: 1px solid var(--line); border-radius: 2px; padding: 14px 12px; cursor: pointer; transition: border-color 0.2s, background 0.2s; display: flex; flex-direction: column; gap: 5px; }
     .consult-option:hover { border-color: rgba(196,75,43,0.4); background: rgba(196,75,43,0.05); }
@@ -64,21 +53,17 @@
     .consult-option-icon { font-size: 1.2rem; }
     .consult-option-label { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 0.06em; color: #f0ebe2; }
     .consult-option-desc { font-family: 'DM Mono', monospace; font-size: 0.56rem; letter-spacing: 0.08em; color: var(--muted); text-transform: uppercase; }
-
     .deposit-notice { margin: 6px 0 0; padding: 16px 18px; background: rgba(212,168,67,0.06); border: 1px solid rgba(212,168,67,0.2); border-radius: 2px; }
     .deposit-notice-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
     .deposit-notice-text { font-size: 0.88rem; font-style: italic; color: #d8d0c8; line-height: 1.6; }
-
     .submit-wrap { padding: 20px 20px 48px; animation: fadeUp 0.6s 0.4s ease both; }
     .submit-btn { display: block; width: 100%; background: var(--rust); color: #f0ebe2; font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.14em; text-align: center; text-transform: uppercase; padding: 20px; border: none; cursor: pointer; transition: background 0.2s, transform 0.15s; position: relative; overflow: hidden; }
     .submit-btn::after { content: ''; position: absolute; inset: 0; background: linear-gradient(135deg, rgba(255,255,255,0.08) 0%, transparent 60%); pointer-events: none; }
     .submit-btn:hover { background: #d95530; transform: translateY(-1px); }
     .submit-btn:active { transform: translateY(0); }
     .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
-
     .back-link { display: block; text-align: center; margin-top: 14px; font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); text-decoration: none; cursor: pointer; background: none; border: none; width: 100%; transition: color 0.2s; }
     .back-link:hover { color: var(--bone); }
-
     .success-screen { display: none; position: fixed; inset: 0; background: #0e0c0a; z-index: 200; flex-direction: column; align-items: center; justify-content: center; padding: 40px 28px; text-align: center; }
     .success-screen.show { display: flex; }
     .success-icon { font-size: 3rem; margin-bottom: 24px; animation: popIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
@@ -89,11 +74,9 @@
     .success-cta { display: block; width: 100%; max-width: 340px; background: var(--rust); color: #f0ebe2; font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 0.14em; text-align: center; text-transform: uppercase; padding: 18px; border: none; cursor: pointer; text-decoration: none; transition: background 0.2s; margin-bottom: 12px; }
     .success-cta:hover { background: #d95530; }
     .success-deposit-note { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; color: var(--muted); text-transform: uppercase; max-width: 300px; line-height: 1.6; margin-top: 8px; }
-
     footer.footer { margin-top: auto; padding: 20px 28px 24px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; background: #0e0c0a !important; }
     .footer-powered { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.14em; color: var(--muted); text-transform: uppercase; }
     .footer-powered span { color: var(--rust); }
-
     @keyframes fadeUp   { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes fadeDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes popIn    { from { opacity: 0; transform: scale(0.5); } to { opacity: 1; transform: scale(1); } }
@@ -105,7 +88,6 @@
   <div class="glow-orb glow-orb-2"></div>
 
   <div class="page">
-
     <header class="top-strip">
       <span class="wordmark">Broken Art Tattoo</span>
       <span class="step-indicator">Step 1 of 2</span>
@@ -118,28 +100,24 @@
 
     <div class="context-card">
       <div class="context-label">Before you book</div>
-      <p class="context-text" id="context-text">
+      <p class="context-text">
         <strong id="ambassador-display">Someone</strong> put their name on this recommendation. This step makes sure they get credit for sending you — and helps us make sure the right artist is ready for you.
       </p>
     </div>
 
     <div class="form-wrap">
-
       <div class="field">
         <label class="field-label" for="input-name">Your Name</label>
         <input class="field-input" id="input-name" type="text" placeholder="First and last name" autocomplete="name" />
       </div>
-
       <div class="field">
         <label class="field-label" for="input-phone">Phone Number</label>
         <input class="field-input" id="input-phone" type="tel" placeholder="Your mobile number" autocomplete="tel" />
       </div>
-
       <div class="field">
         <label class="field-label" for="input-idea">What Are You Thinking About Getting?</label>
         <textarea class="field-input" id="input-idea" placeholder="Tell us your idea — style, size, placement, vibe. Anything helps."></textarea>
       </div>
-
       <div class="field">
         <div class="field-label">Consultation Type</div>
         <div class="consult-options">
@@ -155,12 +133,10 @@
           </div>
         </div>
       </div>
-
       <div class="deposit-notice">
         <div class="deposit-notice-label">About the Deposit</div>
         <p class="deposit-notice-text">After you claim your spot, we'll send you a link to place a $50 deposit. It holds your consultation and goes 100% toward your tattoo. It also makes sure <span id="deposit-ambassador-name">your ambassador</span> gets taken care of for sending you here.</p>
       </div>
-
     </div>
 
     <div class="submit-wrap">
@@ -171,7 +147,6 @@
     <footer class="footer">
       <span class="footer-powered">Powered by <span>WordOnTheStreet</span></span>
     </footer>
-
   </div>
 
   <div class="success-screen" id="success-screen">
@@ -188,12 +163,8 @@
     const SUPABASE_URL  = 'https://hpexcficdfomofvkqsez.supabase.co';
     const SUPABASE_KEY  = 'sb_publishable_WqV7oy9GrUU-1GKPe-l0NQ_KNafLYBH';
     const BOOKING_URL   = 'https://book.squareup.com/appointments/3l21otvoi71xyf/location/FPC1PWPXDNG4W';
-
-    // ── IMPORTANT: Set your Brevo API key below ──────────────────────────────
-    // Get it from: app.brevo.com → Settings → API Keys
-    // This key is exposed client-side intentionally (sending email only, no read access)
     const BREVO_API_KEY = 'YOUR_BREVO_API_KEY_HERE';
-    const NOTIFY_EMAIL  = 'info@brokenarttattoo.com'; // studio receives this notification
+    const NOTIFY_EMAIL  = 'info@brokenarttattoo.com';
 
     // ─── PARSE URL ───────────────────────────────────────────────────────────
     const params      = new URLSearchParams(window.location.search);
@@ -216,48 +187,60 @@
       return res.json();
     }
 
+    // ─── TWILIO SMS ALERT → Jeremy ───────────────────────────────────────────
+    // Hits our Vercel serverless function — credentials never exposed client-side
+    async function sendSmsAlert({ clientName, phone, idea, consultType, ambassadorName, refCode }) {
+      try {
+        const res  = await fetch('/api/send-sms', {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({ clientName, phone, idea, consultType, ambassadorName, refCode }),
+        });
+        const data = await res.json();
+        if (data.success) {
+          console.log('[WOTS] SMS alert sent ✓', data.sid);
+        } else {
+          console.warn('[WOTS] SMS alert failed (non-fatal):', data.error);
+        }
+      } catch (e) {
+        console.warn('[WOTS] SMS fetch error (non-fatal):', e);
+      }
+    }
+
     // ─── BREVO EMAIL NOTIFICATION ────────────────────────────────────────────
     async function sendBrevoNotification({ clientName, phone, idea, consultType, ambassadorName, refCode }) {
-      // Skip if API key not set
       if (!BREVO_API_KEY || BREVO_API_KEY === 'YOUR_BREVO_API_KEY_HERE') {
         console.warn('[WOTS] Brevo API key not set — skipping email notification');
         return;
       }
-
       const htmlBody = `
-        <div style="font-family: monospace; background: #0e0c0a; color: #f0ebe2; padding: 32px; max-width: 500px;">
-          <div style="color: #c44b2b; font-size: 12px; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 8px;">WOTS · New Claim</div>
-          <div style="font-size: 22px; font-weight: bold; margin-bottom: 24px; color: #f0ebe2;">Someone claimed a spot</div>
-          <table style="width: 100%; border-collapse: collapse;">
-            <tr><td style="padding: 8px 0; color: #7a7065; font-size: 12px; width: 120px;">CLIENT</td><td style="padding: 8px 0; color: #f0ebe2;">${clientName}</td></tr>
-            <tr><td style="padding: 8px 0; color: #7a7065; font-size: 12px;">PHONE</td><td style="padding: 8px 0; color: #f0ebe2;">${phone}</td></tr>
-            <tr><td style="padding: 8px 0; color: #7a7065; font-size: 12px;">CONSULTATION</td><td style="padding: 8px 0; color: #f0ebe2;">${consultType === 'zoom' ? 'Zoom Call' : 'In Person'}</td></tr>
-            <tr><td style="padding: 8px 0; color: #7a7065; font-size: 12px;">IDEA</td><td style="padding: 8px 0; color: #f0ebe2; line-height: 1.5;">${idea}</td></tr>
-            <tr><td style="padding: 8px 0; color: #7a7065; font-size: 12px;">AMBASSADOR</td><td style="padding: 8px 0; color: #c44b2b;">${ambassadorName} (${refCode})</td></tr>
+        <div style="font-family:monospace;background:#0e0c0a;color:#f0ebe2;padding:32px;max-width:500px;">
+          <div style="color:#c44b2b;font-size:12px;letter-spacing:4px;text-transform:uppercase;margin-bottom:8px;">WOTS · New Claim</div>
+          <div style="font-size:22px;font-weight:bold;margin-bottom:24px;color:#f0ebe2;">Someone claimed a spot</div>
+          <table style="width:100%;border-collapse:collapse;">
+            <tr><td style="padding:8px 0;color:#7a7065;font-size:12px;width:120px;">CLIENT</td><td style="padding:8px 0;color:#f0ebe2;">${clientName}</td></tr>
+            <tr><td style="padding:8px 0;color:#7a7065;font-size:12px;">PHONE</td><td style="padding:8px 0;color:#f0ebe2;">${phone}</td></tr>
+            <tr><td style="padding:8px 0;color:#7a7065;font-size:12px;">CONSULTATION</td><td style="padding:8px 0;color:#f0ebe2;">${consultType === 'zoom' ? 'Zoom Call' : 'In Person'}</td></tr>
+            <tr><td style="padding:8px 0;color:#7a7065;font-size:12px;">IDEA</td><td style="padding:8px 0;color:#f0ebe2;line-height:1.5;">${idea}</td></tr>
+            <tr><td style="padding:8px 0;color:#7a7065;font-size:12px;">AMBASSADOR</td><td style="padding:8px 0;color:#c44b2b;">${ambassadorName} (${refCode})</td></tr>
           </table>
-          <div style="margin-top: 28px; padding-top: 20px; border-top: 1px solid rgba(240,235,226,0.1); font-size: 11px; color: #4a4540;">
+          <div style="margin-top:28px;padding-top:20px;border-top:1px solid rgba(240,235,226,0.1);font-size:11px;color:#4a4540;">
             Powered by WordOnTheStreet · wotsworks.com
           </div>
-        </div>
-      `;
-
+        </div>`;
       try {
         await fetch('https://api.brevo.com/v3/smtp/email', {
-          method: 'POST',
-          headers: {
-            'api-key':      BREVO_API_KEY,
-            'Content-Type': 'application/json',
-          },
+          method:  'POST',
+          headers: { 'api-key': BREVO_API_KEY, 'Content-Type': 'application/json' },
           body: JSON.stringify({
-            sender:  { name: 'WOTS · Broken Art Tattoo', email: 'info@brokenarttattoo.com' },
-            to:      [{ email: NOTIFY_EMAIL, name: 'BAT Studio' }],
-            subject: `🔥 New Claim — ${clientName} via ${ambassadorName}`,
+            sender:      { name: 'WOTS · Broken Art Tattoo', email: 'info@brokenarttattoo.com' },
+            to:          [{ email: NOTIFY_EMAIL, name: 'BAT Studio' }],
+            subject:     `🔥 New Claim — ${clientName} via ${ambassadorName}`,
             htmlContent: htmlBody,
           }),
         });
         console.log('[WOTS] Brevo notification sent ✓');
       } catch(e) {
-        // Non-fatal — log but don't block the user
         console.warn('[WOTS] Brevo send failed (non-fatal):', e);
       }
     }
@@ -273,9 +256,9 @@
         if (data && data.length > 0) {
           ambassadorId   = data[0].id;
           ambassadorName = data[0].name;
-          document.getElementById('ambassador-display').textContent       = ambassadorName;
-          document.getElementById('deposit-ambassador-name').textContent  = ambassadorName;
-          document.getElementById('success-ambassador-line').textContent  = `✓ Referral credited to ${ambassadorName}`;
+          document.getElementById('ambassador-display').textContent      = ambassadorName;
+          document.getElementById('deposit-ambassador-name').textContent = ambassadorName;
+          document.getElementById('success-ambassador-line').textContent = `✓ Referral credited to ${ambassadorName}`;
         }
       } catch(e) { console.error('Ambassador load failed:', e); }
     }
@@ -305,7 +288,7 @@
     async function handleSubmit() {
       if (!validate()) return;
 
-      const btn   = document.getElementById('submit-btn');
+      const btn = document.getElementById('submit-btn');
       btn.disabled    = true;
       btn.textContent = 'Claiming Your Spot...';
 
@@ -321,7 +304,6 @@
 
         // 2 — Write referral to Supabase
         if (ambassadorId) {
-          // Check for an existing scanned row to upgrade
           const existing = await sb(
             `referrals?ambassador_id=eq.${ambassadorId}&status=eq.scanned&order=scanned_at.desc&limit=1`
           );
@@ -346,17 +328,13 @@
           }
         }
 
-        // 3 — Send Brevo email notification to studio (non-blocking)
-        sendBrevoNotification({
-          clientName: name,
-          phone,
-          idea,
-          consultType: selectedConsult,
-          ambassadorName,
-          refCode,
-        });
+        // 3 — Fire SMS alert to Jeremy (non-blocking)
+        sendSmsAlert({ clientName: name, phone, idea, consultType: selectedConsult, ambassadorName, refCode });
 
-        // 4 — Show success screen
+        // 4 — Fire Brevo email notification (non-blocking)
+        sendBrevoNotification({ clientName: name, phone, idea, consultType: selectedConsult, ambassadorName, refCode });
+
+        // 5 — Show success screen
         document.getElementById('success-booking-link').href =
           BOOKING_URL + (selectedConsult === 'zoom' ? '?type=zoom' : '');
         document.getElementById('success-screen').classList.add('show');

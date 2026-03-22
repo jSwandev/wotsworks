@@ -11,8 +11,6 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Syne+Mono&display=swap" rel="stylesheet" />
-
-  <!-- QR Code library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 
   <style>
@@ -33,14 +31,13 @@
 
     html, body {
       height: 100%;
-      background: var(--bg);
+      background: var(--bg) !important;
       color: var(--white);
       font-family: 'Syne', sans-serif;
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
 
-    /* GRAIN */
     body::after {
       content: '';
       position: fixed;
@@ -50,26 +47,10 @@
       z-index: 9999;
     }
 
-    /* AMBIENT */
-    .ambient {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(100px);
-      pointer-events: none;
-      z-index: 0;
-    }
-    .a1 {
-      width: 360px; height: 360px;
-      background: radial-gradient(circle, rgba(0,229,160,0.09) 0%, transparent 70%);
-      top: -80px; right: -80px;
-    }
-    .a2 {
-      width: 300px; height: 300px;
-      background: radial-gradient(circle, rgba(0,184,122,0.06) 0%, transparent 70%);
-      bottom: 20%; left: -60px;
-    }
+    .ambient { position: fixed; border-radius: 50%; filter: blur(100px); pointer-events: none; z-index: 0; }
+    .a1 { width: 360px; height: 360px; background: radial-gradient(circle, rgba(0,229,160,0.09) 0%, transparent 70%); top: -80px; right: -80px; }
+    .a2 { width: 300px; height: 300px; background: radial-gradient(circle, rgba(0,184,122,0.06) 0%, transparent 70%); bottom: 20%; left: -60px; }
 
-    /* LAYOUT */
     .shell {
       position: relative;
       z-index: 1;
@@ -81,7 +62,6 @@
       padding: env(safe-area-inset-top, 0) 0 env(safe-area-inset-bottom, 0);
     }
 
-    /* TOP NAV */
     nav {
       display: flex;
       align-items: center;
@@ -89,523 +69,145 @@
       padding: 18px 22px 14px;
       animation: rise 0.5s ease both;
     }
-    .nav-brand {
-      display: flex;
-      flex-direction: column;
-      gap: 1px;
-    }
-    .nav-wots {
-      font-family: 'Syne Mono', monospace;
-      font-size: 0.62rem;
-      letter-spacing: 0.24em;
-      color: var(--accent);
-      text-transform: uppercase;
-    }
-    .nav-studio {
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--white);
-      letter-spacing: 0.04em;
-    }
+    .nav-brand { display: flex; flex-direction: column; gap: 1px; }
+    .nav-wots { font-family: 'Syne Mono', monospace; font-size: 0.62rem; letter-spacing: 0.24em; color: var(--accent); text-transform: uppercase; }
+    .nav-studio { font-size: 0.78rem; font-weight: 600; color: var(--white); letter-spacing: 0.04em; }
     .nav-avatar {
       width: 36px; height: 36px;
       border-radius: 50%;
       background: linear-gradient(135deg, var(--accent2), #005c3d);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.85rem;
-      font-weight: 800;
-      color: var(--bg);
-      letter-spacing: 0;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.85rem; font-weight: 800;
+      color: var(--bg); letter-spacing: 0;
     }
 
-    /* HERO NAME */
-    .hero {
-      padding: 8px 22px 20px;
-      animation: rise 0.5s 0.08s ease both;
-    }
-    .hero-greeting {
-      font-family: 'Syne Mono', monospace;
-      font-size: 0.62rem;
-      letter-spacing: 0.2em;
-      color: var(--dim);
-      text-transform: uppercase;
-      margin-bottom: 4px;
-    }
-    .hero-name {
-      font-size: clamp(1.6rem, 6vw, 2.2rem);
-      font-weight: 800;
-      line-height: 1.1;
-      letter-spacing: 0.04em;
-    }
-    .hero-name em {
-      font-style: normal;
-      color: var(--accent);
-    }
+    .hero { padding: 8px 22px 20px; animation: rise 0.5s 0.08s ease both; }
+    .hero-greeting { font-family: 'Syne Mono', monospace; font-size: 0.62rem; letter-spacing: 0.2em; color: var(--dim); text-transform: uppercase; margin-bottom: 4px; }
+    .hero-name { font-size: clamp(1.6rem, 6vw, 2.2rem); font-weight: 800; line-height: 1.1; letter-spacing: 0.04em; color: var(--white) !important; -webkit-text-fill-color: var(--white) !important; }
+    .hero-name em { font-style: normal; color: var(--accent) !important; -webkit-text-fill-color: var(--accent) !important; }
 
-    /* STAT ROW */
-    .stat-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 8px;
-      padding: 0 22px 22px;
-      animation: rise 0.5s 0.16s ease both;
-    }
-    .stat-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      padding: 14px 12px 12px;
-      position: relative;
-      overflow: hidden;
-    }
-    .stat-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 2px;
-    }
+    .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 0 22px 22px; animation: rise 0.5s 0.16s ease both; }
+    .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 14px 12px 12px; position: relative; overflow: hidden; }
+    .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; }
     .stat-card.green::before  { background: var(--accent); }
     .stat-card.yellow::before { background: var(--warn); }
     .stat-card.white::before  { background: rgba(244,244,240,0.3); }
-    .stat-label {
-      font-family: 'Syne Mono', monospace;
-      font-size: 0.54rem;
-      letter-spacing: 0.16em;
-      text-transform: uppercase;
-      color: var(--dim);
-      margin-bottom: 6px;
-    }
-    .stat-value {
-      font-size: 1.55rem;
-      font-weight: 800;
-      line-height: 1;
-      letter-spacing: -0.02em;
-    }
+    .stat-label { font-family: 'Syne Mono', monospace; font-size: 0.54rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--dim); margin-bottom: 6px; }
+    .stat-value { font-size: 1.55rem; font-weight: 800; line-height: 1; letter-spacing: -0.02em; }
     .stat-card.green  .stat-value { color: var(--accent); }
     .stat-card.yellow .stat-value { color: var(--warn); }
     .stat-card.white  .stat-value { color: var(--white); }
-    .stat-sub {
-      margin-top: 3px;
-      font-size: 0.62rem;
-      color: var(--dim);
-    }
+    .stat-sub { margin-top: 3px; font-size: 0.62rem; color: var(--dim); }
 
-    /* QR SECTION */
-    .qr-section {
-      margin: 0 22px 20px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      overflow: hidden;
-      animation: rise 0.5s 0.24s ease both;
-    }
-    .qr-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 16px 18px 14px;
-      border-bottom: 1px solid var(--border);
-    }
-    .qr-header-left {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-    .qr-title {
-      font-size: 0.9rem;
-      font-weight: 700;
-      letter-spacing: 0.01em;
-    }
-    .qr-subtitle {
-      font-family: 'Syne Mono', monospace;
-      font-size: 0.58rem;
-      letter-spacing: 0.14em;
-      color: var(--dim);
-    }
-    .qr-live-dot {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      font-family: 'Syne Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.1em;
-      color: var(--accent);
-      text-transform: uppercase;
-    }
-    .dot {
-      width: 7px; height: 7px;
-      border-radius: 50%;
-      background: var(--accent);
-      animation: pulse-dot 2s ease infinite;
-    }
-    @keyframes pulse-dot {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.5; transform: scale(0.7); }
-    }
-
-    .qr-body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 28px 24px 22px;
-      gap: 18px;
-    }
-    .qr-frame {
-      background: #fff;
-      padding: 14px;
-      border-radius: 4px;
-      box-shadow: 0 0 0 1px rgba(0,229,160,0.3), 0 20px 60px rgba(0,229,160,0.08);
-      position: relative;
-    }
-    /* Corner accents on QR */
-    .qr-frame::before, .qr-frame::after {
-      content: '';
-      position: absolute;
-      width: 18px; height: 18px;
-      border-color: var(--accent);
-      border-style: solid;
-    }
-    .qr-frame::before {
-      top: -4px; left: -4px;
-      border-width: 2px 0 0 2px;
-      border-radius: 2px 0 0 0;
-    }
-    .qr-frame::after {
-      bottom: -4px; right: -4px;
-      border-width: 0 2px 2px 0;
-      border-radius: 0 0 2px 0;
-    }
-    #qr-canvas { display: block; }
-
-    .qr-ref-tag {
-      font-family: 'Syne Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.16em;
-      color: var(--dim);
-      text-transform: uppercase;
-      text-align: center;
-    }
-    .qr-ref-tag span {
-      color: var(--accent);
-    }
-
-    .qr-actions {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      padding: 0 18px 18px;
-    }
-    .btn {
-      font-family: 'Syne', sans-serif;
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      border: none;
-      border-radius: 4px;
-      padding: 13px 10px;
-      cursor: pointer;
-      transition: opacity 0.15s, transform 0.12s;
-      text-align: center;
-    }
-    .btn:active { transform: scale(0.97); }
-    .btn-primary {
-      background: var(--accent);
-      color: var(--bg);
-    }
-    .btn-primary:hover { opacity: 0.88; }
-    .btn-ghost {
-      background: transparent;
-      color: var(--white);
-      border: 1px solid var(--border);
-    }
-    .btn-ghost:hover { border-color: rgba(255,255,255,0.2); }
-
-    /* LINK COPY */
-    .link-row {
-      margin: 0 22px 20px;
-      display: flex;
-      align-items: center;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      overflow: hidden;
-      animation: rise 0.5s 0.32s ease both;
-    }
-    .link-text {
-      flex: 1;
-      font-family: 'Syne Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.08em;
-      color: var(--dim);
-      padding: 14px 16px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .link-copy-btn {
-      flex: 0 0 auto;
-      background: transparent;
-      border: none;
-      border-left: 1px solid var(--border);
-      color: var(--accent);
-      font-family: 'Syne Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      padding: 14px 16px;
-      cursor: pointer;
-      transition: background 0.15s;
-    }
-    .link-copy-btn:hover { background: rgba(0,229,160,0.07); }
-    .link-copy-btn.copied { color: var(--white); }
-
-    /* ACTIVITY FEED */
-    .activity-section {
-      margin: 0 22px 24px;
-      animation: rise 0.5s 0.4s ease both;
-    }
-    .section-label {
-      font-family: 'Syne Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--dim);
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .section-label-count {
-      background: rgba(0,229,160,0.12);
-      color: var(--accent);
-      font-size: 0.55rem;
-      padding: 2px 7px;
-      border-radius: 20px;
-    }
-    .activity-list {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .activity-item {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      padding: 13px 15px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .activity-icon {
-      width: 34px; height: 34px;
-      border-radius: 50%;
+    /* SHOW QR BUTTON */
+    .show-qr-btn {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 0.85rem;
-      flex: 0 0 auto;
-    }
-    .activity-icon.scan    { background: rgba(0,229,160,0.1); }
-    .activity-icon.booked  { background: rgba(240,165,0,0.1); }
-    .activity-icon.paid    { background: rgba(0,229,160,0.15); }
-    .activity-info { flex: 1; min-width: 0; }
-    .activity-title {
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--white);
-      margin-bottom: 2px;
-    }
-    .activity-time {
-      font-family: 'Syne Mono', monospace;
-      font-size: 0.58rem;
+      gap: 8px;
+      margin: 0 22px 16px;
+      background: var(--accent);
+      color: var(--bg);
+      font-family: 'Syne', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 800;
       letter-spacing: 0.1em;
-      color: var(--dim);
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 15px;
+      border-radius: var(--r);
+      transition: opacity 0.15s, transform 0.12s;
+      animation: rise 0.5s 0.22s ease both;
     }
-    .activity-badge {
-      font-family: 'Syne Mono', monospace;
-      font-size: 0.58rem;
-      letter-spacing: 0.08em;
-      padding: 3px 8px;
-      border-radius: 3px;
-      flex: 0 0 auto;
-    }
+    .show-qr-btn:hover { opacity: 0.88; }
+    .show-qr-btn:active { transform: scale(0.98); }
+
+    .qr-section { margin: 0 22px 20px; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; animation: rise 0.5s 0.28s ease both; }
+    .qr-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 18px 14px; border-bottom: 1px solid var(--border); }
+    .qr-header-left { display: flex; flex-direction: column; gap: 2px; }
+    .qr-title { font-size: 0.9rem; font-weight: 700; letter-spacing: 0.01em; }
+    .qr-subtitle { font-family: 'Syne Mono', monospace; font-size: 0.58rem; letter-spacing: 0.14em; color: var(--dim); }
+    .qr-live-dot { display: flex; align-items: center; gap: 6px; font-family: 'Syne Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; color: var(--accent); text-transform: uppercase; }
+    .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); animation: pulse-dot 2s ease infinite; }
+    @keyframes pulse-dot { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(0.7); } }
+
+    .qr-body { display: flex; flex-direction: column; align-items: center; padding: 28px 24px 22px; gap: 18px; }
+    .qr-frame { background: #fff; padding: 14px; border-radius: 4px; box-shadow: 0 0 0 1px rgba(0,229,160,0.3), 0 20px 60px rgba(0,229,160,0.08); position: relative; }
+    .qr-frame::before, .qr-frame::after { content: ''; position: absolute; width: 18px; height: 18px; border-color: var(--accent); border-style: solid; }
+    .qr-frame::before { top: -4px; left: -4px; border-width: 2px 0 0 2px; border-radius: 2px 0 0 0; }
+    .qr-frame::after  { bottom: -4px; right: -4px; border-width: 0 2px 2px 0; border-radius: 0 0 2px 0; }
+    #qr-canvas { display: block; }
+
+    .qr-ref-tag { font-family: 'Syne Mono', monospace; font-size: 0.65rem; letter-spacing: 0.16em; color: var(--dim); text-transform: uppercase; text-align: center; }
+    .qr-ref-tag span { color: var(--accent); }
+
+    .qr-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 0 18px 18px; }
+    .btn { font-family: 'Syne', sans-serif; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; border: none; border-radius: 4px; padding: 13px 10px; cursor: pointer; transition: opacity 0.15s, transform 0.12s; text-align: center; }
+    .btn:active { transform: scale(0.97); }
+    .btn-primary { background: var(--accent); color: var(--bg); }
+    .btn-primary:hover { opacity: 0.88; }
+    .btn-ghost { background: transparent; color: var(--white); border: 1px solid var(--border); }
+    .btn-ghost:hover { border-color: rgba(255,255,255,0.2); }
+
+    .link-row { margin: 0 22px 20px; display: flex; align-items: center; background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; animation: rise 0.5s 0.36s ease both; }
+    .link-text { flex: 1; font-family: 'Syne Mono', monospace; font-size: 0.65rem; letter-spacing: 0.08em; color: var(--dim); padding: 14px 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .link-copy-btn { flex: 0 0 auto; background: transparent; border: none; border-left: 1px solid var(--border); color: var(--accent); font-family: 'Syne Mono', monospace; font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; padding: 14px 16px; cursor: pointer; transition: background 0.15s; }
+    .link-copy-btn:hover { background: rgba(0,229,160,0.07); }
+    .link-copy-btn.copied { color: var(--white); }
+
+    .activity-section { margin: 0 22px 24px; animation: rise 0.5s 0.44s ease both; }
+    .section-label { font-family: 'Syne Mono', monospace; font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--dim); margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; }
+    .section-label-count { background: rgba(0,229,160,0.12); color: var(--accent); font-size: 0.55rem; padding: 2px 7px; border-radius: 20px; }
+    .activity-list { display: flex; flex-direction: column; gap: 6px; }
+    .activity-item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 13px 15px; display: flex; align-items: center; gap: 12px; }
+    .activity-icon { width: 34px; height: 34px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; flex: 0 0 auto; }
+    .activity-icon.scan   { background: rgba(0,229,160,0.1); }
+    .activity-icon.booked { background: rgba(240,165,0,0.1); }
+    .activity-icon.paid   { background: rgba(0,229,160,0.15); }
+    .activity-info { flex: 1; min-width: 0; }
+    .activity-title { font-size: 0.82rem; font-weight: 600; color: var(--white); margin-bottom: 2px; }
+    .activity-time  { font-family: 'Syne Mono', monospace; font-size: 0.58rem; letter-spacing: 0.1em; color: var(--dim); }
+    .activity-badge { font-family: 'Syne Mono', monospace; font-size: 0.58rem; letter-spacing: 0.08em; padding: 3px 8px; border-radius: 3px; flex: 0 0 auto; }
     .badge-scan   { background: rgba(0,229,160,0.1);  color: var(--accent); }
     .badge-booked { background: rgba(240,165,0,0.1);  color: var(--warn); }
     .badge-paid   { background: rgba(0,229,160,0.15); color: var(--accent); }
 
-    /* LEADERBOARD */
-    .leaderboard-section {
-      margin: 0 22px 28px;
-      animation: rise 0.5s 0.48s ease both;
-    }
-    .leaderboard-list {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
-    .lb-item {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--r);
-      padding: 12px 15px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .lb-item.you {
-      border-color: rgba(0,229,160,0.3);
-      background: rgba(0,229,160,0.04);
-    }
-    .lb-rank {
-      font-family: 'Syne Mono', monospace;
-      font-size: 0.75rem;
-      font-weight: 500;
-      color: var(--dim);
-      width: 20px;
-      text-align: center;
-      flex: 0 0 auto;
-    }
-    .lb-item.you .lb-rank { color: var(--accent); }
-    .lb-name {
-      flex: 1;
-      font-size: 0.82rem;
-      font-weight: 600;
-    }
-    .lb-item.you .lb-name::after {
-      content: ' — you';
-      font-size: 0.68rem;
-      font-weight: 400;
-      color: var(--accent);
-    }
-    .lb-score {
-      font-family: 'Syne Mono', monospace;
-      font-size: 0.72rem;
-      color: var(--dim);
-    }
-    .lb-item.you .lb-score { color: var(--accent); }
-    .lb-bar-wrap {
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
-      height: 2px;
-      background: var(--border);
-    }
-    .lb-bar { height: 100%; background: var(--accent); border-radius: 1px; }
+    /* Empty state */
+    .empty-state { padding: 28px 16px; text-align: center; font-family: 'Syne Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; color: var(--dim); }
 
-    /* PWA PROMPT */
-    .pwa-banner {
-      margin: 0 22px 24px;
-      background: rgba(0,229,160,0.06);
-      border: 1px solid rgba(0,229,160,0.2);
-      border-radius: var(--r);
-      padding: 14px 16px;
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-      animation: rise 0.5s 0.56s ease both;
-    }
+    /* Skeleton loader */
+    .skeleton { background: linear-gradient(90deg, var(--surface) 25%, rgba(255,255,255,0.04) 50%, var(--surface) 75%); background-size: 200% 100%; animation: shimmer 1.4s infinite; border-radius: 4px; }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    .skeleton-row { height: 62px; border-radius: var(--r); margin-bottom: 6px; }
+
+    .leaderboard-section { margin: 0 22px 28px; animation: rise 0.5s 0.52s ease both; }
+    .leaderboard-list { display: flex; flex-direction: column; gap: 6px; }
+    .lb-item { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 12px 15px; display: flex; align-items: center; gap: 12px; }
+    .lb-item.you { border-color: rgba(0,229,160,0.3); background: rgba(0,229,160,0.04); }
+    .lb-rank { font-family: 'Syne Mono', monospace; font-size: 0.75rem; font-weight: 500; color: var(--dim); width: 20px; text-align: center; flex: 0 0 auto; }
+    .lb-item.you .lb-rank { color: var(--accent); }
+    .lb-name { flex: 1; font-size: 0.82rem; font-weight: 600; }
+    .lb-item.you .lb-name::after { content: ' — you'; font-size: 0.68rem; font-weight: 400; color: var(--accent); }
+    .lb-score { font-family: 'Syne Mono', monospace; font-size: 0.72rem; color: var(--dim); }
+    .lb-item.you .lb-score { color: var(--accent); }
+
+    .pwa-banner { margin: 0 22px 24px; background: rgba(0,229,160,0.06); border: 1px solid rgba(0,229,160,0.2); border-radius: var(--r); padding: 14px 16px; display: flex; gap: 12px; align-items: flex-start; animation: rise 0.5s 0.6s ease both; }
     .pwa-icon { font-size: 1.3rem; flex: 0 0 auto; margin-top: 1px; }
     .pwa-text { flex: 1; }
-    .pwa-title {
-      font-size: 0.8rem;
-      font-weight: 700;
-      margin-bottom: 3px;
-    }
-    .pwa-desc {
-      font-size: 0.72rem;
-      color: var(--dim);
-      line-height: 1.5;
-    }
-    .pwa-close {
-      background: none;
-      border: none;
-      color: var(--dim);
-      cursor: pointer;
-      font-size: 1rem;
-      flex: 0 0 auto;
-      padding: 0 0 0 8px;
-    }
+    .pwa-title { font-size: 0.8rem; font-weight: 700; margin-bottom: 3px; }
+    .pwa-desc  { font-size: 0.72rem; color: var(--dim); line-height: 1.5; }
+    .pwa-close { background: none; border: none; color: var(--dim); cursor: pointer; font-size: 1rem; flex: 0 0 auto; padding: 0 0 0 8px; }
 
-    /* FOOTER */
-    footer {
-      margin-top: auto;
-      padding: 16px 22px 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-top: 1px solid var(--border);
-      animation: rise 0.5s 0.6s ease both;
-    }
-    .footer-brand {
-      font-family: 'Syne Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--dim);
-    }
+    footer { margin-top: auto; padding: 16px 22px 24px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); animation: rise 0.5s 0.64s ease both; }
+    .footer-brand { font-family: 'Syne Mono', monospace; font-size: 0.6rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--dim); }
     .footer-brand span { color: var(--accent); }
-    .footer-status {
-      font-family: 'Syne Mono', monospace;
-      font-size: 0.58rem;
-      letter-spacing: 0.1em;
-      color: var(--dim);
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-    .status-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: var(--accent);
-    }
+    .footer-status { font-family: 'Syne Mono', monospace; font-size: 0.58rem; letter-spacing: 0.1em; color: var(--dim); display: flex; align-items: center; gap: 6px; }
+    .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); }
 
-    /* TOAST */
-    .toast {
-      position: fixed;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%) translateY(60px);
-      background: var(--accent);
-      color: var(--bg);
-      font-family: 'Syne Mono', monospace;
-      font-size: 0.68rem;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      padding: 11px 20px;
-      border-radius: 4px;
-      z-index: 10000;
-      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-      white-space: nowrap;
-    }
+    .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(60px); background: var(--accent); color: var(--bg); font-family: 'Syne Mono', monospace; font-size: 0.68rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; padding: 11px 20px; border-radius: 4px; z-index: 10000; transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); white-space: nowrap; }
     .toast.show { transform: translateX(-50%) translateY(0); }
 
-    /* ANIM */
-    @keyframes rise {
-      from { opacity: 0; transform: translateY(14px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-
-    /* NUCLEAR - WP theme override */
-    html, body { background: #07080a !important; }
-    body { background: #07080a !important; color: #e8eaed !important; }
-    .shell { background: #07080a !important; }
-    #wots-dashboard { background: #07080a !important; }
-
-    /* Fix hero name colors */
-    #hero-name,
-    .hero-name { color: #e8eaed !important; -webkit-text-fill-color: #e8eaed !important; }
-    #hero-name em,
-    .hero-name em { color: #00e5a0 !important; -webkit-text-fill-color: #00e5a0 !important; }
-
-    /* Fix font sizes for mobile */
-    #hero-name {
-      font-size: clamp(1.6rem, 6vw, 2.2rem) !important;
-      letter-spacing: 0.04em !important;
-    }
-
+    @keyframes rise { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
   </style>
 </head>
 <body>
@@ -615,53 +217,47 @@
 
   <div id="wots-dashboard"><div class="shell">
 
-    <!-- NAV -->
     <nav>
       <div class="nav-brand">
         <span class="nav-wots">WordOnTheStreet</span>
         <span class="nav-studio">Broken Art Tattoo</span>
       </div>
-      <div class="nav-avatar" id="nav-avatar">JS</div>
+      <div class="nav-avatar" id="nav-avatar">—</div>
     </nav>
 
-    <!-- HERO NAME -->
     <div class="hero">
       <div class="hero-greeting">Ambassador</div>
-      <h1 class="hero-name" id="hero-name">Jeremy<br><em>Swan</em></h1>
+      <h1 class="hero-name" id="hero-name"><em>Loading...</em></h1>
     </div>
 
-    <!-- STATS -->
     <div class="stat-row">
       <div class="stat-card green">
         <div class="stat-label">Wallet</div>
-        <div class="stat-value" id="stat-earned">$40</div>
+        <div class="stat-value" id="stat-earned">—</div>
         <div class="stat-sub">available balance</div>
       </div>
       <div class="stat-card yellow">
         <div class="stat-label">Pending</div>
-        <div class="stat-value" id="stat-pending">2</div>
+        <div class="stat-value" id="stat-pending">—</div>
         <div class="stat-sub">referrals</div>
       </div>
       <div class="stat-card white">
         <div class="stat-label">Total</div>
-        <div class="stat-value" id="stat-total">7</div>
+        <div class="stat-value" id="stat-total">—</div>
         <div class="stat-sub">all time</div>
       </div>
     </div>
 
-
-    <!-- SHOW MODE BUTTON -->
     <a class="show-qr-btn" id="show-qr-trigger" href="/show/">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
       Show QR to Someone
     </a>
 
-    <!-- QR CODE -->
     <div class="qr-section">
       <div class="qr-header">
         <div class="qr-header-left">
           <span class="qr-title">Your Referral Code</span>
-          <span class="qr-subtitle">Show & let them scan</span>
+          <span class="qr-subtitle">Show &amp; let them scan</span>
         </div>
         <div class="qr-live-dot">
           <div class="dot"></div>
@@ -672,7 +268,7 @@
         <div class="qr-frame">
           <div id="qr-canvas"></div>
         </div>
-        <div class="qr-ref-tag">wots.app/r/<span id="ref-display">jeremy</span></div>
+        <div class="qr-ref-tag">wotsworks.com/r/?ref=<span id="ref-display">...</span></div>
       </div>
       <div class="qr-actions">
         <button class="btn btn-primary" onclick="shareLink()">Share Link</button>
@@ -680,77 +276,34 @@
       </div>
     </div>
 
-    <!-- COPY LINK ROW -->
     <div class="link-row">
-      <span class="link-text" id="link-text">wots.app/r/jeremy</span>
+      <span class="link-text" id="link-text">wotsworks.com/r/?ref=...</span>
       <button class="link-copy-btn" id="copy-btn" onclick="copyLink()">Copy</button>
     </div>
 
-    <!-- ACTIVITY -->
     <div class="activity-section">
       <div class="section-label">
         Recent Activity
-        <span class="section-label-count" id="activity-count">3</span>
+        <span class="section-label-count" id="activity-count">0</span>
       </div>
       <div class="activity-list" id="activity-list">
-        <div class="activity-item">
-          <div class="activity-icon paid">💰</div>
-          <div class="activity-info">
-            <div class="activity-title">Alex B. became a client</div>
-            <div class="activity-time">Yesterday · +$20 credit earned</div>
-          </div>
-          <span class="activity-badge badge-paid">Paid</span>
-        </div>
-        <div class="activity-item">
-          <div class="activity-icon booked">📅</div>
-          <div class="activity-info">
-            <div class="activity-title">Morgan K. booked a consult</div>
-            <div class="activity-time">2 days ago · pending payout</div>
-          </div>
-          <span class="activity-badge badge-booked">Booked</span>
-        </div>
-        <div class="activity-item">
-          <div class="activity-icon scan">👁</div>
-          <div class="activity-info">
-            <div class="activity-title">New scan from your code</div>
-            <div class="activity-time">3 days ago · viewed profile</div>
-          </div>
-          <span class="activity-badge badge-scan">Scan</span>
-        </div>
+        <div class="skeleton skeleton-row"></div>
+        <div class="skeleton skeleton-row"></div>
       </div>
     </div>
 
-    <!-- LEADERBOARD -->
     <div class="leaderboard-section">
       <div class="section-label">
         Ambassador Board
         <span class="section-label-count">BAT</span>
       </div>
-      <div class="leaderboard-list">
-        <div class="lb-item">
-          <span class="lb-rank">1</span>
-          <span class="lb-name">Sarah M.</span>
-          <span class="lb-score">12 refs</span>
-        </div>
-        <div class="lb-item you">
-          <span class="lb-rank">2</span>
-          <span class="lb-name" id="lb-you-name">Jeremy S.</span>
-          <span class="lb-score">7 refs</span>
-        </div>
-        <div class="lb-item">
-          <span class="lb-rank">3</span>
-          <span class="lb-name">Danny R.</span>
-          <span class="lb-score">5 refs</span>
-        </div>
-        <div class="lb-item">
-          <span class="lb-rank">4</span>
-          <span class="lb-name">Priya T.</span>
-          <span class="lb-score">3 refs</span>
-        </div>
+      <div class="leaderboard-list" id="leaderboard-list">
+        <div class="skeleton skeleton-row"></div>
+        <div class="skeleton skeleton-row"></div>
+        <div class="skeleton skeleton-row"></div>
       </div>
     </div>
 
-    <!-- PWA BANNER -->
     <div class="pwa-banner" id="pwa-banner">
       <span class="pwa-icon">📲</span>
       <div class="pwa-text">
@@ -760,7 +313,6 @@
       <button class="pwa-close" onclick="document.getElementById('pwa-banner').style.display='none'">✕</button>
     </div>
 
-    <!-- FOOTER -->
     <footer>
       <span class="footer-brand"><span>WOTS</span> · Ambassador</span>
       <span class="footer-status">
@@ -771,80 +323,222 @@
 
   </div></div>
 
-
-  <!-- SHOW MODE OVERLAY -->
-  <div class="show-mode" id="show-mode">
-    <div class="show-mode-label">Scan to discover</div>
-    <div class="show-mode-studio">Broken Art Tattoo</div>
-    <div class="show-mode-sub">Los Angeles · Custom Tattoo Studio</div>
-    <div class="show-mode-qr">
-      <div id="show-mode-qr-canvas"></div>
-    </div>
-    <div class="show-mode-url" id="show-mode-url">wots.app/r/jeremy</div>
-    <button class="show-mode-dismiss" id="show-mode-dismiss">← Back to Dashboard</button>
-  </div>
-
-  <!-- TOAST -->
   <div class="toast" id="toast">Link copied!</div>
 
   <script>
-    // ─── CONFIG ───────────────────────────────────────────
-    const BASE_URL   = 'https://wots.app/r/';   // swap for your real domain
-    const REF_DEMO   = 'jeremy';                // in prod: parse from URL or session
+    // ─── CONFIG ──────────────────────────────────────────────────────────────
+    const SUPABASE_URL = 'https://hpexcficdfomofvkqsez.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_WqV7oy9GrUU-1GKPe-l0NQ_KNafLYBH';
+    const BASE_URL     = 'https://wotsworks.com/r/?ref=';  // ✅ FIXED
 
-    // ─── Init from URL ────────────────────────────────────
+    // ─── Parse ref from URL ──────────────────────────────────────────────────
     const params  = new URLSearchParams(window.location.search);
-    const refCode = params.get('ref') || REF_DEMO;
+    const refCode = (params.get('ref') || 'jeremy').toLowerCase();
     const refUrl  = BASE_URL + refCode;
 
-    // Demo ambassador name map — in prod: fetch from Supabase
-    const ambassadors = {
-      'jeremy': { name: 'Jeremy Swan',    initials: 'JS', short: 'Jeremy S.' },
-      'derrek': { name: 'Derrek Everette',initials: 'DE', short: 'Derrek E.' },
-      'matt':   { name: 'Matt Soderberg', initials: 'MS', short: 'Matt S.'   },
-      'josue':  { name: 'Josue Acosta',   initials: 'JA', short: 'Josue A.'  },
-      'josh':   { name: 'Josh Ojeda',     initials: 'JO', short: 'Josh O.'   },
+    // ─── Fallback ambassador data (used if Supabase fetch fails) ────────────
+    const FALLBACK = {
+      jeremy: { name: 'Jeremy Swan',     initials: 'JS', short: 'Jeremy S.' },
+      derrek: { name: 'Derrek Everette', initials: 'DE', short: 'Derrek E.' },
+      matt:   { name: 'Matt Soderberg',  initials: 'MS', short: 'Matt S.'   },
+      josue:  { name: 'Josue Acosta',    initials: 'JA', short: 'Josue A.'  },
+      josh:   { name: 'Josh Ojeda',      initials: 'JO', short: 'Josh O.'   },
     };
-    const amb = ambassadors[refCode.toLowerCase()] || { name: refCode, initials: refCode.slice(0,2).toUpperCase(), short: refCode };
 
-    // ─── Populate UI ─────────────────────────────────────
-    const [first, ...rest] = amb.name.split(' ');
-    document.getElementById('hero-name').innerHTML = `${first}<br><em>${rest.join(' ')}</em>`;
-    document.getElementById('nav-avatar').textContent   = amb.initials;
-    document.getElementById('ref-display').textContent  = refCode;
-    document.getElementById('link-text').textContent    = refUrl;
-    document.getElementById('lb-you-name').textContent  = amb.short;
+    // ─── Supabase fetch helper ───────────────────────────────────────────────
+    async function sbFetch(path) {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+        headers: {
+          'apikey':        SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Content-Type':  'application/json',
+        }
+      });
+      if (!res.ok) throw new Error(`Supabase ${res.status}`);
+      return res.json();
+    }
 
-    // ─── QR Code ─────────────────────────────────────────
-    new QRCode(document.getElementById('qr-canvas'), {
-      text:           refUrl,
-      width:          190,
-      height:         190,
-      colorDark:      '#07080a',
-      colorLight:     '#ffffff',
-      correctLevel:   QRCode.CorrectLevel.H
-    });
+    // ─── Relative time helper ────────────────────────────────────────────────
+    function relTime(dateStr) {
+      if (!dateStr) return '';
+      const diff = Date.now() - new Date(dateStr).getTime();
+      const mins = Math.floor(diff / 60000);
+      if (mins < 60)  return `${mins}m ago`;
+      const hrs = Math.floor(mins / 60);
+      if (hrs < 24)   return `${hrs}h ago`;
+      const days = Math.floor(hrs / 24);
+      if (days === 1) return 'Yesterday';
+      return `${days} days ago`;
+    }
 
-    // ─── Copy Link ────────────────────────────────────────
+    // ─── Populate name / avatar / QR ────────────────────────────────────────
+    function populateIdentity(ambData) {
+      const name     = ambData.name     || FALLBACK[refCode]?.name     || refCode;
+      const initials = ambData.initials || FALLBACK[refCode]?.initials || refCode.slice(0,2).toUpperCase();
+
+      const [first, ...rest] = name.split(' ');
+      document.getElementById('hero-name').innerHTML   = `${first}<br><em>${rest.join(' ')}</em>`;
+      document.getElementById('nav-avatar').textContent = initials;
+      document.getElementById('ref-display').textContent = refCode;
+      document.getElementById('link-text').textContent   = refUrl;
+
+      // Update Show QR button to pass ref
+      document.getElementById('show-qr-trigger').href = `/show/?ref=${refCode}`;
+
+      // Generate QR
+      new QRCode(document.getElementById('qr-canvas'), {
+        text:         refUrl,
+        width:        190,
+        height:       190,
+        colorDark:    '#07080a',
+        colorLight:   '#ffffff',
+        correctLevel: QRCode.CorrectLevel.H
+      });
+    }
+
+    // ─── Render stats ────────────────────────────────────────────────────────
+    function renderStats(ambassador, referrals) {
+      const total   = referrals.length;
+      const pending = referrals.filter(r => r.status === 'pending').length;
+      const earned  = ambassador.total_earned != null
+        ? `$${Number(ambassador.total_earned).toFixed(0)}`
+        : '$0';
+
+      document.getElementById('stat-earned').textContent  = earned;
+      document.getElementById('stat-pending').textContent = pending;
+      document.getElementById('stat-total').textContent   = total;
+    }
+
+    // ─── Render activity ─────────────────────────────────────────────────────
+    function renderActivity(referrals) {
+      const list = document.getElementById('activity-list');
+
+      if (!referrals.length) {
+        list.innerHTML = `<div class="empty-state">No activity yet — share your link to get started.</div>`;
+        document.getElementById('activity-count').textContent = '0';
+        return;
+      }
+
+      // Show most recent 5
+      const recent = [...referrals].sort((a, b) => new Date(b.created_at) - new Date(a.created_at)).slice(0, 5);
+      document.getElementById('activity-count').textContent = recent.length;
+
+      list.innerHTML = recent.map(r => {
+        let iconClass, badgeClass, badgeLabel, emoji, description;
+
+        if (r.status === 'converted') {
+          iconClass = 'paid'; emoji = '💰'; badgeClass = 'badge-paid'; badgeLabel = 'Paid';
+          description = r.referee_name ? `${r.referee_name} became a client` : 'New client referred';
+        } else if (r.status === 'booked') {
+          iconClass = 'booked'; emoji = '📅'; badgeClass = 'badge-booked'; badgeLabel = 'Booked';
+          description = r.referee_name ? `${r.referee_name} booked a consult` : 'New booking';
+        } else {
+          iconClass = 'scan'; emoji = '👁'; badgeClass = 'badge-scan'; badgeLabel = 'Scan';
+          description = r.referee_name ? `${r.referee_name} scanned your code` : 'New scan from your code';
+        }
+
+        return `
+          <div class="activity-item">
+            <div class="activity-icon ${iconClass}">${emoji}</div>
+            <div class="activity-info">
+              <div class="activity-title">${description}</div>
+              <div class="activity-time">${relTime(r.created_at)}</div>
+            </div>
+            <span class="activity-badge ${badgeClass}">${badgeLabel}</span>
+          </div>`;
+      }).join('');
+    }
+
+    // ─── Render leaderboard ──────────────────────────────────────────────────
+    function renderLeaderboard(allAmbassadors) {
+      const list = document.getElementById('leaderboard-list');
+
+      // Sort by total_referrals desc
+      const sorted = [...allAmbassadors].sort((a, b) => (b.total_referrals || 0) - (a.total_referrals || 0));
+
+      list.innerHTML = sorted.map((a, i) => {
+        const isYou   = a.ref_code?.toLowerCase() === refCode;
+        const refs    = a.total_referrals || 0;
+        const display = a.name ? a.name.split(' ').map((p, pi) => pi === 0 ? p : p[0] + '.').join(' ') : a.ref_code;
+
+        return `
+          <div class="lb-item ${isYou ? 'you' : ''}">
+            <span class="lb-rank">${i + 1}</span>
+            <span class="lb-name">${display}</span>
+            <span class="lb-score">${refs} ref${refs !== 1 ? 's' : ''}</span>
+          </div>`;
+      }).join('');
+    }
+
+    // ─── Main load ───────────────────────────────────────────────────────────
+    async function init() {
+      // Always populate identity first (can use fallback names)
+      const fallbackAmb = FALLBACK[refCode] || { name: refCode, initials: refCode.slice(0,2).toUpperCase() };
+      populateIdentity(fallbackAmb);
+
+      try {
+        // 1. Fetch this ambassador's record
+        const [ambassadorArr, allAmbassadors, referrals] = await Promise.all([
+          sbFetch(`ambassadors?ref_code=eq.${refCode}&limit=1`),
+          sbFetch(`ambassadors?select=ref_code,name,total_referrals&order=total_referrals.desc`),
+          sbFetch(`referrals?ambassador_ref=eq.${refCode}&order=created_at.desc`),
+        ]);
+
+        const ambassador = ambassadorArr[0];
+
+        if (ambassador) {
+          // Update name from DB if available
+          populateIdentity({
+            name:     ambassador.name,
+            initials: ambassador.name?.split(' ').map(p => p[0]).join('').slice(0,2).toUpperCase(),
+          });
+          renderStats(ambassador, referrals);
+        } else {
+          // Ambassador row not found — show zeroes
+          document.getElementById('stat-earned').textContent  = '$0';
+          document.getElementById('stat-pending').textContent = '0';
+          document.getElementById('stat-total').textContent   = '0';
+        }
+
+        renderActivity(referrals);
+        renderLeaderboard(allAmbassadors);
+
+      } catch (err) {
+        console.warn('Supabase load failed, using fallback display:', err);
+
+        // Show zeroed stats gracefully
+        document.getElementById('stat-earned').textContent  = '$0';
+        document.getElementById('stat-pending').textContent = '0';
+        document.getElementById('stat-total').textContent   = '0';
+
+        // Fallback activity
+        document.getElementById('activity-list').innerHTML =
+          `<div class="empty-state">Share your link to start earning.</div>`;
+
+        // Fallback leaderboard from hardcoded names
+        const fbList = Object.entries(FALLBACK).map(([ref, a]) => ({
+          ref_code: ref, name: a.name, total_referrals: 0
+        }));
+        renderLeaderboard(fbList);
+      }
+    }
+
+    // ─── Actions ─────────────────────────────────────────────────────────────
     function copyLink() {
       navigator.clipboard.writeText(refUrl).then(() => {
         const btn = document.getElementById('copy-btn');
         btn.textContent = 'Copied!';
         btn.classList.add('copied');
         showToast('Link copied!');
-        setTimeout(() => {
-          btn.textContent = 'Copy';
-          btn.classList.remove('copied');
-        }, 2500);
+        setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2500);
       });
     }
 
-    // ─── Share ───────────────────────────────────────────
     function shareLink() {
       if (navigator.share) {
         navigator.share({
           title: 'Check out Broken Art Tattoo',
-          text:  `${amb.name} thinks you'd love this studio.`,
+          text:  `You should check out this tattoo studio in LA.`,
           url:   refUrl
         });
       } else {
@@ -852,18 +546,16 @@
       }
     }
 
-    // ─── Save QR (canvas to image) ────────────────────────
     function saveQR() {
       const canvas = document.querySelector('#qr-canvas canvas');
       if (!canvas) { showToast('QR not ready yet'); return; }
-      const link  = document.createElement('a');
+      const link = document.createElement('a');
       link.download = `wots-qr-${refCode}.png`;
-      link.href     = canvas.toDataURL('image/png');
+      link.href = canvas.toDataURL('image/png');
       link.click();
       showToast('QR saved!');
     }
 
-    // ─── Toast ───────────────────────────────────────────
     function showToast(msg) {
       const t = document.getElementById('toast');
       t.textContent = msg;
@@ -871,10 +563,13 @@
       setTimeout(() => t.classList.remove('show'), 2400);
     }
 
-    // ─── Hide PWA banner on desktop ───────────────────────
+    // ─── PWA banner ──────────────────────────────────────────────────────────
     if (!/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
       document.getElementById('pwa-banner').style.display = 'none';
     }
+
+    // ─── Boot ────────────────────────────────────────────────────────────────
+    init();
   </script>
 
 </body>

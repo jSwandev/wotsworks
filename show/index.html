@@ -188,8 +188,7 @@
     const refUrl  = `https://wotsworks.com/r/?ref=${refCode}`;
 
     // ── Update back button to preserve ref ───────────────────
-    document.getElementById('back-btn').href = `/ambassador/?ref=${refCode}`;
-
+document.getElementById('back-btn').href = `/a/?ref=${refCode}`;
     // ── Generate QR ──────────────────────────────────────────
     const size = Math.min(window.innerWidth - 96, 280);
     new QRCode(document.getElementById('qr-canvas'), {

@@ -751,7 +751,7 @@
       return valid;
     }
 
-    // ── SUPABASE ─────────────────────────────────────────────────
+// ── SUPABASE ─────────────────────────────────────────────────
     async function sb(path, options = {}) {
       const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
         headers: {
@@ -762,7 +762,11 @@
         },
         ...options,
       });
-      if (options.method === 'POST') return res.status;
+      if (!res.ok) {
+        const err = await res.text();
+        throw new Error(`Supabase ${res.status}: ${err}`);
+      }
+      if (options.method === 'POST') return null;
       return res.json();
     }
 

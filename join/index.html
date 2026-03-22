@@ -784,18 +784,7 @@
       const refCode  = document.getElementById('inp-ref').value.trim().toLowerCase();
 
       try {
-        // Check if ref code already taken
-        const existing = await sb(`ambassadors?ref_code=eq.${encodeURIComponent(refCode)}&select=id&limit=1`);
-        if (existing && existing.length > 0) {
-          alert(`The handle "${refCode}" is already taken. Try a different one.`);
-          document.getElementById('inp-ref').classList.add('error');
-          btn.disabled    = false;
-          btn.textContent = 'Get My Referral Link';
-          return;
-        }
-
-        // Insert new ambassador
-        const status = await sb('ambassadors', {
+        await sb('ambassadors', {
           method: 'POST',
           headers: { 'Prefer': 'return=minimal' },
           body: JSON.stringify({
@@ -803,24 +792,22 @@
             email:        email,
             phone:        phone,
             ref_code:     refCode,
+            venmo_handle: document.getElementById('inp-venmo').value.trim() || null,
             total_earned: 0,
             active:       true,
           }),
         });
 
-        // Show success
         document.getElementById('success-name').textContent     = name;
         document.getElementById('success-ref-code').textContent = refCode;
         document.getElementById('success-dashboard-link').href  = `/a/?ref=${refCode}`;
         document.getElementById('success-screen').classList.add('show');
 
-        console.log('[WOTS] Ambassador created ✓', { name, refCode });
-
       } catch(e) {
         console.error('[WOTS] Signup failed:', e);
         btn.disabled    = false;
         btn.textContent = 'Get My Referral Link';
-        alert('Something went wrong. Please try again.');
+        alert('Something went wrong: ' + e.message);
       }
     }
   </script>

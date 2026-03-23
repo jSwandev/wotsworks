@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ambassador Training — Word On The Street</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:      #0e0c0a;
+      --bone:     #f0ebe2;
+      --rust:     #c44b2b;
+      --rust-dim: #8a3320;
+      --gold:     #d4a843;
+      --muted:    #b0a89e;
+      --line:     rgba(240,235,226,0.12);
+    }
+
+    html, body { min-height: 100%; background: #0e0c0a; color: #f0ebe2; font-family: 'DM Serif Display', Georgia, serif; -webkit-font-smoothing: antialiased; }
+
+    body::before { content: ''; position: fixed; inset: 0; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E"); pointer-events: none; z-index: 999; opacity: 0.6; }
+
+    .glow-orb { position: fixed; border-radius: 50%; filter: blur(120px); pointer-events: none; z-index: 0; }
+    .glow-orb-1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(196,75,43,0.15) 0%, transparent 70%); top: -100px; right: -100px; }
+    .glow-orb-2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(212,168,67,0.07) 0%, transparent 70%); bottom: 20%; left: -80px; }
+
+    .page { position: relative; z-index: 10; max-width: 560px; margin: 0 auto; padding-bottom: 80px; }
+
+    /* TOP STRIP */
+    .top-strip { display: flex; align-items: center; justify-content: space-between; padding: 18px 28px; border-bottom: 1px solid var(--line); }
+    .wordmark { font-family: 'Bebas Neue', sans-serif; font-size: 1.05rem; letter-spacing: 0.22em; color: var(--bone); opacity: 0.5; text-transform: uppercase; }
+    .training-badge { font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); border: 1px solid var(--gold); padding: 4px 10px; border-radius: 2px; opacity: 0.8; }
+
+    /* HERO */
+    .hero { padding: 48px 28px 32px; }
+    .hero-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.24em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; }
+    .hero-eyebrow::before { content: ''; display: block; width: 28px; height: 1px; background: var(--gold); }
+    .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.6rem, 10vw, 4rem); line-height: 0.95; letter-spacing: 0.04em; color: #f0ebe2; text-transform: uppercase; margin-bottom: 18px; }
+    .hero-title span { color: var(--rust); }
+    .hero-sub { font-style: italic; font-size: 1.05rem; color: #c0b8b0; line-height: 1.65; max-width: 440px; }
+
+    /* AMBASSADOR CARD */
+    .ambassador-card { margin: 8px 20px 40px; padding: 20px 22px; background: rgba(240,235,226,0.04); border: 1px solid var(--line); border-left: 3px solid var(--rust); }
+    .ambassador-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+    .ambassador-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 0.05em; color: var(--bone); }
+
+    /* REF LINK BOX */
+    .ref-box { margin: 0 20px 48px; }
+    .ref-box-label { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+    .ref-link-row { display: flex; gap: 8px; align-items: stretch; }
+    .ref-link-display { flex: 1; background: rgba(240,235,226,0.05); border: 1px solid var(--line); padding: 14px 16px; font-family: 'DM Mono', monospace; font-size: 0.72rem; letter-spacing: 0.06em; color: var(--bone); word-break: break-all; line-height: 1.5; }
+    .ref-copy-btn { background: var(--rust); color: var(--bone); font-family: 'DM Mono', monospace; font-size: 0.65rem; letter-spacing: 0.14em; text-transform: uppercase; border: none; padding: 14px 18px; cursor: pointer; transition: background 0.2s; white-space: nowrap; flex-shrink: 0; }
+    .ref-copy-btn:hover { background: #d95530; }
+    .ref-copy-btn.copied { background: #2a6e3f; }
+    .ref-share-row { display: flex; gap: 8px; margin-top: 8px; }
+    .ref-share-btn { flex: 1; background: transparent; border: 1px solid var(--line); color: var(--muted); font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; padding: 11px 8px; cursor: pointer; transition: border-color 0.2s, color 0.2s; text-align: center; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .ref-share-btn:hover { border-color: rgba(240,235,226,0.3); color: var(--bone); }
+
+    /* SECTION */
+    .section { margin: 0 20px 48px; }
+    .section-eyebrow { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--rust); margin-bottom: 14px; display: flex; align-items: center; gap: 10px; }
+    .section-eyebrow::before { content: ''; display: block; width: 20px; height: 1px; background: var(--rust); }
+    .section-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.9rem; letter-spacing: 0.04em; color: var(--bone); margin-bottom: 16px; line-height: 1; }
+
+    /* STEPS */
+    .steps { display: flex; flex-direction: column; gap: 12px; }
+    .step { display: flex; gap: 18px; align-items: flex-start; padding: 18px 20px; background: rgba(240,235,226,0.03); border: 1px solid var(--line); }
+    .step-num { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; color: var(--rust); line-height: 1; flex-shrink: 0; width: 28px; }
+    .step-body { flex: 1; }
+    .step-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.15rem; letter-spacing: 0.06em; color: var(--bone); margin-bottom: 6px; }
+    .step-desc { font-family: 'DM Mono', monospace; font-size: 0.68rem; letter-spacing: 0.06em; color: #b0a89e; line-height: 1.7; }
+
+    /* REWARD GRID */
+    .reward-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); border: 1px solid var(--line); margin-bottom: 14px; }
+    .reward-cell { background: var(--ink); padding: 20px 18px; }
+    .reward-cell-label { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+    .reward-cell-amount { font-family: 'Bebas Neue', sans-serif; font-size: 2.4rem; letter-spacing: 0.02em; color: var(--gold); line-height: 1; margin-bottom: 4px; }
+    .reward-cell-range { font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; color: var(--muted); }
+    .reward-note { font-family: 'DM Mono', monospace; font-size: 0.62rem; letter-spacing: 0.08em; color: #b0a89e; line-height: 1.7; font-style: italic; }
+
+    /* SCRIPTS */
+    .scripts { display: flex; flex-direction: column; gap: 12px; }
+    .script-card { background: rgba(240,235,226,0.03); border: 1px solid var(--line); border-left: 3px solid var(--gold); padding: 18px 20px; }
+    .script-context { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--gold); margin-bottom: 10px; }
+    .script-text { font-style: italic; font-size: 0.95rem; color: #d8d0c8; line-height: 1.7; }
+    .script-text strong { color: var(--rust); font-style: normal; font-weight: 400; }
+
+    /* TIMELINE */
+    .timeline { display: flex; flex-direction: column; gap: 0; }
+    .timeline-item { display: flex; gap: 16px; align-items: flex-start; padding: 16px 0; border-bottom: 1px solid var(--line); }
+    .timeline-item:last-child { border-bottom: none; }
+    .timeline-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--rust); flex-shrink: 0; margin-top: 5px; }
+    .timeline-dot.gold { background: var(--gold); }
+    .timeline-dot.green { background: #4caf79; }
+    .timeline-body { flex: 1; }
+    .timeline-title { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 0.06em; color: var(--bone); margin-bottom: 4px; }
+    .timeline-desc { font-family: 'DM Mono', monospace; font-size: 0.64rem; letter-spacing: 0.06em; color: var(--muted); line-height: 1.65; }
+
+    /* FAQ */
+    .faq { display: flex; flex-direction: column; gap: 12px; }
+    .faq-item { border: 1px solid var(--line); padding: 18px 20px; }
+    .faq-q { font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 0.06em; color: var(--bone); margin-bottom: 8px; }
+    .faq-a { font-family: 'DM Mono', monospace; font-size: 0.66rem; letter-spacing: 0.06em; color: var(--muted); line-height: 1.7; }
+
+    /* DIVIDER */
+    .divider { height: 1px; background: var(--line); margin: 0 20px 48px; }
+
+    /* FOOTER */
+    footer { padding: 24px 28px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; }
+    .footer-powered { font-family: 'DM Mono', monospace; font-size: 0.58rem; letter-spacing: 0.14em; color: var(--muted); text-transform: uppercase; }
+    .footer-powered span { color: var(--rust); }
+
+    /* LOADING */
+    .loading-pulse { background: linear-gradient(90deg, rgba(240,235,226,0.04) 25%, rgba(240,235,226,0.08) 50%, rgba(240,235,226,0.04) 75%); background-size: 200% 100%; animation: shimmer 1.5s infinite; border-radius: 2px; height: 1em; display: inline-block; min-width: 160px; }
+    @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-up { animation: fadeUp 0.6s ease both; }
+  </style>
+</head>
+<body>
+
+  <div class="glow-orb glow-orb-1"></div>
+  <div class="glow-orb glow-orb-2"></div>
+
+  <div class="page">
+
+    <header class="top-strip">
+      <span class="wordmark">Word On The Street</span>
+      <span class="training-badge">Ambassador Training</span>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero fade-up">
+      <div class="hero-eyebrow">Your guide to getting paid</div>
+      <h1 class="hero-title">How To <span>Work</span><br>The Street</h1>
+      <p class="hero-sub">Everything you need to know to refer people, track your referrals, and collect your reward. Read this once. Use it forever.</p>
+    </section>
+
+    <!-- AMBASSADOR NAME -->
+    <div class="ambassador-card fade-up">
+      <div class="ambassador-label">You're logged in as</div>
+      <div class="ambassador-name" id="ambassador-name"><span class="loading-pulse"></span></div>
+    </div>
+
+    <!-- YOUR LINK -->
+    <div class="ref-box fade-up">
+      <div class="ref-box-label">Your Referral Link</div>
+      <div class="ref-link-row">
+        <div class="ref-link-display" id="ref-link-display">Loading...</div>
+        <button class="ref-copy-btn" id="copy-btn" onclick="copyLink()">Copy</button>
+      </div>
+      <div class="ref-share-row">
+        <a class="ref-share-btn" id="sms-share" href="#">
+          💬 Text It
+        </a>
+        <a class="ref-share-btn" id="ig-share" href="#" onclick="copyLink(); return false;">
+          📸 Copy for IG
+        </a>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- HOW IT WORKS -->
+    <div class="section fade-up">
+      <div class="section-eyebrow">Step by step</div>
+      <div class="section-title">How It Works</div>
+      <div class="steps">
+        <div class="step">
+          <div class="step-num">1</div>
+          <div class="step-body">
+            <div class="step-title">Share Your Link</div>
+            <div class="step-desc">Send your personal referral link to anyone you think would love getting tattooed at Broken Art. Text it, post it, drop it in a DM. Every link is unique to you so we know it came from you.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">2</div>
+          <div class="step-body">
+            <div class="step-title">They Claim a Spot</div>
+            <div class="step-desc">When they click your link, they land on a page that tells them about the studio. They fill out a short form — name, number, what they want. That's it. No booking yet, no pressure.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">3</div>
+          <div class="step-body">
+            <div class="step-title">We Take It From There</div>
+            <div class="step-desc">The studio reaches out, confirms the consultation, and collects a $50 deposit to hold the spot. That deposit applies 100% to their tattoo. Once they come in and get tattooed, you get paid.</div>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-num">4</div>
+          <div class="step-body">
+            <div class="step-title">You Get Your Reward</div>
+            <div class="step-desc">We send your reward to you directly. No chasing, no asking. Just refer people, let the system work, collect your money.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- REWARDS -->
+    <div class="section fade-up">
+      <div class="section-eyebrow">What you earn</div>
+      <div class="section-title">Your Reward</div>
+
+      <div class="reward-grid" style="margin-bottom:6px;">
+        <div class="reward-cell">
+          <div class="reward-cell-label">Cash Out</div>
+          <div class="reward-cell-amount" style="font-size:1.4rem;margin-bottom:6px;">$10 / $20</div>
+          <div class="reward-cell-range">$100–199 / $200+ tattoos</div>
+        </div>
+        <div class="reward-cell" style="background:rgba(196,75,43,0.06);border:1px solid rgba(196,75,43,0.2);">
+          <div class="reward-cell-label" style="color:#c44b2b;">🦸 Blood Money</div>
+          <div class="reward-cell-amount" style="font-size:1.4rem;color:#c44b2b;margin-bottom:6px;">$15 / $30</div>
+          <div class="reward-cell-range">1.5× value at the studio</div>
+        </div>
+      </div>
+
+      <p class="reward-note" style="margin-bottom:12px;">Every referral that converts adds to your <strong style="color:#f0ebe2;">WOTS wallet</strong>. Watch it grow in your dashboard. When you're ready, choose how to use it.</p>
+
+      <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:4px;">
+        <div style="padding:14px 16px;background:rgba(240,235,226,0.04);border:1px solid rgba(240,235,226,0.1);border-radius:2px;">
+          <div style="font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.16em;text-transform:uppercase;color:#b0a89e;margin-bottom:5px;">Cash Out</div>
+          <div style="font-family:'DM Mono',monospace;font-size:0.68rem;color:#d8d0c8;line-height:1.6;">Request a payout anytime via Venmo or Zelle. Face value — $10 or $20 per tattoo depending on the size.</div>
+        </div>
+        <div style="padding:14px 16px;background:rgba(196,75,43,0.06);border:1px solid rgba(196,75,43,0.2);border-radius:2px;">
+          <div style="font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.16em;text-transform:uppercase;color:#c44b2b;margin-bottom:5px;">🩸 Convert to Blood Money</div>
+          <div style="font-family:'DM Mono',monospace;font-size:0.68rem;color:#d8d0c8;line-height:1.6;">Convert your balance and spend it at Broken Art at <strong style="color:#c44b2b;">1.5× the value</strong>. A $20 reward becomes $30 toward your next tattoo. Let it stack.</div>
+        </div>
+      </div>
+
+      <p class="reward-note">No expiry. No cap. The more you refer, the more it builds.</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- NATURAL CONVERSATION -->
+    <div class="section fade-up">
+      <div class="section-eyebrow">The best referral</div>
+      <div class="section-title">Work The Room</div>
+      <div class="script-card" style="border-left-color: var(--rust);">
+        <div class="script-context" style="color: var(--muted);">In the real world</div>
+        <p class="script-text">You don't need to spam your link or post it everywhere. The most effective referrals come from real moments — someone mentions they've been thinking about getting a tattoo, or you notice their old piece and ask if they've thought about adding to it. That's your opening. Tell them about your experience at the studio, show them some of the work, and offer to send them your link so they go through you. A personal recommendation from someone they trust is worth more than any ad. You're not selling — you're just connecting people to something you already believe in.</p>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- WHAT TO SAY -->
+    <div class="section fade-up">
+      <div class="section-eyebrow">Sample scripts</div>
+      <div class="section-title">What To Say</div>
+      <div class="scripts">
+        <div class="script-card">
+          <div class="script-context">📱 Text Message</div>
+          <p class="script-text">"Hey, I know you've been thinking about getting a tattoo — I go to this studio in LA called Broken Art and they're seriously the best. Here's my link, it gets you straight to the right person: <strong>[your link]</strong>"</p>
+        </div>
+        <div class="script-card">
+          <div class="script-context">📸 Instagram / Social</div>
+          <p class="script-text">"If you're in LA and thinking about getting tattooed, I can't recommend Broken Art enough. Link in bio (or DM me) — I'll send you my referral link so you go through me."</p>
+        </div>
+        <div class="script-card">
+          <div class="script-context">🗣 In Person</div>
+          <p class="script-text">"Seriously, just text me and I'll send you the link. Takes two minutes to fill out and they'll reach out to set everything up. You don't even have to book anything yet."</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- WHAT HAPPENS NEXT -->
+    <div class="section fade-up">
+      <div class="section-eyebrow">After they click</div>
+      <div class="section-title">What Happens Next</div>
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-body">
+            <div class="timeline-title">They Fill Out the Claim Form</div>
+            <div class="timeline-desc">Name, phone number, what they're thinking about getting. Quick and easy. Your referral is automatically credited to you the moment they submit.</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-body">
+            <div class="timeline-title">The Studio Reaches Out</div>
+            <div class="timeline-desc">Jeremy or the team texts them directly to confirm the consultation and answer any questions. They'll send a $50 deposit link to hold the spot.</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot gold"></div>
+          <div class="timeline-body">
+            <div class="timeline-title">They Place the Deposit</div>
+            <div class="timeline-desc">$50 holds their consultation. It goes 100% toward their tattoo — it's not a fee, it's a down payment. This is what locks in the appointment.</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot gold"></div>
+          <div class="timeline-body">
+            <div class="timeline-title">They Come In and Get Tattooed</div>
+            <div class="timeline-desc">The consultation happens, the design gets locked in, and they book their session. You can check your dashboard to see the status of your referrals.</div>
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-dot green"></div>
+          <div class="timeline-body">
+            <div class="timeline-title">Your Wallet Updates</div>
+            <div class="timeline-desc">Once the tattoo is done and paid for, your reward lands in your WOTS wallet. You'll see the balance in your dashboard. Cash it out whenever you want, or let it build and convert it to Blood Money for 1.5× the value at the studio.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- FAQ -->
+    <div class="section fade-up">
+      <div class="section-eyebrow">Common questions</div>
+      <div class="section-title">FAQ</div>
+      <div class="faq">
+        <div class="faq-item">
+          <div class="faq-q">Do they have to use my link for me to get credit?</div>
+          <div class="faq-a">Yes. The link is what ties the referral to you. If they go directly to the studio without clicking your link, we have no way to credit you. Always send the link first.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">How do I know if someone used my link?</div>
+          <div class="faq-a">Check your ambassador dashboard at wotsworks.com/a/?ref=[your code]. It shows every referral linked to you and the current status — scanned, claimed, or converted.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">When exactly do I get paid?</div>
+          <div class="faq-a">After the tattoo session is completed and paid for, the reward lands in your WOTS wallet. Not when they click, not when they book — when the ink is done and the money is in. Then you choose: cash out or convert to Blood Money.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">Is there a limit to how many people I can refer?</div>
+          <div class="faq-a">No limit. Refer one person or fifty — every completed tattoo that came through your link earns you a reward.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">What if they don't go through with the tattoo?</div>
+          <div class="faq-a">No tattoo, no reward. The referral has to convert to a completed, paid session. Consultations and deposits alone don't trigger the payout.</div>
+        </div>
+        <div class="faq-item">
+          <div class="faq-q">How do I get my money?</div>
+          <div class="faq-a">Your reward shows up in your WOTS wallet on the dashboard. When you're ready to cash out, just let us know and we'll send it via Venmo or Zelle. Or convert it to Blood Money and spend it at the studio for 1.5× the value.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- BOTTOM CTA -->
+    <div class="section fade-up" style="text-align:center; padding: 0 20px;">
+      <a id="dashboard-link" href="/a/" style="display:block; width:100%; background: var(--rust); color: var(--bone); font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.14em; text-align: center; text-transform: uppercase; padding: 20px; text-decoration: none; margin-bottom: 12px; transition: background 0.2s;">View Your Dashboard →</a>
+      <p style="font-family: 'DM Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; color: var(--muted); text-transform: uppercase;">Track your referrals and see your earnings</p>
+    </div>
+
+    <footer>
+      <span class="footer-powered">Powered by <span>WordOnTheStreet</span></span>
+      <span style="font-family:'DM Mono',monospace;font-size:0.58rem;letter-spacing:0.1em;color:var(--muted);" id="ref-footer">ref: —</span>
+    </footer>
+
+  </div>
+
+  <script>
+    const SUPABASE_URL = 'https://hpexcficdfomofvkqsez.supabase.co';
+    const SUPABASE_KEY = 'sb_publishable_WqV7oy9GrUU-1GKPe-l0NQ_KNafLYBH';
+
+    const params  = new URLSearchParams(window.location.search);
+    const refCode = params.get('ref') || 'demo';
+
+    // Set ref in footer
+    document.getElementById('ref-footer').textContent = 'ref: ' + refCode;
+
+    // Set referral link
+    const refLink = `https://wotsworks.com/r/?ref=${refCode}`;
+    document.getElementById('ref-link-display').textContent = refLink;
+
+    // Set dashboard link
+    document.getElementById('dashboard-link').href = `/a/?ref=${refCode}`;
+
+    // Set SMS share
+    const smsBody = encodeURIComponent(`Hey, I wanted to send you my referral link for Broken Art Tattoo — check them out: ${refLink}`);
+    document.getElementById('sms-share').href = `sms:&body=${smsBody}`;
+
+    // Copy link
+    function copyLink() {
+      navigator.clipboard.writeText(refLink).then(() => {
+        const btn = document.getElementById('copy-btn');
+        btn.textContent = 'Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = 'Copy';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+
+    // Load ambassador name
+    async function loadAmbassador() {
+      if (refCode === 'demo') {
+        document.getElementById('ambassador-name').textContent = 'Demo Ambassador';
+        return;
+      }
+      try {
+        const res  = await fetch(`${SUPABASE_URL}/rest/v1/ambassadors?ref_code=eq.${encodeURIComponent(refCode)}&select=name&limit=1`, {
+          headers: {
+            'apikey':        SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`,
+          }
+        });
+        const data = await res.json();
+        if (data && data.length > 0) {
+          document.getElementById('ambassador-name').textContent = data[0].name;
+        } else {
+          document.getElementById('ambassador-name').textContent = 'Ambassador';
+        }
+      } catch(e) {
+        document.getElementById('ambassador-name').textContent = 'Ambassador';
+      }
+    }
+
+    loadAmbassador();
+  </script>
+
+</body>
+</html>

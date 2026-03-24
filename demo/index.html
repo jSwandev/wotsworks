@@ -279,6 +279,7 @@
       <div>
         <div class="setup-card-label" style="margin-bottom:6px;">Bonus multiplier vs cash out</div>
         <select id="multiplier" onchange="update()">
+          <option value="1">No bonus — cash value only</option>
           <option value="1.25">1.25× — modest bonus</option>
           <option value="1.5" selected>1.5× — recommended</option>
           <option value="2">2× — strong incentive</option>
@@ -435,19 +436,20 @@
 
     <!-- AMBASSADOR REWARD PREVIEW — always shows both options -->
     <div class="reward-preview">
-      <div class="reward-preview-label">What your ambassadors always earn — they choose</div>
+      <div class="reward-preview-label">What your ambassadors earn — they choose</div>
       <div class="reward-preview-options">
         <div class="reward-option-card">
           <div class="reward-option-card-label">Cash Out</div>
           <div class="reward-option-card-value" id="rp-cash-val">$—</div>
-          <div class="reward-option-card-sub">Transferred directly to their bank or Venmo</div>
+          <div class="reward-option-card-sub">Per converted referral · transferred directly to them</div>
         </div>
-        <div class="reward-option-card">
+        <div class="reward-option-card" id="rp-credit-card">
           <div class="reward-option-card-label" id="rp-credit-label">House Credits</div>
           <div class="reward-option-card-value green" id="rp-credit-val">$—</div>
-          <div class="reward-option-card-sub" id="rp-credit-sub">1.5× bonus when redeemed at your business</div>
+          <div class="reward-option-card-sub" id="rp-credit-sub">Bonus · spent back at your business</div>
         </div>
       </div>
+      <div id="rp-earned-summary" style="margin-top:12px;padding:12px 14px;background:var(--surface);border:1px solid var(--border);border-radius:6px;font-size:0.82rem;color:var(--text);line-height:1.6;"></div>
     </div>
 
     <div class="map-strip">
@@ -467,6 +469,13 @@
         <span class="roster-count" id="roster-count">10 pins</span>
       </div>
       <div id="roster-list"></div>
+    </div>
+
+    <div style="background:var(--ink2);border-radius:var(--r);padding:32px 36px;margin-bottom:16px;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:-40px;left:-40px;width:200px;height:200px;background:radial-gradient(circle,rgba(0,197,102,0.08) 0%,transparent 70%);border-radius:50%;"></div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--green);margin-bottom:14px;">The long game</div>
+      <div style="font-family:'Clash Display',sans-serif;font-size:clamp(1.2rem,3vw,1.7rem);font-weight:700;letter-spacing:-0.02em;color:#f4f3f0;line-height:1.2;margin-bottom:12px;">Do your job right and that referral becomes a client for life.</div>
+      <div style="font-size:0.92rem;color:rgba(244,243,240,0.55);line-height:1.7;">WOTS brings them through the door. What happens next is on you. Deliver a great experience and you haven't just gained a client — you've built your base. <strong style="color:rgba(244,243,240,0.85);">One referral. One great experience. A customer that keeps coming back.</strong> That's what WOTS is really building for you.</div>
     </div>
 
     <div class="cta-section">
@@ -663,11 +672,22 @@
     document.getElementById('entry-copy').textContent  = ep.copy;
     document.getElementById('entry-sub').textContent   = ep.sub;
 
-    // Ambassador reward — always show both options
+    // Ambassador reward preview
+    const creditCard = document.getElementById('rp-credit-card');
     document.getElementById('rp-cash-val').textContent    = cashReward > 0 ? '$' + cashReward : 'Perks';
     document.getElementById('rp-credit-label').textContent = currencyName;
-    document.getElementById('rp-credit-val').textContent  = cashReward > 0 ? '$' + creditReward : 'Bonus Perks';
-    document.getElementById('rp-credit-sub').textContent  = `${multiplier}× bonus when redeemed at your business`;
+    document.getElementById('rp-credit-sub').textContent  = multiplier + '× bonus · spent back at your business';
+
+    if (multiplier === 1) {
+      creditCard.style.display = 'none';
+      document.getElementById('rp-earned-summary').textContent = `Your ambassadors earn $${cashReward} cash per converted referral. No in-store bonus — straight cash out only.`;
+    } else {
+      creditCard.style.display = 'block';
+      document.getElementById('rp-credit-val').textContent = '$' + creditReward;
+      const totalEarned = newClients * cashReward;
+      const totalCredit = newClients * creditReward;
+      document.getElementById('rp-earned-summary').innerHTML = `This month your ambassadors collectively earned <strong>$${totalEarned}</strong> in cash — or <strong>$${totalCredit}</strong> in ${currencyName} if they take the ${multiplier}× bonus. Either way, they win. If they choose ${currencyName}, that money comes back through your door.`;
+    }
 
     // Roster
     document.getElementById('roster-count').textContent = pins + ' pin' + (pins !== 1 ? 's' : '');

@@ -31,10 +31,9 @@
     .hero-kicker { display: inline-flex; align-items: center; gap: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); margin-bottom: 24px; }
     .hero-kicker-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s ease infinite; }
     @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.7)} }
-    .hero-title { font-family: 'Clash Display', sans-serif; font-size: clamp(3rem, 7vw, 5.5rem); font-weight: 700; line-height: 1.0; letter-spacing: -0.03em; color: var(--ink); margin-bottom: 28px; max-width: 820px; }
+    .hero-title { font-family: 'Clash Display', sans-serif; font-size: clamp(2.6rem, 6.5vw, 5rem); font-weight: 700; line-height: 1.0; letter-spacing: -0.03em; color: var(--ink); margin-bottom: 28px; max-width: 820px; }
     .hero-title .green { color: var(--green); }
     .hero-title .ul { position: relative; display: inline-block; }
-    .hero-title .ul::after { content: ''; position: absolute; bottom: 4px; left: 0; right: 0; height: 3px; background: var(--green); border-radius: 2px; }
     .hero-sub { font-size: 1.15rem; color: var(--muted); line-height: 1.65; max-width: 580px; margin-bottom: 40px; }
     .hero-sub strong { color: var(--ink); font-weight: 600; }
     .hero-actions { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
@@ -42,6 +41,8 @@
     .btn-primary:hover { background: var(--green-dark); transform: translateY(-1px); }
     .btn-ghost { font-family: 'Instrument Sans', sans-serif; font-size: 0.95rem; font-weight: 500; color: var(--muted); background: transparent; padding: 14px 20px; border-radius: 8px; text-decoration: none; border: 1px solid var(--border); cursor: pointer; transition: border-color 0.15s, color 0.15s; }
     .btn-ghost:hover { border-color: rgba(15,15,14,0.25); color: var(--ink); }
+    .btn-demo { font-family: 'Instrument Sans', sans-serif; font-size: 0.95rem; font-weight: 600; color: var(--ink); background: transparent; padding: 14px 24px; border-radius: 8px; text-decoration: none; border: 2px solid var(--ink); cursor: pointer; transition: background 0.15s, color 0.15s; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-demo:hover { background: var(--ink); color: white; }
     .proof { display: flex; align-items: center; gap: 32px; margin-top: 56px; padding-top: 40px; border-top: 1px solid var(--border); flex-wrap: wrap; animation: fadeUp 0.6s 0.2s ease both; }
     .proof-item { display: flex; flex-direction: column; gap: 4px; }
     .proof-num { font-family: 'Clash Display', sans-serif; font-size: 1.9rem; font-weight: 700; letter-spacing: -0.03em; color: var(--ink); line-height: 1; }
@@ -69,8 +70,10 @@
     .pitch-kicker { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--green); margin-bottom: 20px; }
     .pitch-title { font-family: 'Clash Display', sans-serif; font-size: clamp(2rem, 5vw, 3.6rem); font-weight: 700; letter-spacing: -0.03em; color: #f4f3f0; line-height: 1.05; margin-bottom: 24px; max-width: 680px; }
     .pitch-title span { color: var(--green); }
-    .pitch-body { font-size: 1.05rem; color: rgba(244,243,240,0.55); line-height: 1.7; max-width: 580px; }
+    .pitch-body { font-size: 1.05rem; color: rgba(244,243,240,0.55); line-height: 1.7; max-width: 580px; margin-bottom: 36px; }
     .pitch-body strong { color: rgba(244,243,240,0.85); font-weight: 500; }
+    .btn-demo-inv { font-family: 'Instrument Sans', sans-serif; font-size: 0.95rem; font-weight: 600; color: var(--ink); background: var(--green); padding: 14px 28px; border-radius: 8px; text-decoration: none; border: none; cursor: pointer; transition: background 0.15s, transform 0.12s; display: inline-flex; align-items: center; gap: 8px; }
+    .btn-demo-inv:hover { background: var(--green-dark); transform: translateY(-1px); }
     .pricing-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 12px; }
     @media(max-width:768px){.pricing-grid{grid-template-columns:1fr}}
     .price-card { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 28px 24px; position: relative; overflow: hidden; transition: border-color 0.2s, box-shadow 0.2s; }
@@ -84,6 +87,14 @@
     .price-fee { font-family: 'JetBrains Mono', monospace; font-size: 0.68rem; letter-spacing: 0.06em; color: var(--green); font-weight: 500; margin-bottom: 16px; }
     .price-divider { height: 1px; background: var(--border2); margin-bottom: 16px; }
     .price-who { font-size: 0.88rem; color: var(--muted); line-height: 1.55; }
+
+    /* Demo CTA Banner */
+    .demo-banner { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 40px 48px; margin-bottom: 96px; display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+    .demo-banner-text {}
+    .demo-banner-label { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--green); margin-bottom: 10px; }
+    .demo-banner-title { font-family: 'Clash Display', sans-serif; font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 700; letter-spacing: -0.02em; color: var(--ink); line-height: 1.15; }
+    .demo-banner-sub { font-size: 0.92rem; color: var(--muted); margin-top: 8px; line-height: 1.5; }
+
     .waitlist-section { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 56px 48px; margin-bottom: 96px; }
     @media(max-width:640px){.waitlist-section{padding:36px 24px}}
     .waitlist-title { font-family: 'Clash Display', sans-serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; letter-spacing: -0.03em; color: var(--ink); line-height: 1.1; margin-bottom: 12px; }
@@ -131,16 +142,16 @@
 
     <section class="hero">
       <div class="hero-kicker"><span class="hero-kicker-dot"></span>The Referral Platform for Local Business</div>
-      <h1 class="hero-title">You only pay<br><span class="ul">when it works.</span></h1>
+      <h1 class="hero-title">$19 a month.<br>The rest only costs<br><span class="ul">when it's already working.</span></h1>
       <p class="hero-sub">WOTS turns word-of-mouth into a <strong>structured, trackable growth engine.</strong> Recruit ambassadors, track referrals, reward the people who bring in new clients — automatically, every time.</p>
       <div class="hero-actions">
-        <a href="#waitlist" class="btn-primary">Get Early Access <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-        <a href="#how" class="btn-ghost">See how it works</a>
+        <a href="/demo/" class="btn-primary">See how WOTS can work for you <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="#waitlist" class="btn-ghost">Get Early Access</a>
       </div>
       <div class="proof">
         <div class="proof-item"><div class="proof-num"><span class="g">$0</span></div><div class="proof-label">Ad spend to start</div></div>
         <div class="proof-divider"></div>
-        <div class="proof-item"><div class="proof-num">$20</div><div class="proof-label">Avg ambassador reward</div></div>
+        <div class="proof-item"><div class="proof-num"><span class="g">You</span> set it</div><div class="proof-label">Your reward, your rules</div></div>
         <div class="proof-divider"></div>
         <div class="proof-item"><div class="proof-num">3<span class="g">%</span></div><div class="proof-label">Platform fee only</div></div>
         <div class="proof-divider"></div>
@@ -164,7 +175,7 @@
         <div class="step-card"><div class="step-num">01</div><div class="step-title">Recruit Ambassadors</div><div class="step-desc">Clients, friends, bartenders, stylists — anyone who talks about your business joins your network and gets a personal referral link and QR code instantly.</div></div>
         <div class="step-card"><div class="step-num">02</div><div class="step-title">They Share in Conversation</div><div class="step-desc">No posts. No campaigns. Just a person pulling out their phone mid-conversation and letting someone scan. That's the whole move.</div></div>
         <div class="step-card"><div class="step-num">03</div><div class="step-title">New Client Discovers You</div><div class="step-desc">The referral page shows your business, your work, your booking link. The customer can act immediately — consultation, booking, inquiry.</div></div>
-        <div class="step-card"><div class="step-num">04</div><div class="step-title">Ambassador Gets Rewarded</div><div class="step-desc">When the referral converts, earnings go into their WOTS wallet. Transfer to their bank or spend it back with you. The loop closes itself.</div></div>
+        <div class="step-card"><div class="step-num">04</div><div class="step-title">Ambassador Gets Rewarded</div><div class="step-desc">When the referral converts, earnings go into their WOTS wallet. Transfer to their bank or spend it back with you as House Credits. The loop closes itself.</div></div>
       </div>
     </section>
 
@@ -172,6 +183,7 @@
       <div class="pitch-kicker">The WOTS difference</div>
       <h2 class="pitch-title">The referral fee only exists because <span>it already worked.</span></h2>
       <p class="pitch-body">Google charges for clicks. Facebook charges for impressions. <strong>Neither guarantees a human walks through your door.</strong> With WOTS, you only spend money when a real customer already put money in your pocket. Your ambassador earns store credit and spends it back with you. You paid out $20 and got a $150 return visit. You got paid twice on the same referral. That's not advertising. That's a growth engine.</p>
+      <a href="/demo/" class="btn-demo-inv">See how WOTS can work for you <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </div>
 
     <section class="section">
@@ -183,6 +195,16 @@
         <div class="price-card"><div class="price-tier">Pro</div><div class="price-amount"><sup>$</sup>149</div><div class="price-period">per month</div><div class="price-fee">+ 1.5% per transaction</div><div class="price-divider"></div><div class="price-who">Multi-location, high volume. Custom branding, advanced analytics, priority support.</div></div>
       </div>
     </section>
+
+    <!-- Demo CTA Banner -->
+    <div class="demo-banner">
+      <div class="demo-banner-text">
+        <div class="demo-banner-label">Interactive Demo</div>
+        <div class="demo-banner-title">Plug in your numbers.<br>See your ROI before you sign up.</div>
+        <div class="demo-banner-sub">Set your reward, pick your ambassadors, watch the math do the talking.</div>
+      </div>
+      <a href="/demo/" class="btn-primary" style="flex-shrink:0;">See how WOTS can work for you <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </div>
 
     <section class="waitlist-section" id="waitlist">
       <h2 class="waitlist-title">Get <span>Early Access</span></h2>
@@ -215,6 +237,7 @@
       <div class="footer-logo">Word<span>On</span>TheStreet™</div>
       <div class="footer-links">
         <a href="#how" class="footer-link">How it works</a>
+        <a href="/demo/" class="footer-link">Try the demo</a>
         <a href="#waitlist" class="footer-link">Early access</a>
         <span class="footer-bat">Beta at <a href="https://brokenarttattoo.com" target="_blank">Broken Art Tattoo</a> · LA</span>
       </div>

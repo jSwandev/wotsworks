@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>See Your Street — WOTS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Clash+Display:wght@400;500;600;700&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:           #f4f3f0;
+      --surface:      #ffffff;
+      --border:       rgba(15,15,14,0.1);
+      --border2:      rgba(15,15,14,0.06);
+      --text:         #0f0f0e;
+      --ink2:         #1a1a18;
+      --muted:        #6b6b67;
+      --green:        #00c566;
+      --green-dim:    #009e52;
+      --green-bg:     rgba(0,197,102,0.08);
+      --green-border: rgba(0,197,102,0.2);
+      --red:          #e03e3e;
+      --gold:         #e8a800;
+      --gold-bg:      #fffbeb;
+      --r:            8px;
+    }
+
+    html, body { min-height: 100%; background: var(--bg); color: var(--text); font-family: 'Instrument Sans', sans-serif; -webkit-font-smoothing: antialiased; }
+
+    /* NAV */
+    nav { position: sticky; top: 0; z-index: 100; background: var(--bg); border-bottom: 1px solid var(--border); padding: 16px 32px; display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo { font-family: 'Clash Display', sans-serif; font-size: 1rem; font-weight: 700; letter-spacing: -0.01em; color: var(--text); }
+    .nav-logo span { color: var(--green); }
+    .nav-back { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-decoration: none; display: flex; align-items: center; gap: 6px; transition: color 0.2s; }
+    .nav-back:hover { color: var(--text); }
+
+    /* HERO */
+    .hero { max-width: 760px; margin: 0 auto; padding: 64px 32px 48px; text-align: center; animation: fadeUp 0.6s ease both; }
+    .hero-tag { display: inline-flex; align-items: center; gap: 8px; background: var(--green-bg); border: 1px solid var(--green-border); border-radius: 100px; padding: 6px 14px; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green-dim); font-weight: 500; margin-bottom: 24px; }
+    .hero-tag::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--green); animation: pulse 2s ease infinite; flex-shrink: 0; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:0.5;transform:scale(0.8)} }
+    .hero-title { font-family: 'Clash Display', sans-serif; font-size: clamp(2.4rem, 6vw, 4rem); font-weight: 700; letter-spacing: -0.03em; line-height: 1.05; color: var(--text); margin-bottom: 20px; }
+    .hero-title .green { color: var(--green); }
+    .hero-sub { font-size: 1.05rem; color: var(--muted); line-height: 1.7; max-width: 520px; margin: 0 auto; }
+
+    /* MAIN */
+    .main { max-width: 1100px; margin: 0 auto; padding: 0 24px 80px; }
+
+    /* SECTION LABEL */
+    .section-label { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--green); background: var(--green-bg); padding: 4px 10px; border-radius: 100px; display: inline-block; margin-bottom: 16px; }
+
+    /* SETUP ROW */
+    .setup-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 16px; margin-bottom: 24px; animation: fadeUp 0.5s ease both; }
+    @media(max-width:700px) { .setup-row { grid-template-columns: 1fr; } }
+
+    .setup-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 20px; }
+    .setup-card-label { font-family: 'Clash Display', sans-serif; font-size: 1.1rem; font-weight: 700; letter-spacing: -0.01em; color: var(--text); margin-bottom: 12px; }
+
+    select, input[type=text], input[type=number] {
+      width: 100%; background: var(--bg); border: 1px solid var(--border); border-radius: 6px;
+      padding: 10px 12px; font-family: 'Instrument Sans', sans-serif; font-size: 0.88rem;
+      color: var(--text); outline: none; transition: border-color 0.2s; appearance: none;
+      -webkit-appearance: none; cursor: pointer;
+    }
+    select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236b6b67' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
+    select:focus, input[type=text]:focus, input[type=number]:focus { border-color: var(--green); box-shadow: 0 0 0 3px rgba(0,197,102,0.1); }
+
+    /* PAYMENT TYPE CARDS */
+    .payment-options { display: flex; flex-direction: column; gap: 6px; }
+    .payment-option { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border: 2px solid var(--border); border-radius: 6px; cursor: pointer; transition: all 0.15s; }
+    .payment-option:hover { border-color: var(--green); background: var(--green-bg); }
+    .payment-option.selected { border-color: var(--green); background: var(--green-bg); }
+    .payment-option-icon { font-size: 1.1rem; flex-shrink: 0; }
+    .payment-option-name { font-size: 0.8rem; font-weight: 600; }
+    .payment-option-desc { font-size: 0.65rem; color: var(--muted); }
+
+    /* CONFIG GRID */
+    .config-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; animation: fadeUp 0.5s 0.1s ease both; }
+    @media(max-width:700px) { .config-grid { grid-template-columns: 1fr; } }
+    .config-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 24px; }
+    .config-card-label { font-family: 'Clash Display', sans-serif; font-size: 1.1rem; font-weight: 700; letter-spacing: -0.01em; color: var(--text); margin-bottom: 16px; }
+
+    /* PLAN OPTIONS */
+    .plan-options { display: flex; flex-direction: column; gap: 8px; }
+    .plan-option { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border: 2px solid var(--border); border-radius: 6px; cursor: pointer; transition: all 0.15s; }
+    .plan-option:hover { border-color: var(--green); background: var(--green-bg); }
+    .plan-option.selected { border-color: var(--green); background: var(--green-bg); }
+    .plan-name { font-family: 'Clash Display', sans-serif; font-weight: 600; font-size: 1rem; letter-spacing: -0.01em; }
+    .plan-detail { font-size: 0.72rem; color: var(--muted); margin-top: 2px; }
+    .plan-price { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; font-weight: 500; color: var(--green); }
+
+    /* REWARD CHECKBOXES */
+    .reward-checks { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+    .reward-check { padding: 12px 14px; border: 2px solid var(--border); border-radius: 6px; cursor: pointer; transition: all 0.15s; text-align: center; position: relative; user-select: none; }
+    .reward-check:hover { border-color: var(--green); }
+    .reward-check.selected { border-color: var(--green); background: var(--green-bg); }
+    .reward-check-icon { font-size: 1.3rem; margin-bottom: 4px; }
+    .reward-check-label { font-size: 0.72rem; font-weight: 600; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.06em; }
+    .reward-check-tick { position: absolute; top: 6px; right: 8px; font-size: 0.65rem; color: var(--green); font-weight: 700; }
+    .reward-input-wrap { display: flex; flex-direction: column; gap: 8px; }
+    .reward-field { display: flex; flex-direction: column; gap: 5px; }
+    .reward-field label { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); }
+
+    /* AMBASSADOR REWARD NOTE */
+    .ambassador-always { background: var(--green-bg); border: 1px solid var(--green-border); border-radius: 6px; padding: 12px 14px; margin-top: 12px; }
+    .ambassador-always-label { font-family: 'JetBrains Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green-dim); margin-bottom: 4px; }
+    .ambassador-always-text { font-size: 0.8rem; color: var(--text); line-height: 1.5; }
+
+    /* SLIDERS */
+    .sliders { display: flex; flex-direction: column; gap: 22px; }
+    .slider-group { display: flex; flex-direction: column; gap: 8px; }
+    .slider-header { display: flex; justify-content: space-between; align-items: baseline; }
+    .slider-label { font-size: 0.85rem; font-weight: 500; }
+    .slider-value { font-family: 'JetBrains Mono', monospace; font-size: 0.88rem; font-weight: 500; color: var(--green); }
+    input[type=range] { -webkit-appearance: none; width: 100%; height: 4px; background: var(--border); border-radius: 2px; outline: none; cursor: pointer; }
+    input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: var(--green); cursor: pointer; box-shadow: 0 1px 4px rgba(0,197,102,0.3); transition: transform 0.1s; }
+    input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.15); }
+    .slider-hint { font-size: 0.68rem; color: var(--muted); }
+
+    /* ROI OUTPUT */
+    .roi-section { animation: fadeUp 0.5s 0.2s ease both; }
+
+    .roi-headline { background: var(--text); border-radius: var(--r); padding: 36px 40px; margin-bottom: 16px; position: relative; overflow: hidden; }
+    .roi-headline::before { content: ''; position: absolute; top: -60px; right: -60px; width: 220px; height: 220px; background: radial-gradient(circle, rgba(0,197,102,0.12) 0%, transparent 70%); border-radius: 50%; }
+    .roi-headline-label { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.35); margin-bottom: 12px; }
+    .roi-statement { font-family: 'Clash Display', sans-serif; font-size: clamp(1.6rem, 4vw, 2.6rem); font-weight: 700; letter-spacing: -0.02em; color: #ffffff; line-height: 1.15; margin-bottom: 8px; }
+    .roi-statement em { font-style: normal; color: var(--green); }
+    .roi-sub { font-size: 0.82rem; color: rgba(255,255,255,0.45); }
+
+    .roi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 16px; }
+    @media(max-width:700px) { .roi-grid { grid-template-columns: 1fr 1fr; } }
+
+    .roi-card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 20px 18px; position: relative; overflow: hidden; }
+    .roi-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+    .roi-card.green::before { background: var(--green); }
+    .roi-card.dark::before  { background: var(--text); }
+    .roi-card.muted::before { background: var(--border); }
+    .roi-card.red::before   { background: var(--red); }
+    .roi-card-label { font-family: 'JetBrains Mono', monospace; font-size: 0.58rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+    .roi-card-value { font-family: 'Clash Display', sans-serif; font-size: 2rem; font-weight: 700; letter-spacing: -0.02em; line-height: 1; color: var(--text); margin-bottom: 4px; }
+    .roi-card.green .roi-card-value { color: var(--green); }
+    .roi-card.red   .roi-card-value { color: var(--red); }
+    .roi-card-sub { font-size: 0.68rem; color: var(--muted); line-height: 1.4; }
+
+    /* BREAKEVEN */
+    .breakeven-bar { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 18px 24px; margin-bottom: 16px; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .breakeven-label { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 500; white-space: nowrap; min-width: 160px; }
+    .breakeven-track { flex: 1; min-width: 100px; height: 8px; background: var(--border); border-radius: 4px; overflow: hidden; }
+    .breakeven-fill { height: 100%; background: var(--green); border-radius: 4px; transition: width 0.4s cubic-bezier(0.34, 1.2, 0.64, 1); }
+    .breakeven-note { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; color: var(--muted); white-space: nowrap; }
+
+    /* ENTRY PAYMENT PREVIEW */
+    .entry-preview { background: var(--gold-bg); border: 1px solid rgba(232,168,0,0.2); border-radius: var(--r); padding: 18px 22px; margin-bottom: 16px; display: flex; align-items: flex-start; gap: 14px; }
+    .entry-preview-icon { font-size: 1.8rem; flex-shrink: 0; }
+    .entry-preview-body { flex: 1; }
+    .entry-preview-label { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+    .entry-preview-copy { font-size: 0.88rem; color: var(--text); line-height: 1.55; }
+    .entry-preview-sub { font-size: 0.7rem; color: var(--muted); margin-top: 4px; }
+
+    /* REWARD PREVIEW */
+    .reward-preview { background: var(--green-bg); border: 1px solid var(--green-border); border-radius: var(--r); padding: 18px 22px; margin-bottom: 16px; }
+    .reward-preview-label { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green-dim); margin-bottom: 10px; }
+    .reward-preview-options { display: flex; gap: 12px; flex-wrap: wrap; }
+    .reward-option-card { flex: 1; min-width: 140px; background: var(--surface); border: 1px solid var(--green-border); border-radius: 6px; padding: 14px 16px; }
+    .reward-option-card-label { font-family: 'JetBrains Mono', monospace; font-size: 0.58rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
+    .reward-option-card-value { font-family: 'Clash Display', sans-serif; font-size: 1.4rem; font-weight: 700; letter-spacing: -0.02em; color: var(--text); margin-bottom: 4px; }
+    .reward-option-card-value.green { color: var(--green); }
+    .reward-option-card-sub { font-size: 0.7rem; color: var(--muted); line-height: 1.4; }
+
+    /* OPERATOR MAP */
+    .map-strip { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); padding: 24px; margin-bottom: 16px; }
+    .map-stops { display: flex; align-items: flex-start; }
+    .map-stop { flex: 1; display: flex; flex-direction: column; align-items: center; text-align: center; position: relative; }
+    .map-stop:not(:last-child)::after { content: ''; position: absolute; top: 15px; left: 50%; width: 100%; height: 2px; background: var(--border); z-index: 0; }
+    .map-stop.done:not(:last-child)::after { background: var(--green); }
+    .map-stop-dot { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--border); background: var(--surface); display: flex; align-items: center; justify-content: center; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 700; color: var(--muted); position: relative; z-index: 1; margin-bottom: 8px; transition: all 0.2s; }
+    .map-stop.done .map-stop-dot { border-color: var(--green); background: var(--green); color: white; }
+    .map-stop.active .map-stop-dot { border-color: var(--green); color: var(--green); }
+    .map-stop-name { font-size: 0.62rem; font-weight: 600; color: var(--muted); line-height: 1.3; padding: 0 4px; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.04em; }
+    .map-stop.done .map-stop-name { color: var(--text); }
+    .map-stop.active .map-stop-name { color: var(--green); }
+
+    /* ROSTER */
+    .roster-preview { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); overflow: hidden; margin-bottom: 16px; }
+    .roster-header { padding: 14px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    .roster-header-label { font-family: 'JetBrains Mono', monospace; font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+    .roster-count { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; background: var(--green-bg); color: var(--green-dim); padding: 3px 10px; border-radius: 20px; }
+    .roster-row { display: flex; align-items: center; gap: 12px; padding: 11px 20px; border-bottom: 1px solid var(--border2); }
+    .roster-row:last-child { border-bottom: none; }
+    .roster-avatar { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Clash Display', sans-serif; font-size: 0.75rem; font-weight: 700; flex-shrink: 0; }
+    .roster-name { flex: 1; font-size: 0.85rem; font-weight: 500; }
+    .roster-refs { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: var(--muted); margin-right: 8px; }
+    .status-pill { font-family: 'JetBrains Mono', monospace; font-size: 0.55rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 8px; border-radius: 20px; }
+    .status-pill.hot    { background: rgba(0,197,102,0.12); color: var(--green-dim); }
+    .status-pill.active { background: rgba(15,15,14,0.06); color: #5a5856; }
+    .status-pill.new    { background: rgba(232,168,0,0.1); color: #b87d00; }
+    .status-pill.quiet  { background: rgba(224,62,62,0.08); color: var(--red); }
+
+    /* CTA */
+    .cta-section { background: var(--text); border-radius: var(--r); padding: 48px 40px; text-align: center; position: relative; overflow: hidden; }
+    .cta-section::before { content: ''; position: absolute; bottom: -40px; left: 50%; transform: translateX(-50%); width: 300px; height: 300px; background: radial-gradient(circle, rgba(0,197,102,0.1) 0%, transparent 70%); }
+    .cta-title { font-family: 'Clash Display', sans-serif; font-size: clamp(1.8rem, 4vw, 2.8rem); font-weight: 700; letter-spacing: -0.03em; color: white; margin-bottom: 12px; line-height: 1.1; }
+    .cta-title span { color: var(--green); }
+    .cta-sub { font-size: 0.88rem; color: rgba(255,255,255,0.45); margin-bottom: 28px; line-height: 1.6; max-width: 440px; margin-left: auto; margin-right: auto; }
+    .cta-btn { display: inline-flex; align-items: center; gap: 10px; background: var(--green); color: var(--text); font-family: 'Instrument Sans', sans-serif; font-weight: 700; font-size: 0.95rem; padding: 16px 32px; border-radius: 8px; text-decoration: none; transition: all 0.2s; border: none; cursor: pointer; }
+    .cta-btn:hover { background: var(--green-dim); color: white; transform: translateY(-1px); }
+    .cta-note { margin-top: 14px; font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.25); }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Word<span>On</span>TheStreet™</div>
+  <a href="/" class="nav-back">← Back to wotsworks.com</a>
+</nav>
+
+<div class="hero">
+  <div class="hero-tag">Your Street · Your Numbers</div>
+  <h1 class="hero-title">See how WOTS works<br>for <span class="green">your</span> business</h1>
+  <p class="hero-sub">Tell us about your business. We'll show you what your street looks like when it's working.</p>
+</div>
+
+<div class="main">
+
+  <!-- STEP 1 -->
+  <div style="margin-bottom:12px;"><div class="section-label">Step 1 — Tell us about your business</div></div>
+  <div class="setup-row">
+
+    <div class="setup-card">
+      <div class="setup-card-label">Business Type</div>
+      <select id="biz-type" onchange="onBizTypeChange()">
+        <option value="tattoo">Tattoo Studio</option>
+        <option value="salon">Hair Salon / Barber</option>
+        <option value="gym">Gym / Personal Trainer</option>
+        <option value="cafe">Cafe / Coffee Shop</option>
+        <option value="restaurant">Restaurant</option>
+        <option value="medspa">Med Spa</option>
+        <option value="other">Other Local Business</option>
+      </select>
+    </div>
+
+    <div class="setup-card">
+      <div class="setup-card-label">How new clients pay in</div>
+      <div class="payment-options">
+        <div class="payment-option selected" id="pmt-deposit" onclick="selectPayment('deposit')">
+          <span class="payment-option-icon">🔒</span>
+          <div><div class="payment-option-name">Deposit</div><div class="payment-option-desc">Holds appointment, applies to service</div></div>
+        </div>
+        <div class="payment-option" id="pmt-credit" onclick="selectPayment('credit')">
+          <span class="payment-option-icon">🎟️</span>
+          <div><div class="payment-option-name">House Credits</div><div class="payment-option-desc">Pre-loaded value, redeemed at visit</div></div>
+        </div>
+        <div class="payment-option" id="pmt-booking" onclick="selectPayment('booking')">
+          <span class="payment-option-icon">📅</span>
+          <div><div class="payment-option-name">Booking Fee</div><div class="payment-option-desc">Confirms appointment, non-refundable</div></div>
+        </div>
+        <div class="payment-option" id="pmt-none" onclick="selectPayment('none')">
+          <span class="payment-option-icon">🚶</span>
+          <div><div class="payment-option-name">None</div><div class="payment-option-desc">Walk-in, referral tracked by visit</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="setup-card">
+      <div class="setup-card-label">Your In-Store Currency Name</div>
+      <select id="currency-preset" style="margin-bottom:10px;" onchange="onCurrencyPreset()">
+        <option value="house">House Credits</option>
+        <option value="studio">Studio Credits</option>
+        <option value="store">Store Credits</option>
+        <option value="custom">Custom name...</option>
+      </select>
+      <input type="text" id="currency-custom" placeholder="e.g. Ink Credits, Sip Credits..." style="display:none;margin-bottom:10px;" oninput="update()" />
+      <div>
+        <div class="setup-card-label" style="margin-bottom:6px;">Bonus multiplier vs cash out</div>
+        <select id="multiplier" onchange="update()">
+          <option value="1.25">1.25× — modest bonus</option>
+          <option value="1.5" selected>1.5× — recommended</option>
+          <option value="2">2× — strong incentive</option>
+        </select>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- STEP 2 -->
+  <div style="margin-bottom:12px;"><div class="section-label">Step 2 — Configure your street</div></div>
+  <div class="config-grid">
+
+    <div style="display:flex;flex-direction:column;gap:16px;">
+      <div class="config-card">
+        <div class="config-card-label">Your Plan</div>
+        <div class="plan-options">
+          <div class="plan-option selected" onclick="selectPlan('solo',19,3)" id="plan-solo">
+            <div><div class="plan-name">Solo</div><div class="plan-detail">Up to 20 ambassadors · 3% fee</div></div>
+            <span class="plan-price">$19/mo</span>
+          </div>
+          <div class="plan-option" onclick="selectPlan('studio',79,2)" id="plan-studio">
+            <div><div class="plan-name">Studio</div><div class="plan-detail">Unlimited ambassadors · 2% fee</div></div>
+            <span class="plan-price">$79/mo</span>
+          </div>
+          <div class="plan-option" onclick="selectPlan('pro',149,1.5)" id="plan-pro">
+            <div><div class="plan-name">Pro</div><div class="plan-detail">Unlimited + priority · 1.5% fee</div></div>
+            <span class="plan-price">$149/mo</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="config-card">
+        <div class="config-card-label">Ambassador Reward Type</div>
+        <div class="reward-checks" id="reward-checks">
+          <label class="reward-check selected" id="rc-cash">
+            <input type="checkbox" checked onchange="toggleReward('cash',this)" style="display:none" />
+            <div class="reward-check-icon">💵</div>
+            <div class="reward-check-label">Cash</div>
+            <div class="reward-check-tick" id="tick-cash">✓</div>
+          </label>
+          <label class="reward-check" id="rc-product">
+            <input type="checkbox" onchange="toggleReward('product',this)" style="display:none" />
+            <div class="reward-check-icon">🎁</div>
+            <div class="reward-check-label">Product</div>
+            <div class="reward-check-tick" id="tick-product"></div>
+          </label>
+          <label class="reward-check" id="rc-service">
+            <input type="checkbox" onchange="toggleReward('service',this)" style="display:none" />
+            <div class="reward-check-icon">⭐</div>
+            <div class="reward-check-label">Service</div>
+            <div class="reward-check-tick" id="tick-service"></div>
+          </label>
+          <label class="reward-check" id="rc-custom">
+            <input type="checkbox" onchange="toggleReward('custom',this)" style="display:none" />
+            <div class="reward-check-icon">✏️</div>
+            <div class="reward-check-label">Custom</div>
+            <div class="reward-check-tick" id="tick-custom"></div>
+          </label>
+        </div>
+        <div class="reward-input-wrap" id="reward-inputs"></div>
+        <div class="ambassador-always" id="ambassador-always-note"></div>
+      </div>
+    </div>
+
+    <div class="config-card">
+      <div class="config-card-label">Your Street Numbers</div>
+
+      <div style="background:var(--green-bg);border:1px solid var(--green-border);border-radius:6px;padding:14px 16px;margin-bottom:20px;display:flex;align-items:flex-start;gap:12px;">
+        <div style="font-size:1.6rem;line-height:1;flex-shrink:0;">📣</div>
+        <div>
+          <div style="font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--green-dim);margin-bottom:4px;">Peer-to-peer vs. paid ads</div>
+          <div style="font-size:0.88rem;color:var(--text);line-height:1.55;">Referrals from a trusted friend convert at <strong>50–80%</strong>. Google and Facebook ads average <strong>2–5%</strong>. We're not an algorithm — we're a friend with a recommendation.</div>
+        </div>
+      </div>
+
+      <div class="sliders">
+        <div class="slider-group">
+          <div class="slider-header"><span class="slider-label">Avg. ticket price</span><span class="slider-value" id="val-ticket">$200</span></div>
+          <input type="range" min="25" max="1000" step="25" value="200" id="slider-ticket" oninput="update()" />
+          <span class="slider-hint">What the average client spends per visit</span>
+        </div>
+        <div class="slider-group">
+          <div class="slider-header"><span class="slider-label">Pins on your map</span><span class="slider-value" id="val-pins">10</span></div>
+          <input type="range" min="1" max="50" step="1" value="10" id="slider-pins" oninput="update()" />
+          <span class="slider-hint">Ambassadors working your street</span>
+        </div>
+        <div class="slider-group">
+          <div class="slider-header"><span class="slider-label">Referrals per ambassador / mo</span><span class="slider-value" id="val-refs">2</span></div>
+          <input type="range" min="1" max="10" step="1" value="2" id="slider-refs" oninput="update()" />
+          <span class="slider-hint">Conservative: 1–2 · Active street: 3–5</span>
+        </div>
+        <div class="slider-group">
+          <div class="slider-header"><span class="slider-label">Conversion rate</span><span class="slider-value" id="val-conv">60%</span></div>
+          <input type="range" min="10" max="100" step="5" value="60" id="slider-conv" oninput="update()" />
+          <span class="slider-hint">% of referrals that become paying clients</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- STEP 3 -->
+  <div style="margin-bottom:12px;"><div class="section-label">Step 3 — Your street, working</div></div>
+  <div class="roi-section">
+
+    <div class="roi-headline">
+      <div class="roi-headline-label">Monthly Projection · Your Street</div>
+      <div class="roi-statement" id="roi-statement">You put in <em>$19</em>. You get back <em>$—</em>.</div>
+      <div class="roi-sub" id="roi-sub">Adjust your numbers above to see your street in action.</div>
+    </div>
+
+    <div class="roi-grid">
+      <div class="roi-card green">
+        <div class="roi-card-label">Revenue via WOTS</div>
+        <div class="roi-card-value" id="roi-revenue">$—</div>
+        <div class="roi-card-sub">New clients × avg ticket</div>
+      </div>
+      <div class="roi-card dark">
+        <div class="roi-card-label">Net Profit</div>
+        <div class="roi-card-value" id="roi-profit">$—</div>
+        <div class="roi-card-sub">After all fees and rewards</div>
+      </div>
+      <div class="roi-card muted">
+        <div class="roi-card-label">New Clients</div>
+        <div class="roi-card-value" id="roi-clients">—</div>
+        <div class="roi-card-sub">Converted referrals this month</div>
+      </div>
+      <div class="roi-card red">
+        <div class="roi-card-label">Total Cost</div>
+        <div class="roi-card-value" id="roi-cost">$—</div>
+        <div class="roi-card-sub">Subscription + fees + rewards</div>
+      </div>
+    </div>
+
+    <div class="breakeven-bar">
+      <span class="breakeven-label" id="breakeven-label">Break-even: — clients</span>
+      <div class="breakeven-track"><div class="breakeven-fill" id="breakeven-fill" style="width:0%"></div></div>
+      <span class="breakeven-note" id="breakeven-note">—</span>
+    </div>
+
+    <div style="background:var(--green-bg);border:1px solid var(--green-border);border-radius:var(--r);padding:14px 18px;margin-bottom:16px;font-size:0.82rem;color:var(--text);line-height:1.6;">
+      <strong style="color:var(--green-dim);">The upside:</strong> ROI is calculated using cash payouts — your most conservative number. When ambassadors choose <span id="upside-currency">House Credits</span> instead, your cash cost drops to zero and they return to spend it with you. <strong>You get paid twice on the same referral.</strong>
+    </div>
+
+    <div class="entry-preview" id="entry-preview">
+      <div class="entry-preview-icon" id="entry-icon">🔒</div>
+      <div class="entry-preview-body">
+        <div class="entry-preview-label">How new clients enter your street</div>
+        <div class="entry-preview-copy" id="entry-copy">When a referred client claims a spot, they receive a deposit link via SMS. The deposit holds their appointment and applies 100% toward their service.</div>
+        <div class="entry-preview-sub" id="entry-sub">Powered by Stripe · Funds flow directly to your account</div>
+      </div>
+    </div>
+
+    <!-- AMBASSADOR REWARD PREVIEW — always shows both options -->
+    <div class="reward-preview">
+      <div class="reward-preview-label">What your ambassadors always earn — they choose</div>
+      <div class="reward-preview-options">
+        <div class="reward-option-card">
+          <div class="reward-option-card-label">Cash Out</div>
+          <div class="reward-option-card-value" id="rp-cash-val">$—</div>
+          <div class="reward-option-card-sub">Transferred directly to their bank or Venmo</div>
+        </div>
+        <div class="reward-option-card">
+          <div class="reward-option-card-label" id="rp-credit-label">House Credits</div>
+          <div class="reward-option-card-value green" id="rp-credit-val">$—</div>
+          <div class="reward-option-card-sub" id="rp-credit-sub">1.5× bonus when redeemed at your business</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="map-strip">
+      <div class="section-label" style="margin-bottom:18px;">The Operator Map — 5 Stops to Own Your Street</div>
+      <div class="map-stops">
+        <div class="map-stop done"><div class="map-stop-dot">✓</div><div class="map-stop-name">Subscribe to WOTS</div></div>
+        <div class="map-stop done"><div class="map-stop-dot">✓</div><div class="map-stop-name">Set Your Reward</div></div>
+        <div class="map-stop active"><div class="map-stop-dot">3</div><div class="map-stop-name">Pick Your 10</div></div>
+        <div class="map-stop"><div class="map-stop-dot">4</div><div class="map-stop-name">Drop Your Pins</div></div>
+        <div class="map-stop"><div class="map-stop-dot">5</div><div class="map-stop-name">Read the Street</div></div>
+      </div>
+    </div>
+
+    <div class="roster-preview">
+      <div class="roster-header">
+        <span class="roster-header-label">Your Ambassadors</span>
+        <span class="roster-count" id="roster-count">10 pins</span>
+      </div>
+      <div id="roster-list"></div>
+    </div>
+
+    <div class="cta-section">
+      <div class="cta-title">Ready to own<br><span>your street?</span></div>
+      <p class="cta-sub" id="cta-sub">Your street is waiting. No ad spend. No upfront risk. You only pay when you get paid.</p>
+      <a href="/#waitlist" class="cta-btn">Get Early Access <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+      <div class="cta-note">No commitment · No credit card until you're ready</div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  let plan        = { name: 'Solo', monthly: 19, fee: 3 };
+  let rewardType  = 'cash';
+  let cashReward  = 20;
+  let rewardCostForCalc = 20;
+  let paymentType = 'deposit';
+  let multiplier  = 1.5;
+
+  const MOCK = [
+    { name: 'Sarah M.',  refs: 4, status: 'hot',    c: '#d4f7e8', t: '#00a066' },
+    { name: 'Marcus T.', refs: 3, status: 'hot',    c: '#d4f7e8', t: '#00a066' },
+    { name: 'Jamie L.',  refs: 2, status: 'active', c: '#e8e6e0', t: '#5a5856' },
+    { name: 'Devon K.',  refs: 2, status: 'active', c: '#e8e6e0', t: '#5a5856' },
+    { name: 'Priya S.',  refs: 1, status: 'new',    c: '#fff3d4', t: '#b87d00' },
+    { name: 'Alex R.',   refs: 1, status: 'new',    c: '#fff3d4', t: '#b87d00' },
+    { name: 'Jordan W.', refs: 0, status: 'quiet',  c: '#fde8e8', t: '#e03e3e' },
+    { name: 'Casey B.',  refs: 0, status: 'quiet',  c: '#fde8e8', t: '#e03e3e' },
+  ];
+
+  const BIZ_DEFAULTS = {
+    tattoo:     { payment: 'deposit',  currency: 'studio', rewards: ['cash','service'] },
+    salon:      { payment: 'deposit',  currency: 'studio', rewards: ['cash','service'] },
+    gym:        { payment: 'booking',  currency: 'house',  rewards: ['cash','service'] },
+    cafe:       { payment: 'credit',   currency: 'house',  rewards: ['cash','product'] },
+    restaurant: { payment: 'credit',   currency: 'house',  rewards: ['cash','product'] },
+    medspa:     { payment: 'booking',  currency: 'studio', rewards: ['cash','service'] },
+    other:      { payment: 'deposit',  currency: 'house',  rewards: ['cash'] },
+  };
+
+  function onBizTypeChange() {
+    const biz = document.getElementById('biz-type').value;
+    const def = BIZ_DEFAULTS[biz];
+    selectPayment(def.payment);
+    document.getElementById('currency-preset').value = def.currency;
+    onCurrencyPreset();
+    // Reset checkboxes to default for this biz type
+    selectedRewards = new Set(def.rewards);
+    ['cash','product','service','custom'].forEach(t => {
+      const selected = selectedRewards.has(t);
+      document.getElementById('rc-' + t).classList.toggle('selected', selected);
+      document.getElementById('tick-' + t).textContent = selected ? '✓' : '';
+      document.querySelector(`#rc-${t} input`).checked = selected;
+    });
+    renderRewardInputs();
+    update();
+  }
+
+  function selectPayment(type) {
+    ['deposit','credit','booking','none'].forEach(t => document.getElementById('pmt-' + t).classList.remove('selected'));
+    document.getElementById('pmt-' + type).classList.add('selected');
+    paymentType = type;
+    update();
+  }
+
+  function getCurrencyName() {
+    const val = document.getElementById('currency-preset').value;
+    const names = { house: 'House Credits', studio: 'Studio Credits', store: 'Store Credits' };
+    if (val === 'custom') return document.getElementById('currency-custom').value || 'Custom Credits';
+    return names[val];
+  }
+
+  function onCurrencyPreset() {
+    const val = document.getElementById('currency-preset').value;
+    const custom = document.getElementById('currency-custom');
+    custom.style.display = val === 'custom' ? 'block' : 'none';
+    update();
+  }
+
+  function selectPlan(id, monthly, fee) {
+    ['solo','studio','pro'].forEach(p => document.getElementById('plan-' + p).classList.remove('selected'));
+    document.getElementById('plan-' + id).classList.add('selected');
+    plan = { name: id.charAt(0).toUpperCase() + id.slice(1), monthly, fee };
+    update();
+  }
+
+  let selectedRewards = new Set(['cash']);
+
+  function toggleReward(type, checkbox) {
+    if (checkbox.checked) {
+      selectedRewards.add(type);
+      document.getElementById('rc-' + type).classList.add('selected');
+      document.getElementById('tick-' + type).textContent = '✓';
+    } else {
+      // must keep at least one selected
+      if (selectedRewards.size === 1) { checkbox.checked = true; return; }
+      selectedRewards.delete(type);
+      document.getElementById('rc-' + type).classList.remove('selected');
+      document.getElementById('tick-' + type).textContent = '';
+    }
+    renderRewardInputs();
+    update();
+  }
+
+  function renderRewardInputs() {
+    const wrap = document.getElementById('reward-inputs');
+    let html = '';
+    if (selectedRewards.has('cash')) {
+      html += `<div class="reward-field" style="margin-top:8px"><label>Cash reward per referral ($) — used for ROI calc</label><input type="number" id="ri-cash" value="${cashReward || 20}" min="1" max="500" oninput="update()" /></div>`;
+    }
+    if (selectedRewards.has('product')) {
+      html += `<div class="reward-field" style="margin-top:8px"><label>Product they earn</label><input type="text" id="ri-product-name" value="e.g. Free item" oninput="update()" /></div>`;
+    }
+    if (selectedRewards.has('service')) {
+      html += `<div class="reward-field" style="margin-top:8px"><label>Service they earn</label><input type="text" id="ri-service-name" value="e.g. Free class, free consultation" oninput="update()" /></div>`;
+    }
+    if (selectedRewards.has('custom')) {
+      html += `
+        <div class="reward-field" style="margin-top:8px"><label>Custom reward description</label><input type="text" id="ri-custom-desc" value="e.g. 10% off next visit" oninput="update()" /></div>
+        <div class="reward-field"><label>Estimated cost per reward ($)</label><input type="number" id="ri-custom-cost" value="15" min="0" oninput="update()" /></div>`;
+    }
+    // if no cash selected, show cost field for calc
+    if (!selectedRewards.has('cash')) {
+      html += `<div class="reward-field" style="margin-top:8px"><label>Estimated reward cost for ROI calc ($)</label><input type="number" id="ri-nocash-cost" value="${cashReward || 10}" min="0" oninput="update()" /></div>`;
+    }
+    wrap.innerHTML = html;
+  }
+
+  function selectReward(type) {
+    // legacy — not used anymore
+  }
+
+  function update() {
+    multiplier = parseFloat(document.getElementById('multiplier').value);
+    const currencyName = getCurrencyName();
+
+    // Read reward amounts
+    // ROI always uses cash value — conservative, honest number
+    if (selectedRewards.has('cash')) {
+      cashReward = parseFloat(document.getElementById('ri-cash')?.value || 20);
+    } else {
+      cashReward = parseFloat(document.getElementById('ri-nocash-cost')?.value || 10);
+    }
+    const creditReward = Math.round(cashReward * multiplier);
+
+    // Sliders
+    const ticket = parseInt(document.getElementById('slider-ticket').value);
+    const pins   = parseInt(document.getElementById('slider-pins').value);
+    const refs   = parseInt(document.getElementById('slider-refs').value);
+    const conv   = parseInt(document.getElementById('slider-conv').value) / 100;
+
+    document.getElementById('val-ticket').textContent = '$' + ticket;
+    document.getElementById('val-pins').textContent   = pins;
+    document.getElementById('val-refs').textContent   = refs;
+    document.getElementById('val-conv').textContent   = Math.round(conv * 100) + '%';
+
+    const newClients = Math.round(pins * refs * conv);
+    const revenue    = newClients * ticket;
+    const wotsFee    = revenue * (plan.fee / 100);
+    const rewardCost = newClients * cashReward;
+    const totalCost  = plan.monthly + wotsFee + rewardCost;
+    const netProfit  = revenue - totalCost;
+    const roi        = plan.monthly > 0 ? Math.round(netProfit / plan.monthly) : 0;
+
+    const revenuePerClient = ticket - cashReward - (ticket * plan.fee / 100);
+    const breakevenClients = revenuePerClient > 0 ? Math.ceil(plan.monthly / revenuePerClient) : 1;
+    const breakevenPct     = Math.min((newClients / Math.max(breakevenClients, 1)) * 100, 100);
+
+    document.getElementById('roi-revenue').textContent = '$' + revenue.toLocaleString();
+    document.getElementById('roi-profit').textContent  = (netProfit >= 0 ? '$' : '-$') + Math.abs(Math.round(netProfit)).toLocaleString();
+    document.getElementById('roi-clients').textContent = newClients;
+    document.getElementById('roi-cost').textContent    = '$' + Math.round(totalCost).toLocaleString();
+    document.getElementById('roi-statement').innerHTML = `You put in <em>$${plan.monthly}</em>. You get back <em>$${Math.max(0, Math.round(netProfit)).toLocaleString()}</em>.`;
+    document.getElementById('roi-sub').textContent     = `${newClients} new clients · ${roi > 0 ? roi + 'x ROI' : 'adjust your numbers'} on your ${plan.name} plan`;
+
+    document.getElementById('breakeven-label').textContent   = `Break-even: ${breakevenClients} client${breakevenClients !== 1 ? 's' : ''}`;
+    document.getElementById('breakeven-fill').style.width    = breakevenPct + '%';
+    document.getElementById('breakeven-note').textContent    = newClients >= breakevenClients
+      ? `✓ ${newClients - breakevenClients} past break-even`
+      : `${breakevenClients - newClients} more to break even`;
+
+    document.getElementById('upside-currency').textContent = currencyName;
+
+    // Entry payment preview
+    const entryContent = {
+      deposit: { icon: '🔒', copy: `When a referred client claims a spot, they receive a deposit link via SMS. The deposit holds their appointment and applies 100% toward their service.`, sub: 'Powered by Stripe · Funds flow directly to your account' },
+      credit:  { icon: '🎟️', copy: `When a referred client claims a spot, they receive ${currencyName} loaded to their account. They redeem at their first visit — no friction, no forms.`, sub: 'Powered by Stripe · Credits tracked automatically' },
+      booking: { icon: '📅', copy: `When a referred client claims a spot, they pay a booking fee to confirm their appointment. The fee is non-refundable and covers your consultation time.`, sub: 'Powered by Stripe · Funds flow directly to your account' },
+      none:    { icon: '🚶', copy: `No upfront payment required. Referrals are tracked and ambassadors are rewarded when the referred client visits and makes a purchase.`, sub: 'Visit confirmed manually or via POS integration' },
+    };
+    const ep = entryContent[paymentType];
+    document.getElementById('entry-icon').textContent  = ep.icon;
+    document.getElementById('entry-copy').textContent  = ep.copy;
+    document.getElementById('entry-sub').textContent   = ep.sub;
+
+    // Ambassador reward — always show both options
+    document.getElementById('rp-cash-val').textContent    = cashReward > 0 ? '$' + cashReward : 'Perks';
+    document.getElementById('rp-credit-label').textContent = currencyName;
+    document.getElementById('rp-credit-val').textContent  = cashReward > 0 ? '$' + creditReward : 'Bonus Perks';
+    document.getElementById('rp-credit-sub').textContent  = `${multiplier}× bonus when redeemed at your business`;
+
+    // Roster
+    document.getElementById('roster-count').textContent = pins + ' pin' + (pins !== 1 ? 's' : '');
+    renderRoster(pins);
+
+    // CTA
+    document.getElementById('cta-sub').textContent = `${pins} ambassadors. ${newClients} new clients. $${Math.max(0, Math.round(netProfit)).toLocaleString()} net profit. Your street is ready to work.`;
+  }
+
+  function renderRoster(pins) {
+    const show = Math.min(pins, 6);
+    const list = document.getElementById('roster-list');
+    list.innerHTML = MOCK.slice(0, show).map(a => `
+      <div class="roster-row">
+        <div class="roster-avatar" style="background:${a.c};color:${a.t}">${a.name[0]}</div>
+        <span class="roster-name">${a.name}</span>
+        <span class="roster-refs">${a.refs} ref${a.refs !== 1 ? 's' : ''}</span>
+        <span class="status-pill ${a.status}">${a.status[0].toUpperCase() + a.status.slice(1)}</span>
+      </div>`).join('') + (pins > 6 ? `<div class="roster-row" style="justify-content:center"><span style="font-family:'JetBrains Mono',monospace;font-size:0.68rem;color:var(--muted)">+ ${pins - 6} more ambassadors on your street</span></div>` : '');
+  }
+
+  renderRewardInputs();
+  update();
+</script>
+
+</body>
+</html>

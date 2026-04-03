@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>WOTS RE — 5-Year Pro Forma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Instrument Sans', sans-serif; background: #f5f3ee; min-height: 100vh; }
+
+  /* PIN GATE */
+  #gate {
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; padding: 2rem;
+  }
+  .gate-logo { font-size: 22px; font-weight: 600; letter-spacing: 0.04em; color: #1a1a1a; margin-bottom: 4px; }
+  .gate-logo span { color: #3B6D11; }
+  .gate-sub { font-size: 13px; color: #777; margin-bottom: 2.5rem; }
+  .gate-card {
+    background: #fff; border-radius: 16px; padding: 2.5rem 2rem;
+    width: 100%; max-width: 340px; text-align: center;
+    box-shadow: 0 2px 24px rgba(0,0,0,0.07);
+  }
+  .gate-title { font-size: 14px; font-weight: 500; color: #1a1a1a; margin-bottom: 6px; }
+  .gate-hint { font-size: 12px; color: #999; margin-bottom: 24px; }
+  .pin-inputs { display: flex; gap: 12px; justify-content: center; margin-bottom: 16px; }
+  .pin-input {
+    width: 52px; height: 56px; text-align: center; font-size: 22px;
+    font-weight: 600; border: 1.5px solid #ddd; border-radius: 10px;
+    outline: none; background: #fafafa; color: #1a1a1a;
+    transition: border 0.15s; font-family: 'Instrument Sans', sans-serif;
+  }
+  .pin-input:focus { border-color: #3B6D11; }
+  .pin-input.error { border-color: #E24B4A; }
+  .pin-error { font-size: 12px; color: #E24B4A; min-height: 18px; }
+  .gate-footer { margin-top: 2rem; font-size: 11px; color: #bbb; }
+  @keyframes shake {
+    0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-6px)} 80%{transform:translateX(6px)}
+  }
+  .shake { animation: shake 0.4s ease; }
+
+  /* PRO FORMA */
+  #proforma { display: none; }
+  .doc {
+    background: #fff; border-radius: 16px; max-width: 760px;
+    width: 100%; margin: 2.5rem auto; padding: 2.5rem;
+    box-shadow: 0 2px 24px rgba(0,0,0,0.07);
+  }
+  .header { border-bottom: 1.5px solid #e5e5e5; padding-bottom: 1.25rem; margin-bottom: 1.75rem; }
+  .header-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .logo { font-size: 20px; font-weight: 600; letter-spacing: 0.04em; color: #1a1a1a; }
+  .logo span { color: #3B6D11; }
+  .conf-badge { font-size: 11px; font-weight: 500; background: #EAF3DE; color: #3B6D11; padding: 4px 10px; border-radius: 20px; }
+  .doc-title { font-size: 22px; font-weight: 600; color: #1a1a1a; margin-bottom: 4px; }
+  .doc-sub { font-size: 13px; color: #777; }
+  .equity-box {
+    display: flex; align-items: center; justify-content: space-between;
+    background: #EAF3DE; border: 0.5px solid #97C459; border-radius: 10px;
+    padding: 0.85rem 1.1rem; margin-bottom: 1.75rem; flex-wrap: wrap; gap: 0.5rem;
+  }
+  .eq-left { font-size: 13px; color: #27500A; }
+  .eq-right { font-size: 20px; font-weight: 600; color: #27500A; }
+  .section-label { font-size: 10px; font-weight: 600; letter-spacing: 0.09em; text-transform: uppercase; color: #999; margin: 1.75rem 0 0.75rem; }
+  .controls { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.75rem; }
+  .ctrl { display: flex; flex-direction: column; gap: 8px; }
+  .ctrl-top { display: flex; justify-content: space-between; }
+  .ctrl-label { font-size: 12px; color: #777; }
+  .ctrl-value { font-size: 15px; font-weight: 600; color: #1a1a1a; }
+  input[type=range] { width: 100%; accent-color: #3B6D11; }
+  .range-ends { display: flex; justify-content: space-between; font-size: 10px; color: #bbb; }
+  .year-pill { font-size: 11px; font-weight: 600; color: #3B6D11; background: #EAF3DE; border-radius: 20px; padding: 2px 10px; display: inline-block; margin-bottom: 10px; }
+  .metrics { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 1.75rem; }
+  .metric { background: #f5f5f3; border-radius: 10px; padding: 1rem; }
+  .metric.featured { background: #EAF3DE; border: 0.5px solid #97C459; }
+  .m-label { font-size: 11px; color: #888; margin-bottom: 6px; }
+  .metric.featured .m-label { color: #3B6D11; }
+  .m-val { font-size: 22px; font-weight: 600; color: #1a1a1a; line-height: 1.1; }
+  .metric.featured .m-val { color: #27500A; }
+  .m-note { font-size: 11px; color: #888; margin-top: 4px; }
+  .metric.featured .m-note { color: #3B6D11; }
+  .legend-row { display: flex; gap: 20px; margin-bottom: 10px; }
+  .leg { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #777; }
+  .leg-sq { width: 10px; height: 10px; border-radius: 2px; }
+  .chart-wrap { position: relative; width: 100%; height: 240px; margin-bottom: 1.75rem; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead tr { border-bottom: 1px solid #e5e5e5; }
+  th { text-align: left; padding: 6px 8px; font-size: 11px; font-weight: 600; color: #888; letter-spacing: 0.04em; }
+  th.green { color: #27500A; }
+  td { padding: 9px 8px; border-bottom: 0.5px solid #eee; color: #1a1a1a; }
+  tr:last-child td { border-bottom: none; font-weight: 600; }
+  tr.row-active td { background: #f5f3ee; }
+  .td-green { color: #27500A; font-weight: 500; }
+  .footer-row { margin-top: 1.75rem; padding-top: 1rem; border-top: 0.5px solid #eee; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.5rem; }
+  .footer-note { font-size: 10px; color: #bbb; line-height: 1.6; }
+  .footer-brand { font-size: 11px; font-weight: 600; color: #3B6D11; letter-spacing: 0.06em; }
+  @media(max-width:600px){
+    .controls{grid-template-columns:1fr;}
+    .metrics{grid-template-columns:1fr;}
+    .doc{padding:1.5rem;}
+  }
+</style>
+</head>
+<body>
+
+<!-- PIN GATE -->
+<div id="gate">
+  <div class="gate-logo">WOTS <span>RE</span></div>
+  <div class="gate-sub">Word On The Street — Real Estate Edition</div>
+  <div class="gate-card" id="gate-card">
+    <div class="gate-title">Enter your access PIN</div>
+    <div class="gate-hint">This document is confidential</div>
+    <div class="pin-inputs">
+      <input class="pin-input" type="password" inputmode="numeric" maxlength="1" id="p0" />
+      <input class="pin-input" type="password" inputmode="numeric" maxlength="1" id="p1" />
+      <input class="pin-input" type="password" inputmode="numeric" maxlength="1" id="p2" />
+      <input class="pin-input" type="password" inputmode="numeric" maxlength="1" id="p3" />
+    </div>
+    <div class="pin-error" id="pin-error"></div>
+  </div>
+  <div class="gate-footer">Prepared for Artin Sarkissian · April 2026</div>
+</div>
+
+<!-- PRO FORMA -->
+<div id="proforma" style="padding: 0 1rem;">
+<div class="doc">
+  <div class="header">
+    <div class="header-row">
+      <div class="logo">WOTS <span>RE</span></div>
+      <div class="conf-badge">Confidential — For Artin Sarkissian</div>
+    </div>
+    <div class="doc-title">Word On The Street — Real Estate Edition</div>
+    <div class="doc-sub">5-Year Revenue Pro Forma · Prepared by Jeremy Swan · April 2026</div>
+  </div>
+
+  <div class="equity-box">
+    <div class="eq-left"><strong>Artin Sarkissian</strong> — Advisory Equity in WOTS Real Estate vertical</div>
+    <div class="eq-right">10% of gross RE revenue</div>
+  </div>
+
+  <div class="section-label">Adjust the model</div>
+  <div class="controls">
+    <div class="ctrl">
+      <div class="ctrl-top">
+        <span class="ctrl-label">Monthly subscription price</span>
+        <span class="ctrl-value" id="price-out">$79 / mo</span>
+      </div>
+      <input type="range" min="49" max="149" step="10" value="79" id="price-slider" oninput="onPrice(this.value)" />
+      <div class="range-ends"><span>$49</span><span>$149</span></div>
+    </div>
+    <div class="ctrl">
+      <div class="ctrl-top">
+        <span class="ctrl-label">Year 5 subscribers (peak)</span>
+        <span class="ctrl-value" id="subs-out">11,250</span>
+      </div>
+      <input type="range" min="1000" max="50000" step="250" value="11250" id="subs-slider" oninput="onSubs(this.value)" />
+      <div class="range-ends"><span>1,000</span><span>50,000</span></div>
+    </div>
+  </div>
+
+  <div class="year-pill" id="year-pill">Year 5</div>
+  <div class="metrics" id="metrics"></div>
+
+  <div class="legend-row">
+    <div class="leg"><div class="leg-sq" style="background:#378ADD;"></div>WOTS revenue</div>
+    <div class="leg"><div class="leg-sq" style="background:#639922;"></div>Artin's 10%</div>
+  </div>
+  <div class="chart-wrap"><canvas id="proChart"></canvas></div>
+
+  <div class="section-label">Year-by-year breakdown</div>
+  <div style="overflow-x:auto;">
+    <table>
+      <thead><tr>
+        <th>Year</th><th>Subscribers</th><th>Gross ARR</th><th>WOTS (90%)</th><th class="green">Artin (10%)</th><th>MRR</th>
+      </tr></thead>
+      <tbody id="proTable"></tbody>
+    </table>
+  </div>
+
+  <div class="footer-row">
+    <div class="footer-note">TAM: ~1.5M active NAR realtors (US) · Growth curve scales to Year 5 peak<br>Artin's equity applies to WOTS RE vertical only · Subject to advisory agreement</div>
+    <div class="footer-brand">WOTSWORKS.COM</div>
+  </div>
+</div>
+</div>
+
+<script>
+  // PIN
+  const PIN = '2433';
+  const inputs = [0,1,2,3].map(i => document.getElementById('p'+i));
+
+  inputs.forEach((inp, i) => {
+    inp.addEventListener('input', () => {
+      if(!/^\d?$/.test(inp.value)){inp.value='';return;}
+      if(inp.value && i < 3) inputs[i+1].focus();
+      const val = inputs.map(x=>x.value).join('');
+      if(val.length === 4) {
+        if(val === PIN) {
+          document.getElementById('gate').style.display = 'none';
+          document.getElementById('proforma').style.display = 'block';
+          initChart();
+        } else {
+          inputs.forEach(x=>{x.classList.add('error');x.value='';});
+          document.getElementById('pin-error').textContent = 'Incorrect PIN — try again';
+          document.getElementById('gate-card').classList.add('shake');
+          setTimeout(()=>{
+            inputs.forEach(x=>x.classList.remove('error'));
+            document.getElementById('gate-card').classList.remove('shake');
+            document.getElementById('pin-error').textContent='';
+            inputs[0].focus();
+          },600);
+        }
+      }
+    });
+    inp.addEventListener('keydown', e => {
+      if(e.key==='Backspace' && !inp.value && i>0) inputs[i-1].focus();
+    });
+  });
+  inputs[0].focus();
+
+  // PRO FORMA
+  const EQUITY = 0.10;
+  let price = 79, peakSubs = 11250, activeYear = 4;
+  let chart;
+
+  function getSubs(peak){ return [Math.round(peak*0.013),Math.round(peak*0.067),Math.round(peak*0.20),Math.round(peak*0.47),peak]; }
+  function fmtM(n){ if(n>=1000000) return '$'+(n/1000000).toFixed(2)+'M'; if(n>=1000) return '$'+Math.round(n/1000)+'K'; return '$'+Math.round(n).toLocaleString(); }
+  function fmtN(n){ return Math.round(n).toLocaleString(); }
+
+  function calc(){
+    const subs=getSubs(peakSubs);
+    const revs=subs.map(s=>s*price*12);
+    const artins=revs.map(r=>Math.round(r*EQUITY));
+    const wots=revs.map((r,i)=>Math.round(r-artins[i]));
+    return {subs,revs,artins,wots};
+  }
+
+  function updateCards(idx){
+    const {subs,revs,artins,wots}=calc();
+    document.getElementById('year-pill').textContent='Year '+(idx+1);
+    document.getElementById('metrics').innerHTML=`
+      <div class="metric"><div class="m-label">Year ${idx+1} gross ARR</div><div class="m-val">${fmtM(revs[idx])}</div><div class="m-note">${fmtN(subs[idx])} subscribers</div></div>
+      <div class="metric"><div class="m-label">WOTS Year ${idx+1}</div><div class="m-val">${fmtM(wots[idx])}</div><div class="m-note">90% of gross ARR</div></div>
+      <div class="metric featured"><div class="m-label">Artin — Year ${idx+1}</div><div class="m-val">${fmtM(artins[idx])}</div><div class="m-note">10% · RE vertical only</div></div>
+    `;
+    document.querySelectorAll('#proTable tr').forEach((tr,i)=>{ tr.classList.toggle('row-active', i===idx); });
+  }
+
+  function renderTable(){
+    const {subs,revs,artins,wots}=calc();
+    document.getElementById('proTable').innerHTML=[0,1,2,3,4].map(i=>`
+      <tr class="${i===activeYear?'row-active':''}" onmouseover="hoverYear(${i})">
+        <td>Year ${i+1}</td><td>${fmtN(subs[i])}</td><td>${fmtM(revs[i])}</td>
+        <td>${fmtM(wots[i])}</td><td class="td-green">${fmtM(artins[i])}</td><td>${fmtM(revs[i]/12)}</td>
+      </tr>`).join('');
+  }
+
+  function hoverYear(i){ activeYear=i; updateCards(i); }
+
+  function initChart(){
+    const {wots,artins}=calc();
+    chart=new Chart(document.getElementById('proChart'),{
+      type:'bar',
+      data:{
+        labels:['Year 1','Year 2','Year 3','Year 4','Year 5'],
+        datasets:[
+          {label:'WOTS',data:wots,backgroundColor:'#378ADD',stack:'a',borderRadius:3},
+          {label:'Artin 10%',data:artins,backgroundColor:'#639922',stack:'a',borderRadius:3}
+        ]
+      },
+      options:{
+        responsive:true, maintainAspectRatio:false,
+        interaction:{mode:'index',intersect:false},
+        onHover:(_,els)=>{ if(els&&els.length){ activeYear=els[0].index; updateCards(activeYear); }},
+        plugins:{
+          legend:{display:false},
+          tooltip:{callbacks:{
+            label:ctx=>` ${ctx.dataset.label==='WOTS'?'WOTS (90%)':'Artin (10%)'}: ${fmtM(ctx.raw)}`,
+            footer:items=>'Gross ARR: '+fmtM(items.reduce((a,i)=>a+i.raw,0))
+          }, footerFont:{weight:'bold'}, padding:10}
+        },
+        scales:{
+          x:{stacked:true,ticks:{color:'#888',font:{size:12}},grid:{display:false}},
+          y:{stacked:true,ticks:{color:'#888',font:{size:11},callback:v=>fmtM(v)},grid:{color:'rgba(128,128,128,0.12)'}}
+        }
+      }
+    });
+    renderTable();
+    updateCards(4);
+  }
+
+  function onPrice(v){ price=parseInt(v); document.getElementById('price-out').textContent='$'+v+' / mo'; refreshChart(); }
+  function onSubs(v){ peakSubs=parseInt(v); document.getElementById('subs-out').textContent=Math.round(v).toLocaleString(); refreshChart(); }
+
+  function refreshChart(){
+    if(!chart) return;
+    const {wots,artins}=calc();
+    chart.data.datasets[0].data=wots;
+    chart.data.datasets[1].data=artins;
+    chart.update();
+    renderTable();
+    updateCards(activeYear);
+  }
+</script>
+</body>
+</html>

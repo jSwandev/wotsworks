@@ -30,8 +30,12 @@
     border-bottom: 1px solid rgba(255,255,255,0.06);
     display: flex; justify-content: space-between; align-items: center;
   }
-  .nav-brand { font-size: 10px; letter-spacing: 0.2em; color: #c9a55a; font-weight: 500; }
-  .nav-phone { font-size: 11px; letter-spacing: 0.1em; color: #9a8c7a; text-decoration: none; }
+  .nav-left { display: flex; align-items: center; gap: 16px; }
+  .nav-wots { font-size: 13px; font-weight: 600; letter-spacing: 0.06em; color: #f0ece4; }
+  .nav-wots span { color: #c9a55a; }
+  .nav-divider { width: 1px; height: 14px; background: rgba(255,255,255,0.2); }
+  .nav-brand { font-size: 9px; letter-spacing: 0.18em; color: #9a8c7a; font-weight: 500; }
+  .nav-right { font-size: 9px; letter-spacing: 0.16em; color: #666; font-weight: 500; }
 
   /* Hero */
   .hero {
@@ -266,8 +270,12 @@
 
 <!-- Nav -->
 <nav class="top-nav">
-  <div class="nav-brand">THE ART IN REAL ESTATE</div>
-  <a href="tel:8182413000" class="nav-phone">818-241-3000</a>
+  <div class="nav-left">
+    <div class="nav-wots">WOTS <span>RE</span></div>
+    <div class="nav-divider"></div>
+    <div class="nav-brand">POWERED BY WORD ON THE STREET</div>
+  </div>
+  <div class="nav-right">THE ART IN REAL ESTATE</div>
 </nav>
 
 <!-- Hero -->
@@ -296,7 +304,7 @@
       </p>
       <div class="hero-ctas fade-up d4">
         <a href="tel:8182413000" class="cta-gold">CALL NOW →</a>
-        <a href="mailto:artin@theartinrealestate.com" class="cta-outline">SEND A MESSAGE</a>
+        <a href="/cdn-cgi/l/email-protection#b7d6c5c3ded9f7c3dfd2d6c5c3ded9c5d2d6dbd2c4c3d6c3d299d4d8da" class="cta-outline">SEND A MESSAGE</a>
       </div>
     </div>
   </div>
@@ -397,7 +405,7 @@
     <p class="final-sub">The first conversation costs nothing.<br />The right agent costs everything if you pick the wrong one.</p>
     <div class="final-ctas">
       <a href="tel:8182413000" class="cta-gold">CALL 818-241-3000</a>
-      <a href="mailto:artin@theartinrealestate.com" class="cta-outline" style="color:#c9a55a; border-color:rgba(201,165,90,0.45);">EMAIL ARTIN</a>
+      <a href="/cdn-cgi/l/email-protection#375645435e5977435f525645435e594552565b5244435643521954585a" class="cta-outline" style="color:#c9a55a; border-color:rgba(201,165,90,0.45);">EMAIL ARTIN</a>
     </div>
     <div class="final-address">1155 N CENTRAL AVE SUITE 101 · GLENDALE CA 91202</div>
   </div>
@@ -405,11 +413,17 @@
 
 <!-- Footer -->
 <div class="footer">
-  <div class="footer-left">POWERED BY WORD ON THE STREET</div>
-  <a href="https://wotsworks.com" class="footer-right">WOTSWORKS.COM</a>
+  <div style="display:flex; flex-direction:column; gap:4px;">
+    <div class="footer-left">POWERED BY WORD ON THE STREET</div>
+    <div style="font-size:10px; color:#444; letter-spacing:0.1em;">WOTS RE · WOTSWORKS.COM</div>
+  </div>
+  <div style="display:flex; flex-direction:column; align-items:flex-end; gap:4px;">
+    <div style="font-size:10px; color:#444; letter-spacing:0.1em;">THE ART IN REAL ESTATE</div>
+    <a href="tel:8182413000" style="font-size:11px; color:#666; letter-spacing:0.08em; text-decoration:none;">818-241-3000</a>
+  </div>
 </div>
 
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
   const SOLD = [
     { address: "2847 Montrose Ave", city: "La Crescenta, CA", price: "$1,285,000", beds: 4, baths: 3, sqft: "2,140", img: "https://picsum.photos/seed/realestate1/600/400" },
     { address: "1134 Kenneth Rd", city: "Glendale, CA", price: "$975,000", beds: 3, baths: 2, sqft: "1,820", img: "https://picsum.photos/seed/realestate2/600/400" },
@@ -478,14 +492,4 @@
   }
 
   // Fade in on load
-  window.addEventListener('load', () => {
-    document.querySelectorAll('.fade-up').forEach(el => {
-      setTimeout(() => el.classList.add('in'), 80);
-    });
-  });
-
-  renderCards();
-  renderDots();
-</script>
-</body>
-</html>
+  window.addEven

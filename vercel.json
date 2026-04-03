@@ -3,6 +3,7 @@
   "trailingSlash": false,
   "rewrites": [
     { "source": "/r/artin", "destination": "/r/artin/index.html" },
+    { "source": "/r/artin/(.*)", "destination": "/r/artin/index.html" },
     { "source": "/re", "destination": "/re/index.html" }
   ]
 }

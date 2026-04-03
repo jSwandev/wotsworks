@@ -497,3 +497,48 @@
 
   // Fade in on load
   window.addEven
+<script>
+  const SOLD = [
+    { address: "2847 Montrose Ave", city: "La Crescenta, CA", price: "$1,285,000", beds: 4, baths: 3, sqft: "2,140", img: "/assets/artin/home1.jpg" },
+    { address: "1134 Kenneth Rd", city: "Glendale, CA", price: "$975,000", beds: 3, baths: 2, sqft: "1,820", img: "/assets/artin/home2.jpg" },
+    { address: "418 W Tujunga Ave", city: "Burbank, CA", price: "$1,150,000", beds: 4, baths: 2, sqft: "2,050", img: "/assets/artin/home3.jpg" },
+    { address: "3305 Foothill Blvd", city: "La Canada, CA", price: "$2,100,000", beds: 5, baths: 4, sqft: "3,480", img: "/assets/artin/home4.jpg" },
+    { address: "922 S Glendale Ave", city: "Glendale, CA", price: "$840,000", beds: 3, baths: 2, sqft: "1,560", img: "/assets/artin/home5.jpg" },
+    { address: "1775 Verdugo Rd", city: "Montrose, CA", price: "$1,420,000", beds: 4, baths: 3, sqft: "2,280", img: "/assets/artin/home6.jpg" }
+  ];
+  var current = 0;
+  var total = SOLD.length;
+  function getVisible() { return [0,1,2].map(function(i){ return SOLD[(current+i)%total]; }); }
+  function renderCards() {
+    var grid = document.getElementById('cards-grid');
+    if(!grid) return;
+    grid.innerHTML = getVisible().map(function(p){ return '<div class="prop-card"><div class="prop-img-wrap"><img src="'+p.img+'" alt="'+p.address+'" class="prop-img" /><div class="prop-overlay"></div><div class="sold-badge">SOLD</div><div class="prop-price">'+p.price+'</div></div><div class="prop-body"><div class="prop-address">'+p.address+'</div><div class="prop-city">'+p.city+'</div><div class="prop-meta">'+p.beds+'bd <span>·</span> '+p.baths+'ba <span>·</span> '+p.sqft+'</div></div></div>'; }).join('');
+  }
+  function renderDots() {
+    var dots = document.getElementById('dots');
+    if(!dots) return;
+    dots.innerHTML = SOLD.map(function(_,i){ return '<div class="dot '+(i===current?'active':'')+'" onclick="goTo('+i+')"></div>'; }).join('');
+  }
+  function goTo(i) { current=i; renderCards(); renderDots(); }
+  function carouselPrev() { current=(current-1+total)%total; renderCards(); renderDots(); }
+  function carouselNext() { current=(current+1)%total; renderCards(); renderDots(); }
+  var startX = 0;
+  document.addEventListener('touchstart', function(e){ startX=e.touches[0].clientX; });
+  document.addEventListener('touchend', function(e){ var d=startX-e.changedTouches[0].clientX; if(Math.abs(d)>40) d>0?carouselNext():carouselPrev(); });
+  var params = new URLSearchParams(window.location.search);
+  var ref = params.get('ref');
+  if(ref) {
+    var name = decodeURIComponent(ref).replace(/-/g,' ');
+    var cap = name.charAt(0).toUpperCase()+name.slice(1);
+    var pill = document.getElementById('pill-text'); if(pill) pill.textContent=cap.toUpperCase()+' SENT YOU HERE';
+    var rname = document.getElementById('referrer-name'); if(rname) rname.textContent=cap;
+    var hsub = document.getElementById('hero-sub'); if(hsub) hsub.textContent='Nobody found this page on Google. '+cap+' gave you a direct line to one of LA's most decorated real estate teams. That intro is worth more than any ad.';
+  }
+  window.addEventListener('load', function(){
+    document.querySelectorAll('.fade-up').forEach(function(el){ setTimeout(function(){ el.classList.add('in'); }, 80); });
+    renderCards();
+    renderDots();
+  });
+</script>
+</body>
+</html>

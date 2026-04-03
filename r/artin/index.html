@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Art In Real Estate — You Were Referred</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { background: #080808; color: #f0ece4; font-family: 'DM Sans', sans-serif; min-height: 100vh; }
+
+  /* Fade in animations */
+  .fade-up { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .fade-up.in { opacity: 1; transform: translateY(0); }
+  .d1 { transition-delay: 0.05s; }
+  .d2 { transition-delay: 0.2s; }
+  .d3 { transition-delay: 0.35s; }
+  .d4 { transition-delay: 0.5s; }
+
+  /* Nav */
+  .top-nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    padding: 0.8rem 1.5rem;
+    background: rgba(8,8,8,0.88);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .nav-brand { font-size: 10px; letter-spacing: 0.2em; color: #c9a55a; font-weight: 500; }
+  .nav-phone { font-size: 11px; letter-spacing: 0.1em; color: #9a8c7a; text-decoration: none; }
+
+  /* Hero */
+  .hero {
+    position: relative; height: 100vh; min-height: 600px; overflow: hidden;
+  }
+  .hero-img {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: center 15%;
+    filter: brightness(0.4);
+  }
+  .hero-grad-1 {
+    position: absolute; inset: 0;
+    background: linear-gradient(120deg, rgba(8,8,8,0.65) 0%, transparent 55%);
+  }
+  .hero-grad-2 {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, transparent 45%, rgba(8,8,8,1) 100%);
+  }
+  .hero-content {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 0 2rem 3.5rem;
+  }
+  .hero-inner { max-width: 640px; margin: 0 auto; width: 100%; }
+  .referral-pill {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(201,165,90,0.15);
+    border: 1px solid rgba(201,165,90,0.55);
+    border-radius: 100px; padding: 6px 14px 6px 10px;
+    margin-bottom: 1.5rem;
+  }
+  .pill-dot { width: 7px; height: 7px; border-radius: 50%; background: #c9a55a; }
+  .pill-text { font-size: 11px; letter-spacing: 0.16em; color: #c9a55a; font-weight: 500; }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3rem, 10vw, 6rem);
+    font-weight: 300; line-height: 0.95;
+    letter-spacing: -0.01em; margin-bottom: 1.25rem;
+  }
+  .hero-title em { color: #c9a55a; font-style: italic; }
+  .hero-sub {
+    font-size: clamp(0.93rem, 2.5vw, 1.08rem);
+    color: #c8c0b4; line-height: 1.72;
+    max-width: 420px; margin-bottom: 2rem; font-weight: 300;
+  }
+  .hero-ctas { display: flex; gap: 0.85rem; flex-wrap: wrap; }
+  .cta-gold {
+    padding: 0.9rem 2rem; background: #c9a55a; color: #080808;
+    font-size: 12px; letter-spacing: 0.12em; font-weight: 600;
+    text-decoration: none; border-radius: 3px;
+    transition: background 0.18s, transform 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .cta-gold:hover { background: #e8bc6a; transform: scale(1.02); }
+  .cta-outline {
+    padding: 0.9rem 2rem; background: transparent; color: #f0ece4;
+    font-size: 12px; letter-spacing: 0.12em; font-weight: 400;
+    text-decoration: none; border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 3px; transition: background 0.18s, transform 0.15s;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .cta-outline:hover { background: rgba(201,165,90,0.1); transform: scale(1.02); }
+  .scroll-cue {
+    position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center; gap: 6px;
+  }
+  .scroll-label { font-size: 9px; letter-spacing: 0.2em; color: rgba(255,255,255,0.25); }
+  .scroll-line { width: 1px; height: 32px; background: linear-gradient(to bottom, rgba(255,255,255,0.25), transparent); }
+
+  /* Main content */
+  .main { max-width: 640px; margin: 0 auto; padding: 0 2rem; }
+
+  /* Identity card */
+  .identity-card {
+    display: flex; gap: 1.25rem; align-items: center;
+    padding: 1.5rem 1.75rem; margin-top: 3rem;
+    background: rgba(255,255,255,0.025);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-left: 3px solid #c9a55a; border-radius: 6px;
+  }
+  .artin-avatar {
+    width: 72px; height: 72px; border-radius: 50%;
+    object-fit: cover; object-position: center 10%;
+    border: 2px solid rgba(201,165,90,0.45);
+    flex-shrink: 0; display: block;
+  }
+  .artin-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.65rem; font-weight: 400; line-height: 1.1; margin-bottom: 5px;
+  }
+  .artin-title { font-size: 10px; letter-spacing: 0.15em; color: #c9a55a; font-weight: 500; margin-bottom: 6px; }
+  .artin-desc { font-size: 11.5px; color: #777; line-height: 1.55; }
+
+  /* Stats */
+  .stats {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    gap: 1px; background: rgba(255,255,255,0.07);
+    border-radius: 8px; overflow: hidden; margin: 2.5rem 0;
+  }
+  .stat { background: #080808; padding: 1.75rem 1rem; text-align: center; }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.6rem; font-weight: 300; color: #c9a55a; line-height: 1;
+  }
+  .stat-label { font-size: 10px; letter-spacing: 0.16em; color: #555; margin-top: 7px; font-weight: 500; }
+
+  /* Carousel */
+  .carousel-header {
+    display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 1.5rem;
+  }
+  .section-tag { font-size: 10px; letter-spacing: 0.2em; color: #c9a55a; font-weight: 500; margin-bottom: 6px; }
+  .section-title { font-family: 'Cormorant Garamond', serif; font-size: 1.7rem; font-weight: 300; }
+  .swipe-hint { font-size: 11px; color: #444; font-style: italic; }
+  .cards-grid {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    gap: 0.85rem; margin-bottom: 1.25rem;
+  }
+  .prop-card {
+    background: #111; border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 6px; overflow: hidden;
+    transition: transform 0.22s ease, border-color 0.22s ease;
+    cursor: default;
+  }
+  .prop-card:hover { transform: translateY(-4px); border-color: rgba(201,165,90,0.5); }
+  .prop-img-wrap { position: relative; }
+  .prop-img { width: 100%; height: 150px; object-fit: cover; display: block; }
+  .prop-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, transparent 55%, rgba(0,0,0,0.65) 100%);
+  }
+  .sold-badge {
+    position: absolute; top: 8px; left: 8px;
+    background: #c9a55a; color: #080808;
+    font-size: 9px; font-weight: 700; letter-spacing: 0.14em;
+    padding: 3px 7px; border-radius: 2px;
+    font-family: 'DM Sans', sans-serif;
+  }
+  .prop-price {
+    position: absolute; bottom: 8px; left: 10px;
+    font-family: 'Cormorant Garamond', serif; font-size: 1.2rem; color: #fff;
+  }
+  .prop-body { padding: 0.85rem; }
+  .prop-address { font-size: 0.8rem; color: #e0dcd4; margin-bottom: 2px; }
+  .prop-city { font-size: 0.72rem; color: #555; margin-bottom: 0.6rem; }
+  .prop-meta { display: flex; gap: 0.55rem; font-size: 10px; color: #9a8c7a; letter-spacing: 0.05em; }
+  .prop-meta span { color: #333; }
+  .carousel-nav {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-bottom: 4rem;
+  }
+  .nav-btn {
+    background: transparent; border: 1px solid rgba(201,165,90,0.3);
+    color: #c9a55a; width: 36px; height: 36px; cursor: pointer;
+    font-size: 15px; border-radius: 3px; display: flex;
+    align-items: center; justify-content: center;
+    transition: border-color 0.2s;
+  }
+  .nav-btn:hover { border-color: rgba(201,165,90,0.7); }
+  .dots { display: flex; gap: 6px; }
+  .dot {
+    height: 6px; border-radius: 3px; cursor: pointer;
+    background: rgba(201,165,90,0.2); transition: width 0.22s ease, background 0.22s ease;
+    width: 6px;
+  }
+  .dot.active { width: 22px; background: #c9a55a; }
+
+  /* Referral box */
+  .referral-box {
+    position: relative; padding: 2.5rem 2rem;
+    background: rgba(201,165,90,0.06);
+    border: 1px solid rgba(201,165,90,0.25);
+    border-radius: 8px; overflow: hidden; margin-bottom: 4rem;
+  }
+  .big-quote {
+    position: absolute; top: -20px; right: -10px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 9rem; color: rgba(201,165,90,0.05);
+    line-height: 1; user-select: none; pointer-events: none;
+  }
+  .referral-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.4rem, 4vw, 2rem); font-weight: 300;
+    color: #f0ece4; line-height: 1.4; margin-bottom: 1.25rem;
+  }
+  .referral-heading em { font-style: italic; }
+  .referral-body { font-size: 0.9rem; color: #9a8c7a; line-height: 1.78; font-weight: 300; }
+
+  /* Reviews */
+  .reviews { margin-bottom: 4rem; }
+  .review {
+    display: flex; gap: 1rem; margin-bottom: 1.25rem;
+  }
+  .review-bar {
+    width: 2px; flex-shrink: 0; background: rgba(201,165,90,0.28);
+    border-radius: 1px; margin-top: 4px;
+  }
+  .review-quote {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1rem; font-style: italic; color: #c8c0b4;
+    line-height: 1.72; margin: 0 0 0.4rem; font-weight: 300;
+  }
+  .review-attr { font-size: 10px; letter-spacing: 0.1em; color: #555; font-weight: 500; }
+
+  /* Final CTA */
+  .final-cta { text-align: center; padding-bottom: 6rem; }
+  .gold-line { width: 40px; height: 1px; background: rgba(201,165,90,0.35); margin: 0 auto 2.5rem; }
+  .final-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.8rem, 5vw, 2.8rem); font-weight: 300;
+    line-height: 1.2; margin-bottom: 1rem;
+  }
+  .final-title em { color: #c9a55a; }
+  .final-sub { font-size: 0.88rem; color: #777; margin-bottom: 2rem; line-height: 1.75; font-weight: 300; }
+  .final-ctas { display: flex; gap: 0.85rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.25rem; }
+  .final-address { font-size: 11px; color: #3a3a3a; letter-spacing: 0.09em; }
+
+  /* Footer */
+  .footer {
+    border-top: 1px solid rgba(255,255,255,0.05);
+    padding: 1.25rem 2rem;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-left { font-size: 10px; color: #2e2e2e; letter-spacing: 0.12em; }
+  .footer-right { font-size: 10px; color: #3a3a3a; letter-spacing: 0.1em; text-decoration: none; }
+
+  @media (max-width: 580px) {
+    .cards-grid { grid-template-columns: 1fr; }
+    .identity-card { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="top-nav">
+  <div class="nav-brand">THE ART IN REAL ESTATE</div>
+  <a href="tel:8182413000" class="nav-phone">818-241-3000</a>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <img
+    src="/artin-hero.jpg"
+    onerror="this.src='https://www.theartinrealestate.com/wp-content/uploads/2023/08/artin-sarkissian.jpg'"
+    alt="Artin Sarkissian"
+    class="hero-img"
+  />
+  <div class="hero-grad-1"></div>
+  <div class="hero-grad-2"></div>
+  <div class="hero-content">
+    <div class="hero-inner">
+      <div class="referral-pill fade-up d1">
+        <div class="pill-dot"></div>
+        <span class="pill-text" id="pill-text">A FRIEND SENT YOU HERE</span>
+      </div>
+      <h1 class="hero-title fade-up d2">
+        The best<br />
+        <em>realtor</em><br />
+        on the Street.
+      </h1>
+      <p class="hero-sub fade-up d3" id="hero-sub">
+        Nobody found this page on Google. Someone gave you a direct line to one of LA's most decorated real estate teams. That intro is worth more than any ad.
+      </p>
+      <div class="hero-ctas fade-up d4">
+        <a href="tel:8182413000" class="cta-gold">CALL NOW →</a>
+        <a href="mailto:artin@theartinrealestate.com" class="cta-outline">SEND A MESSAGE</a>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-cue">
+    <div class="scroll-label">SCROLL</div>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- Main -->
+<div class="main">
+
+  <!-- Identity card -->
+  <div class="identity-card">
+    <img
+      src="/artin-hero.jpg"
+      onerror="this.src='https://www.theartinrealestate.com/wp-content/uploads/2023/08/artin-sarkissian.jpg'"
+      alt="Artin Sarkissian"
+      class="artin-avatar"
+    />
+    <div>
+      <div class="artin-name">Artin Sarkissian</div>
+      <div class="artin-title">BROKER / OWNER · 26 YEARS IN THE FIELD</div>
+      <div class="artin-desc">Ranked #1 · 40+ closings/yr · Glendale, Burbank, La Cañada, Pasadena</div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats">
+    <div class="stat"><div class="stat-num">26+</div><div class="stat-label">YEARS IN RE</div></div>
+    <div class="stat"><div class="stat-num">40+</div><div class="stat-label">CLOSINGS/YR</div></div>
+    <div class="stat"><div class="stat-num">#1</div><div class="stat-label">REA RANKED</div></div>
+  </div>
+
+  <!-- Sold Carousel -->
+  <div>
+    <div class="carousel-header">
+      <div>
+        <div class="section-tag">RECENT CLOSINGS</div>
+        <div class="section-title">Deals that closed.</div>
+      </div>
+      <div class="swipe-hint">swipe or tap arrows</div>
+    </div>
+
+    <div class="cards-grid" id="cards-grid"></div>
+
+    <div class="carousel-nav">
+      <button class="nav-btn" onclick="carouselPrev()">←</button>
+      <div class="dots" id="dots"></div>
+      <button class="nav-btn" onclick="carouselNext()">→</button>
+    </div>
+  </div>
+
+  <!-- Referral box -->
+  <div class="referral-box">
+    <div class="big-quote">"</div>
+    <div class="section-tag">YOUR INTRODUCTION</div>
+    <div class="referral-heading">
+      <em id="referrer-name">A friend</em> didn't just<br />send you a link.<br />They opened a door.
+    </div>
+    <p class="referral-body">
+      No algorithm. No ad spend. Someone who knows Artin personally put their reputation behind this intro. In real estate, that's how the best deals start — with trust, not a search result.
+    </p>
+  </div>
+
+  <!-- Reviews -->
+  <div class="reviews">
+    <div class="section-tag" style="margin-bottom:1.5rem;">WHAT CLIENTS SAY</div>
+    <div class="review">
+      <div class="review-bar"></div>
+      <div>
+        <p class="review-quote">"They have answers to your questions before you even ask them. His professionalism is otherworldly."</p>
+        <div class="review-attr">Nadine K. — Yelp</div>
+      </div>
+    </div>
+    <div class="review">
+      <div class="review-bar"></div>
+      <div>
+        <p class="review-quote">"Artin made impossible possible. In this short time we had 3 successful transactions — looking for the next 300."</p>
+        <div class="review-attr">qarbiq3 — Zillow</div>
+      </div>
+    </div>
+    <div class="review">
+      <div class="review-bar"></div>
+      <div>
+        <p class="review-quote">"He sold my home for hundreds of thousands over asking. Then helped me buy below market value."</p>
+        <div class="review-attr">Jillian M. — Yelp</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Final CTA -->
+  <div class="final-cta">
+    <div class="gold-line"></div>
+    <div class="final-title">
+      Artin's team moves fast.<br /><em>So should you.</em>
+    </div>
+    <p class="final-sub">The first conversation costs nothing.<br />The right agent costs everything if you pick the wrong one.</p>
+    <div class="final-ctas">
+      <a href="tel:8182413000" class="cta-gold">CALL 818-241-3000</a>
+      <a href="mailto:artin@theartinrealestate.com" class="cta-outline" style="color:#c9a55a; border-color:rgba(201,165,90,0.45);">EMAIL ARTIN</a>
+    </div>
+    <div class="final-address">1155 N CENTRAL AVE SUITE 101 · GLENDALE CA 91202</div>
+  </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+  <div class="footer-left">POWERED BY WORD ON THE STREET</div>
+  <a href="https://wotsworks.com" class="footer-right">WOTSWORKS.COM</a>
+</div>
+
+<script>
+  const SOLD = [
+    { address: "2847 Montrose Ave", city: "La Crescenta, CA", price: "$1,285,000", beds: 4, baths: 3, sqft: "2,140", img: "https://picsum.photos/seed/realestate1/600/400" },
+    { address: "1134 Kenneth Rd", city: "Glendale, CA", price: "$975,000", beds: 3, baths: 2, sqft: "1,820", img: "https://picsum.photos/seed/realestate2/600/400" },
+    { address: "418 W Tujunga Ave", city: "Burbank, CA", price: "$1,150,000", beds: 4, baths: 2, sqft: "2,050", img: "https://picsum.photos/seed/realestate3/600/400" },
+    { address: "3305 Foothill Blvd", city: "La Cañada, CA", price: "$2,100,000", beds: 5, baths: 4, sqft: "3,480", img: "https://picsum.photos/seed/realestate4/600/400" },
+    { address: "922 S Glendale Ave", city: "Glendale, CA", price: "$840,000", beds: 3, baths: 2, sqft: "1,560", img: "https://picsum.photos/seed/realestate5/600/400" },
+    { address: "1775 Verdugo Rd", city: "Montrose, CA", price: "$1,420,000", beds: 4, baths: 3, sqft: "2,280", img: "https://picsum.photos/seed/realestate6/600/400" },
+  ];
+
+  let current = 0;
+  const total = SOLD.length;
+
+  function getVisible() {
+    return [0,1,2].map(i => SOLD[(current + i) % total]);
+  }
+
+  function renderCards() {
+    const grid = document.getElementById('cards-grid');
+    grid.innerHTML = getVisible().map(p => `
+      <div class="prop-card">
+        <div class="prop-img-wrap">
+          <img src="${p.img}" alt="${p.address}" class="prop-img" />
+          <div class="prop-overlay"></div>
+          <div class="sold-badge">SOLD</div>
+          <div class="prop-price">${p.price}</div>
+        </div>
+        <div class="prop-body">
+          <div class="prop-address">${p.address}</div>
+          <div class="prop-city">${p.city}</div>
+          <div class="prop-meta">
+            ${p.beds}bd <span>·</span> ${p.baths}ba <span>·</span> ${p.sqft}
+          </div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function renderDots() {
+    const dots = document.getElementById('dots');
+    dots.innerHTML = SOLD.map((_, i) => `
+      <div class="dot ${i === current ? 'active' : ''}" onclick="goTo(${i})"></div>
+    `).join('');
+  }
+
+  function goTo(i) { current = i; renderCards(); renderDots(); }
+  function carouselPrev() { current = (current - 1 + total) % total; renderCards(); renderDots(); }
+  function carouselNext() { current = (current + 1) % total; renderCards(); renderDots(); }
+
+  // Touch swipe
+  let startX = 0;
+  document.addEventListener('touchstart', e => { startX = e.touches[0].clientX; });
+  document.addEventListener('touchend', e => {
+    const diff = startX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) diff > 0 ? carouselNext() : carouselPrev();
+  });
+
+  // Referrer from URL
+  const params = new URLSearchParams(window.location.search);
+  const ref = params.get('ref');
+  if (ref) {
+    const name = decodeURIComponent(ref).replace(/-/g, ' ');
+    const cap = name.charAt(0).toUpperCase() + name.slice(1);
+    document.getElementById('pill-text').textContent = cap.toUpperCase() + ' SENT YOU HERE';
+    document.getElementById('referrer-name').textContent = cap;
+    document.getElementById('hero-sub').textContent = `Nobody found this page on Google. ${cap} gave you a direct line to one of LA's most decorated real estate teams. That intro is worth more than any ad.`;
+  }
+
+  // Fade in on load
+  window.addEventListener('load', () => {
+    document.querySelectorAll('.fade-up').forEach(el => {
+      setTimeout(() => el.classList.add('in'), 80);
+    });
+  });
+
+  renderCards();
+  renderDots();
+</script>
+</body>
+</html>
